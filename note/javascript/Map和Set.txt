@@ -1,0 +1,60 @@
+因为js中对象的键必须是字符串,但实际上Number或其他数据类型作为键也是合理的
+Map
+所以Map和Set在ES6规范被引入
+Map是一组键值对的结构,具有极快的查找速度
+var m = new Map([['Michael', 95], ['Bob', 75], ['Tracy', 85]]);
+初始化Map需要一个二维数组,或者直接初始化一个空的Map
+m.get('Bob')	//获得Bob对应的值
+m.set('hh',98)	//添加新的键值对
+m.has('Bob')	//判断map中是否存在'Bob',返回true或false
+m.delete('Bob')	//删除该key
+Set
+Set和Map类似,也是一组key的集合,但不存储value,由于key不能重复,所以在Set中,
+没有重复的key,要创建一个Set,需要提供一个Array作为输入,或直接创建空Set
+var s2 = new Set([1, 2, 3])
+重复元素在Set中会被自动过滤
+me.add(元素) 	//往set中添加元素
+me.delete(元素) //删除set中的元素
+Set{1,2,3}
+
+iterable
+遍历Array可以用下标循环,为了遍历Map和Set,ES6标准引入iterable类型,
+Array、Map和Set都属于iterable类型.
+改类型的集合都可以通过for...of循环来遍历
+for...of是ES6引入的新语法
+for(var x of Array,Map,Set){
+	console.log(x);
+}
+for..in循环实际上是遍历对象的属性名称,Array实际上也是一个对象,其中每个元素的索引被视为属性
+比如给一个数组arr添加属性
+arr.name='me';
+for(var x in arr){}		//'name'会被一起输出,但length这样的属性却未被输出
+用for....of就不会出现这样的问题,不会把数组的属性一起输出.
+更好的方式:iterable内置的forEach方法
+Array.forEach
+a.forEach(function (ele, idx, arr) {
+    // element: 指向当前元素的值
+    // index: 指向当前索引
+    // array: 指向Array对象本身
+    console.log(ele + ', index = ' + idx);
+});
+Set.forEach
+var m = new Set(['A','B','C']);
+Set.forEach(function(ele,sameele,set){
+	console.log(ele);
+})
+Map.forEach
+var m = new Map([1,'x'],[2,'y'],[3,'z'])
+m.forEach(function(value,key,map){
+	console.log(value);
+})
+由于js的函数调用不要求参数必须一致,所以可以忽略它们,例如只需要Array的ele
+var a=[1,2,3]
+a.forEach(function(ele){
+	console.log(ele);
+])
+
+
+
+
+

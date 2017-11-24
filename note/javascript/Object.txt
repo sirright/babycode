@@ -1,0 +1,21 @@
+javascript用{}表示一个对象
+属性名是一个有效变量名时,访问通过对象.属性来完成.
+如:
+var xiaohong = {
+    name: '小红',
+    'middle-school': 'No.1 Middle School'
+};
+xiaohong.name 	//'小红'
+'middle-school'不是一个有效的变量名,访问方式如下:
+xiaohong['middle-school'];		// 'No.1 Middle School'
+实际上,js对象的所有属性都是字符串,不过属性对应的值可以是任意数据类型.
+访问一个不存在的属性时,返回undefined
+对象的属性可以自由添加.
+比如me本来没有age属性
+me.age=18;		//age就成为了me的属性且值为18
+delete me.age	//删除me的age属性
+delete me['name']	//另一种删除方式
+delete me.teacher 	//删除一个不存在的属性也不会报错
+'name' in me 	//检测me对象中是否存在name属性,存在返回true,不存在返回false,若存在,这属性不一定是me的,也可能是由继承而来
+me.hasOwnProperty('name')	//判断一个name属性是不是me对象自己的属性
+

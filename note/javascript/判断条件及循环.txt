@@ -1,0 +1,21 @@
+js条件判断中中除了null,undefined,空字符串"",0,NaN外,其他都是true
+for循环
+for循环三个条件都可省略,如果没有退出循环的判断条件,就必须用break跳出循环.
+for in循环	//可以把一个对象的所有属性依次循环出来
+for(var key in me){
+console.log(key);	//'name','age'...
+}
+for(var key in me){
+	if(me.hasOwnPropertype(key)){	//过滤掉继承过来的属性
+	   console.log(key);
+	}
+}
+由于数组也是对象所以for in也可以循环数组
+var a =['A','B','C'];
+for( var i in a){
+	console.log(i);
+	console.log(a[i]);
+}
+for in循环对Array循环得到的是String 而不是Number
+while(){}
+do{}while();
