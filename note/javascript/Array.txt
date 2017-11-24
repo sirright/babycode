@@ -1,0 +1,10 @@
+js数组可变
+arr.indexOf(元素) 返回元素下标
+var arr=[1,2,"2",3];
+arr.indexOf("2");	//返回1
+arr.slice(索引,[索引])	//类似于字符串substring()
+arr.slice(0,3)	//从0到3 返回新数组
+arr.slice(3)	//从3到结束,返回新数组
+arr.slice()		//无参,从头到尾
+arr.push(元素)	//向arr末尾添加元素
+arr.pop()	//将arr的最后一个元素删掉
