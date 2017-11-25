@@ -1,0 +1,21 @@
+高级函数就是指以函数作为函数的参数,比如:
+function cal(a,b,f){
+	return f(a)+f(b);
+}
+cal(1,-2,Math.abs)
+
+arr的map方法:arr.map(function(){})
+function pow(x) {
+    return x * x;
+}
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var results = arr.map(pow); // [1, 4, 9, 16, 25, 36, 49, 64, 81]
+arr.map(String)		//将arr数组转换为字符串
+
+arr的reduce方法:arr.reduce(function(){})
+该方法传入函数参数至少要有连个,计算方式为f(f(1,2),3)........
+var arr=[1,2,3,4,5]
+function add(){
+	return a+b;
+}
+arr.reduce(add)
