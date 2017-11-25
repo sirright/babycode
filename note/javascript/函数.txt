@@ -1,0 +1,117 @@
+函数执行到return时,接下去的内容都不执行,直接返回结果.
+如果没有return,函数返回结果为undefined
+js的函数也是一个对象,
+定义方式:
+function mine(){}
+var mine = function(){};
+js允许传入任意个参数而不影响调用,传入参数多时(忽略多余的),传入的少也可以.
+arguments类似传入参数的数组,只在函数内部起作用,永远指向函数调用者传入的所有参数.
+typeof参数		//得到该参数类型 	
+利用arguments可以获得调用者传入的所有参数,即使没有定义参数也能获得
+arguments常用于判断传入参数的个数
+rest参数:在ES6规范下引入,一般用来保存传入的多余参数
+function foo(a,b){
+	var rest=[];
+	if(arguements.length>2){
+		for(var i=2;i<arguements.length){
+			rest.push(arguemnts[i]);
+		}
+	}
+	console.log(a);
+	console.log(b);
+	console.log(rest);
+}
+用了rest参数后,多余的参数会传给rest.
+function foo(a,b,...rest){
+	console.log(rest);
+}
+多行return写法 
+return{
+	....
+}
+return 后会自动添加分号
+
+js中,变量作用域只有函数域,没有块域.
+函数嵌套时,内部函数可以访问外部函数的变量
+若是内部函数和外部函数重名时,则内部函数变量将屏蔽外部函数的变量.
+如果一个变量在当前函数域中没有找到,就会继续往上找,在全局域也没找到时,
+报ReferenceError错误.
+
+js语句还有一个特点,就是会先扫描整个函数体将变量的声明拉到顶部.
+function foo() {
+    var x = 'Hello, ' + y;
+    console.log(x);
+    var y = 'Bob';
+}
+foo()
+该函数输出结果y为undefined,所以js虽然会把声明拉到最前,却不会把赋值也拉到最前,相当于如下代码:
+function foo() {
+    var y; // 提升变量y的申明，此时y为undefined
+    var x = 'Hello, ' + y;
+    console.log(x);
+    y = 'Bob';
+}
+全局作用域:
+不在任何函数内定义的变量就有全局作用域,js有一个默认全局对象window,
+全局作用域的变量实际上被绑定到了window的一个属性上.如外层定义的函数,
+window.foo();
+如果不同js文件里用了相同的全局变量名,会造成命名冲突.
+减少冲突的方法是把所有的变量和函数全部绑定到一个全局变量中.如下:
+var all = {};
+all.name = 'hhh';
+all.version=1.0;
+all.foo = function(){}
+
+块级作用域:
+ES6规范引入了关键字let,用let代替var可以声明一个块级作用域变量
+在ES6规范之前,采用全部大写的方式来表示常量.
+ES规范引入了const来定义常量,const与let都具有块级作用域
+
+解构赋值:
+对多个变量同时赋值
+var [x,y,z] = [1,2,3];
+如果数组本身还有嵌套,
+let [x,[y,z]] = [1,[2,3]];
+街二狗赋值海可以忽略一些元素,只对第三个元素赋值
+let [,,x] = [1,2,3];
+从一个对象中取出若干属性,
+var {name,age,job} = person;	//取出person对象中的name,age,job属性的值并赋给这些变量
+对象中不存在该属性时,值为undefined
+当对象中存在嵌套时
+var {name,adress:{city,street}}=person;
+解构赋值还可以使用默认值,避免了不存在的属性返回undefined问题
+var {name,single=1} = person;	//如果person对象不存在single属性,则赋值为1
+有时,如果变量已经被声明过,再次赋值的时候,正确的写法也会报错
+var x,y;
+var {x,y} = person
+因为js引擎把{}开头的语句当作块处理,所以=不合法,解决方案如下:
+({x, y} = { name: '小明', x: 100, y: 200};)
+
+使用场景,
+如交换a,b的值
+[a,b] = [b,a];
+快速获取当前页面的域名和路径
+var {hostname:domain,pathname:path} = location;
+如果一个函数接收一个对象作为参数,可以使用解构直接把对象的属性绑定到变量中
+function buildDate({year,month,day,hour=0,minute=0}){
+	return new Date(year+);
+}
+
+在一个方法中,this是一个特殊变量,始终指向当前对象
+如果函数内部调用了this,而函数被单独调用(无对象调用),此时this指向全局对象,也就是window
+var fn = object.age		//把object的age方法赋值给fn,
+fn();		//NaN	这样同样不行,因为this的指向不明确
+在函数内部定义函数,this指向会变为undefined,解决方法为:var that=this;将this对象赋值给that保留
+也可以用apply方法解决该问题
+被调用函数.apply(对象,调用时参数(这里设为空))
+call方法和apply方法唯一区别就是
+apply方法把参数打包成数组传入
+call方法则是按顺序传入
+Math.max.apply(null,[1,2,3])
+Math.max.call(null,1,2,3)
+普通函数调用时通常为function.apply(null,...)
+
+
+
+
+

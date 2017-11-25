@@ -1,0 +1,32 @@
+apply方法:能劫持另外一个对象的方法,继承另外一个对象的属性.
+Function.apply(obj,args)方法能接收连个参数
+obj:这个对象将代替Function类里this对象
+args:这个是数组,它将作为参数传给Function(args-->arguements)
+意为用obj这个对象和args参数去执行Function函数
+
+call和apply意思一样,参数不一样
+Function.call(obj,[param1[,param2]....])
+obj:这个对象将代替Function类里的this对象
+params:是一个参数列表
+
+什么情况用apply,什么情况用call
+在给出对象参数的情况下,如果参数是数组,并且在调用时参数一一对应,就可以用apply,
+需要指定参数对应的时候就可以用call
+---
+function Person(name,age) {   
+    this.name=name; this.age=age;   
+}   
+functionStudent(name,age,grade) {   
+    Person.apply(this,arguments); this.grade=grade;   //Person.call(this,name,age);  
+}   
+var student=new Student("qian",21,"一年级"); 
+
+apply的一些妙用
+调用apply方法时,它可以将一个数组默认的转换为一个参数列表.
+比如Math.max()
+var max=Math.max.apply(null,array)得到最大值
+传入null的原因是没有对象去调用该方法,只需运算得到返回结果即可.
+
+Array.prototype.push可以实现两个数组合并
+var arr1,arr2;
+Array.prototype.push.apply(arr1,arr2)
