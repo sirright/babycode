@@ -19,3 +19,5 @@ for( var i in a){
 for in循环对Array循环得到的是String 而不是Number
 while(){}
 do{}while();
+
+for...of循环
