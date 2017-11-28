@@ -1,0 +1,36 @@
+JSON实际上是js 的一个子集,在JSON中,有这么几种数据类型
+number
+boolean
+string
+null
+array
+object
+JSON的字符集必须是UTF-8,JSON字符串规定必须使用"",Object键也必须使用""
+几乎所有语言都有解析JSON的库,js中内置了JSON的解析
+把任何JS对象变成JSON,就是把这个对象序列化成一个JSON格式的字符串
+收到一个JSON格式字符串后,只需要把它反序列成一个js对象
+
+将一个对象转化成JSON格式
+序列化
+var s = JSON.stringify(xiaoming);
+JSON.stringify(xiaoming,null,'')	//可以按缩进输出
+第二个参数用于控制筛选对象的键值,若只是想输出指定属性,可以传入Array
+JSON.stringify(xiaoming,['name','age'],'')
+还可以传入一个函数,这样对象的每个键值对都会被函数先处理一次
+
+反序列化
+拿到一个JSON格式字符串,可以直接用JSON.parse()把它变成一个js对象.
+JSON.parse('[1,2,3]')
+JSON.parse('{"name":"xiaoming","age":12}')
+JSON.parse('true')
+JSON.parse('123.24')
+
+JSON.parse()还可以接受一个函数,用来转换解析出的属性
+JSON.parse({"name":"小明","age":14},function(){
+	if(key === 'name'){
+		return value + '同学';
+	}
+	return value;
+});
+
+
