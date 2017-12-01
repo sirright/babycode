@@ -1,0 +1,156 @@
+面向对象编程
+类和实例]
+而在js中,不区分类和实例的概念,而是通过原型来实现面向对象编程.
+xiaoming.__proto__=Student		//把xiaoming的原型指向了对象Student
+js的原型链和Java的Class的区别就在于,它没有'Class'概念,
+所有对象都是实例,继承只是将一个对象原型指向另一个对象
+
+js里的prototype和__proto__
+prototype是函数的一个属性,是一个指针,指向一个对象,是显示修改对象的原型的属性
+__proto__是一个对象拥有的内置属性,实JS内部用来寻找原型链的属性.
+
+构造函数(,为区分普通函数,首字母大写)
+构造函数就是一个普通函数,内部使用了this变量,对函数使用new时,这个函数就是构造函数,
+var me = new Studnet();
+me.constructor == Student;	//对象的构造就会指向该函数
+每个构造函数都有一个prototype属性,指向另一个对象,
+这个对象的所有属性和方法,都会被构造函数的实例继承.
+也就是说,可以把不会变的属性和方法直接定义在prototype属性上.
+这样所有的不变属性都将指向prototype对象,大大提高了运行效率.
+
+js还提供了instanceof验证原型对象与实例对象之间的关系.
+me instanceof Student		//true
+
+new的过程,用new Person()创建的对象还从原型上获得一个constructor属性,指向Person
+var Person = fuinction(){}
+var p = new Person();
+1.var p={}		//先初始化一个对象p
+2.p.__proto__ = Person.prototype;
+3.Person.call(p)	//构造p
+编写时还可以将new封装起来,
+function createStudent(prop){
+	return new Student(prop || {});
+}
+这样一来,函数就不需要new来调用,参数也很灵活
+
+原型链
+当一个对象执行一个方法时,会先在this内部查找(也就是构造函数中查找),若没找到,则沿原型链查找
+var arr = [1,2,3];
+原型链为:arr--Array.prototype--Object.prototype--null
+当创建一个函数时foo,
+foo--Function.prototype--Object.prototype--null
+
+Prototype的一些方法
+
+isPrototypeOf()		
+该方法用来判读某个prototype对象和某个实例之间的关系
+Cat.prototype.isPrototypeOf(cat1)	//判断cat是否被包含在cat1的原型链中
+
+hasOwnProperty()
+该方法用来判断一个属性是来自本地还是来自prototype
+cat1.hasOwnProperty("color")	//true,因为color属性就在Cat里
+cat1.hasOwnProperty("type")		//false,因为不变的属性一般存在prototype里
+
+in
+可以用来判断某个实例是否含有某个属性,不管是不是本地属性
+"color" in cat1		//判断color属性是否在cat1实例中
+
+for...in
+用来遍历对象所有属性
+for(var prop in cat1){
+	alert(prop+cat11[prop])		//依次弹出car的属性名加属性值
+}
+
+
+构造函数的继承
+1.构造函数的绑定
+用call或apply方法将父对象的构造函数绑定在子对象上
+function Cat(name,color){
+	Animal.apply(this,arguments);
+	this.name = name;
+	this.color = color;
+}
+
+2.prototype模式
+猫的prototype对象指向一个Animal实例,那所有的子对象的实例,就都继承了Animal
+Cat.prototype = new Animal();	//相当于完全删除了prototype对象原先的值,赋予了新值.
+Cat.prototype.constructor = Cat;	//手动纠正,构指定造函数Cat
+每一个实例对象都有一个constructor属性,指向它的构造函数
+cat1.constructor = Cat.prototype.constructor;
+因此 Cat.prototype = new Animal()后,cat1.constructor也指向了Animal
+
+3.直接继承prototype
+这样的继承方式效率高,省内存(不用执行和建立Animal实例)
+缺点就是两者都指向了同一对象,任何对Cat.prototype的修改将会反映到Animal.prototype上
+Cat.prototype = Animal.prototype;	
+Cat.prototype.constructor = Cat;	//这里其实将Animal的constructor属性也改了
+
+4.利用空对象作为中介
+因为F是空对象,所以几乎不占内存,而且通过创建实例对象的方法继承也不会影响父类的prototype
+var F = function(){}
+F.prototype = Animal.prototype;
+Cat.prototype = new F();
+Cat.prototype.constructor = Cat;
+将这个过程封装成一个函数,这就是YUI库实现继承的方法
+function extend(Child, Parent) {
+
+　　　　var F = function(){};
+　　　　F.prototype = Parent.prototype;
+　　　　Child.prototype = new F();
+　　　　Child.prototype.constructor = Child;
+　　　　Child.uber = Parent.prototype;
+　　}
+
+5.拷贝继承
+其实就是将父对象的prototype中的属性一一拷贝给子对象的prototype对象
+function (Child,Parent){
+	var c = Child.prototype;
+	var p = Parent.prototype;
+	for(var prop in p){
+		c[prop] = p[prop];
+	}
+	c.uber = P;
+}
+这样的继承方式不会改变子对象的prototype对象,只是在子对象的prototype对象中增加了父对象的prototype
+
+
+非构造函数的继承
+比如两个对象之间的继承
+var Doctor={career:'医生'}
+var Chinese={}
+
+1.object方法
+function object(o){
+	function F(){}
+	F.prototype = o;
+	return new F();
+}
+var Doctor = object(Chinese);
+
+2.浅拷贝(用于拷贝基本类型的数据)
+把父对象的属性全部拷贝给子对象.
+function extendCopy(p){
+	var c = {}
+	for(var i of p){
+		c[i] = p[i]
+	}
+	c.uber = p;
+	return c;
+}
+var Doctor = extendCopy(Chinese);
+这样拷贝的缺陷就是如果父对象的属性等于数组或另一个对象,
+那实际上子对象获得的只是一个地址,导致子对象修改时,父对象也被修改.
+
+3.深拷贝
+function(p,c){
+	var c = c || {};
+	for(var i in p){
+		if(typeof p[i])
+	}
+}
+
+
+
+
+
+
