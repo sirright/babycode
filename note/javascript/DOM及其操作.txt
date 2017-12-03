@@ -1,0 +1,50 @@
+document对象表示当前页面,也是整个DOM树的根节点
+document的title属性时从HTML文档中的title标签中读取的,可以动态改变
+document.title = "hhh";		//title就是变为hhh
+
+查找DOM树某个节点的方法,需要从document对象开始查找,常用的有:
+document.getElementById:根据Id查找
+document.getElementByTagName:根据标签名查找
+document.getELementByClassName:根据CSS选择器查找
+
+document对象还有一个cookie属性,可以获取当前页面的Cookie
+Cookie是由服务器发送的key-value标示符,因为http协议是无状态的,
+但是服务器要区分到底是哪个用户发过来的请求,就可以用Cookie来区分.
+
+js可以通过document.cookie来读取当前页面的Cookie
+document.cookie;	//'u=sirright;p=123345'
+
+为了解决第三方js有可能存在的而已代码带来的安全隐患,
+服务器在设置Cookie时可以使用httpOnly,这样Cookie将不能被js读取,
+该行为由浏览器实现,主流浏览器都支持.
+
+DOM操作实际上就只有几个:
+更新:更新该节点的内容,相当于更新该节点的HTML内容
+遍历:遍历该DOM节点下的子节点
+添加:在该节点下新增一个子节点,相当于增加一个HTML节点
+删除:将该节点从HTML中删除,相当于删除了该节点的内容及其子节点的内容
+
+操作节点前需要先选取到节点
+方法一:通过document对象查找
+var a1 = document.getElementById('demo');
+var a2 = document.getElementById('demo').getELementByClassName('choose');
+var a3 = document.getElementById('demo').getElementByTagName('p');
+var a4 = a1.children;
+var a5 = a1.firstElementChild;
+var a6 = a1.lastElementChild;
+
+方法二:通过css选择器选择节点
+querySelector()(选取符合条件的第一个元素)和querySelectorAll()(选取符合条件的所有元素)
+var q1 = document.querySelector('#q1')		//获取id为q1的节点
+var q1 = document.querySelector('.demo')	//获取demo类的第一个元素
+document.querySelector("a[target]");		//获取a标签中有target属性的第一个元素
+var ps = q1.querySelectorAll('div.highlighted>p');	//获取q1内符合条件的所有节点
+
+
+
+
+
+
+
+
+

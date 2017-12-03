@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表格练习</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            width:500px;
+            height:200px;
+            text-align:center;
+        }
+        th,td{
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        表格属性:
+        caption:标题
+        thead:表头
+        tbody:表体
+        tfoot:表尾(一般写在开头)
+     -->
+    <h2>1.table表格</h2>
+    <!-- border-collapse设置表格边框是否被合并为单一的边框
+        合并:collapse
+        分开:separate -->
+    <table>
+        <tr>
+            <td>语文</td>
+            <td>数学</td>
+            <td>英语</td>
+            <td>体育</td>
+            <td>美术</td>
+        </tr>
+        <tr>
+            <td>语文</td>
+            <td>数学</td>
+            <td>英语</td>
+            <td>美术</td>
+            <td>体育</td>
+        </tr>
+    </table>
+    <h3>table1添加表头</h3>
+    <table style="width:500px;height:200px;text-align:center;">
+        <tr>
+            <th>星期一</th>
+            <th>星期二</th>
+            <th>星期三</th>
+            <th>星期四</th>
+            <th>星期五</th>
+        </tr>
+        <tr>
+            <td>语文</td>
+            <td>数学</td>
+            <td>英语</td>
+            <td>体育</td>
+            <td>美术</td>
+        </tr>
+        <tr>
+            <td>语文</td>
+            <td>数学</td>
+            <td>英语</td>
+            <td>体育</td>
+            <td>美术</td>
+        </tr>
+    </table>
+    <h3>table2列合并单元格</h3>
+    <table style="width:500px;height:200px;text-align:center">
+        <tr>
+            <th>星期一</th>
+            <th>星期二</th>
+            <th>星期三</th>
+            <th>星期四</th>
+            <th>星期五</th>
+        </tr>
+        <tr>
+                <td>语文</td>
+                <td>数学</td>
+                <td>英语</td>
+                <td>体育</td>
+                <td>美术</td>
+        </tr>
+        <tr>
+                <td>语文</td>
+                <td>数学</td>
+                <td>英语</td>
+                <td>体育</td>
+                <td>美术</td>
+        </tr>
+        <tr>
+            <td colspan="5">课程安排计划总结</td>
+        </tr>
+    </table>
+    <h3>table3行合并单元格</h3>
+    <table>
+        <tr>
+            <td colspan="2" rowspan="3">课程基本信息</td>
+            <td>星期一</td>
+            <td>星期二</td>
+            <td>星期三</td>
+            <td>星期四</td>
+            <td>星期五</td>
+        </tr>
+        <tr>
+            <td>语文</td>
+            <td>数学</td>
+            <td>英语</td>
+            <td>体育</td>
+            <td>美术</td>
+        </tr>
+        <tr>
+            <td>语文</td>
+            <td>数学</td>
+            <td>英语</td>
+            <td>体育</td>
+            <td>美术</td>
+        </tr>
+        <tr>
+            <td colspan="7">课程安排计划总结</td>
+        </tr>
+    </table>
+    <h3>table5合并单元格</h3>
+    <table>
+        <tr>
+            <th>星期一</th>
+            <th>星期二</th>
+            <th>星期三</th>
+            <th>星期四</th>
+            <th>星期五</th>
+        </tr>
+        <tr>
+            <td rowspan="2">语文</td>
+            <td>数学</td>
+            <td>英语</td>
+            <td>体育</td>
+            <td>美术</td>
+        </tr>
+        <tr>
+            <td>数学</td>
+            <td>英语</td>
+            <td colspan="2">体育</td>
+        </tr>
+    </table>
+    <h3>table6完整版表格</h3>
+    <table>
+        <tfoot>
+        <tr>
+            <td colspan="5">课程安排计划总结</td>
+        </tr>
+        </tfoot>
+        <thead>
+        <tr>
+            <th>星期一</th>
+            <th>星期二</th>
+            <th>星期三</th>
+            <th>星期四</th>
+            <th>星期五</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>语文</td>
+            <td>数学</td>
+            <td>英语</td>
+            <td>体育</td>
+            <td>美术</td>
+        </tr>
+        <tr>
+                <td>语文</td>
+                <td>数学</td>
+                <td>英语</td>
+                <td>体育</td>
+                <td>美术</td>
+        </tr>
+    </table>
+    <h3>table7其他设置</h3>
+    <table style="background-color:yellow">
+        <caption>表格标题</caption>
+        <!-- 设置列 -->
+        <colgroup>
+            <col span="3">
+            <col style="background-color:red;">
+			<col style="background-color:blue;">
+        </colgroup>
+        <tr>
+            <th rowspan="4" colspan="2">课程基本信息</th>
+            <th>星期一</th>
+            <th>星期二</th>
+            <th>星期三</th>
+            <th>星期四</th>
+            <th>星期五</th>
+        </tr>
+        <tr>
+            <td>语文</td>
+            <td>数学</td>
+            <td>英语</td>
+            <td>体育</td>
+            <td>美术</td>
+        </tr>
+        <tr>
+                <td>语文</td>
+                <td>数学</td>
+                <td>英语</td>
+                <td>体育</td>
+                <td>美术</td>
+        </tr>
+        <tr>
+            <td colspan="5">课程安排计划总结</td>
+            
+        </tr>
+
+    </table>
+</body>
+</html>

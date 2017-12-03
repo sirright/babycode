@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>input.type</title>
+    </head>
+    <style>
+        table{
+            margin:50px auto;
+            border-collapse: collapse;
+            border:2px solid black;
+            text-align: center;
+        }
+        caption{
+            margin:20px;
+        }
+        tr,td,th{
+            border:1px solid black;
+        }
+        #header{
+            background-color: orange;
+        }
+    </style>
+    <body>
+        <table>
+            <caption>表1input元素type属性值</caption>
+            <tr id="header">
+                <th>type属性值</th>
+                <th>说明</th>
+                <th>浏览器效果(参数效果)</th>
+            </tr>
+            <tr>
+                <th>text</th>
+                <td>单行文本框</td>
+                <td><input type="text" value="admin"></td>
+            </tr>
+            <tr>
+                <th>password</th>
+                <td>密码文本框</td>
+                <td><input type="password" value="123456"></td>
+            </tr>
+            <tr>
+                <th>button</th>
+                <td>按钮</td>
+                <td><input type="button" value="注册"></td>
+            </tr>
+            <tr>
+                <th>reset</th>
+                <td>重置按钮</td>
+                <td><input type="button" value="重置"></td>
+            </tr>
+            <tr>
+                <th>image</th>
+                <td>图形形式的提交按钮</td>
+                <td><input type="img" src="..."></td>
+            </tr>
+            <tr>
+                <th>radio</th>
+                <td>单选按钮</td>
+                <td>
+                   性别:
+                    <input type="radio" name="sex" value="0" checked>男
+                    <input type="radio" name="sex" value="1">女
+                </td>
+            </tr>
+            <tr>
+                <th>checkbox</th>
+                <td>复选框</td>
+                <td>
+                    兴趣:
+                    <input type="checkbox" name="interest" checked>旅游
+                    <input type="checkbox" name="interest">摄影
+                    <input type="checkbox" name="interest">运动
+                </td>
+            </tr>
+            <tr>
+                <th>hidden</th>
+                <td>隐藏字段</td>
+                <td><input type="hidden" name="sname" value="111"></td>
+            </tr>
+            <tr>
+                <th>file</th>
+                <td>文件上传</td>
+                <td>上传个人照片<br><input type="file"></td>
+            </tr>
+        </table>
+    </body>
+</html>

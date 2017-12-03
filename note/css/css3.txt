@@ -1,0 +1,36 @@
+CSS3各浏览器内核
+火狐(-moz-)
+chrome,Safari(-webkit-)
+Opera(-o-)
+IE()
+
+CSS3图片旋转
+trasform:rotate(30deg);		//以中心为轴顺时针旋转30度
+-ms-transform:rotate(30deg);	//ms内核
+-webkit-transform:rotate(30deg)		//webkit内核(Safari核Chrome)
+
+CSS3模块
+选择器 盒模型 背景和边框 文字特效 2D/3D转换 动画 多列布局 用户界面
+
+CSS3边框
+圆角:
+border-radius:25px;		//该值越大角越圆
+阴影:
+box-shadow: h-shadow v-shadow blur spread color inset;
+spread:阴影尺寸,color阴影颜色,insert将外部阴影改为内部阴影
+box-shadow:15px 10px 5px black;	//右移15px,下移10px,模糊度5px(越大越模糊);黑色阴影
+边框图片:
+border-image:source slice width outset repeat
+source图片路径,slice图片边框内偏移,图width片边框宽度,
+outset边框图像区域超出边框的量,repeat图像边框平铺(repeated),铺满(rounded)或拉伸(stretched)
+border-image:url(border.png) 30 30 round;
+(-webkit)(-o-)(-moz-)border-image:url(border.png) 30 30 round;
+
+CSS3背景
+background-size:63px 100px;		//规定背景图片宽高,也可以设置百分比,相当于父元素宽高百分比
+background-origin:padding-box;	//该属性可以规定背景图片的定位区域(content,margin)
+background-clip 属性规定背景的绘制区域		//值也为paidding,content,margin=
+多重图片背景:
+background-image:url(bg_flower.gif),url(bg_flower_2.gif);
+
+

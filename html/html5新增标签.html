@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>html5新增标签</title>
+    <style>
+        .wbr_c{
+            width:150px;
+            background-color:aqua;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        h5新增:
+        标签语义化:更容易被搜索引擎识别
+        视频,音频
+        本地存储
+        画布
+        废弃了一些可以用css代替的标签
+     -->
+     <!-- mark:标记,突出显示文本 -->
+     <p><mark>今天</mark>天气不错</p>
+     <!-- meter:电池条,度量
+        value:当前的值,默认范围0-1,小于等于最小值不显示
+        min:最小值
+        max:最大值
+        high:最高预警值,value大于high后颜色预警
+        low:最低预警值,value小于low后颜色预警
+
+        标签内容:浏览器不支持会被解析
+    -->
+    <meter min="1" max="100" high="80" low="20" value="50">哈哈哈</meter>
+    <!-- progress:进度条
+        value:当前值
+        max:最大值
+        没有最小值属性,默认0
+    -->
+    <progress max="100" value="80"></progress>
+    <!-- wbr:单词间换行,拆分换行 -->
+    <p class="wbr_c">
+		I am a loag words hahhahahhahahhhaaahahah.
+	</p>
+	<p class="wbr_c">
+		I am a loag words hahhahahhahahhha<wbr>aahahah</wbr>.
+    </p>
+    <!-- ruby:注释
+        rt:注释标题
+    -->
+    <ruby>
+        你好<rt>ni hao</rt>
+        &nbsp;
+        我很好<rt>&nbsp;wo hen hao</rt>
+    </ruby>
+    <!-- datalist:可选列表
+        input的list属性值等于datalist的id值
+    -->
+    <form action="http://www.baidu.com">
+        <input type="text" name="key" list="gender_list">
+        <datalist id="gender_list">
+            
+        </datalist>
+    </form>
+</body>
+</html>
