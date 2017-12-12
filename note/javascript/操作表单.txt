@@ -1,0 +1,78 @@
+HTML表单的输入控件主要有:
+文本框(text):用于输入文本
+口令框(password):用于输入口令
+单选框(radio):用于选择一项
+复选框(checkbox):用于选择多项
+下拉框(select):用于选择一项
+隐藏文本(hidden):用户不可见,表单提交时,会把隐藏文本发给服务器
+
+获取值
+获取一个input节点的引用后就可以直接调用value获取对应的值
+<input id='demo' type='text'>
+var input = document.getElementById('demo');
+input.value;
+这种方式可以用于text,password,hidden以及select
+对于单选框和复选框,则用checked判断
+<label><input type='radio' name='weekday' id='monday' value='1'>Monday</label>
+<label><input type='radio' name='weekday' id='tuesday' value='2'>Tuesday</label>
+var mon = document.getELementById('monday');
+mon.value; 		//1
+mon.checked		//true|false
+
+设置值
+和获取值类似,对于text,hidden,select和password直接设置value就可以了
+input.value="hhh";
+对于单选框复选框,则设置checked为true或false
+
+HTML5控件
+HTML新增的大量控件,常用的有:
+date,datetime,datetime-local,color,它们都是用input标签
+不支持HTML5 的浏览器无法识别新控件,会当作type=text来显示
+
+表单提交
+js可以通过两种方式来提交表单
+方式1:
+通过form元素的submit方法提交一个表单
+<form id="test-form">
+    <input type="text" name="test">
+    <button type="button" onclick="doSubmitForm()">Submit</button>
+</form>
+<script>
+function doSubmitForm() {
+    var form = document.getElementById('test-form');
+    form.submit();
+}
+</script>
+这种方法会扰乱浏览器对form的正常提交.
+浏览器默认点击<button type="submit">时提交表单,或者用户在最后一个输入框按回车键
+
+方式2:响应form本身的onsubmit事件,在提交form时作修改.
+<form id="test-form" onsubmit="return checkForm()">
+    <input type="text" name="test">
+    <button type="submit">Submit</button>
+</form>
+function checkForm() {
+    var form = document.getElementById('test-form');
+    return true;
+}
+只有return true时,表单才会被提交
+
+由于安全考虑,提交表单时不传输明文口令,而是口令的MD5,
+1.直接修改为MD5
+function checkForm() {
+    var pwd = document.getElementById('password');
+    pwd.value = toMD5(pwd.value);
+    return true;
+}
+这样会导致用户输入口令提交时,口令框的显示会突然从几个*变为32个*(MD5有32个字符)
+2.用type=hidden
+<input type="password" id="input-password">
+<input type="hidden" id="md5-password" name="password">
+function checkForm() {
+    var input_pwd = document.getElementById('input-password');
+    var md5_pwd = document.getElementById('md5-password');
+    md5_pwd.value = toMD5(input_pwd.value);
+    return true;
+}
+password的input标签里不设name属性,所以不会被提交
+MD5的input里设了name属性,会被提交

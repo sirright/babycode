@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<ul v-for="item in group">
+			<li>{{item}}</li>
+		</ul>
+	</div>
+	<script src="https://unpkg.com/vue"></script>
+	<script>
+		var app = new Vue({
+			el:'#app',
+			data:{
+				group:[
+					'qwe','asd','afds'
+				]
+			}
+		});
+	</script>
+</body>
+</html>

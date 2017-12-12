@@ -4,8 +4,8 @@ document.title = "hhh";		//title就是变为hhh
 
 查找DOM树某个节点的方法,需要从document对象开始查找,常用的有:
 document.getElementById:根据Id查找
-document.getElementByTagName:根据标签名查找
-document.getELementByClassName:根据CSS选择器查找
+document.getElementsByTagName:根据标签名查找
+document.getELementsByClassName:根据CSS选择器查找
 
 document对象还有一个cookie属性,可以获取当前页面的Cookie
 Cookie是由服务器发送的key-value标示符,因为http协议是无状态的,
@@ -36,9 +36,67 @@ var a6 = a1.lastElementChild;
 方法二:通过css选择器选择节点
 querySelector()(选取符合条件的第一个元素)和querySelectorAll()(选取符合条件的所有元素)
 var q1 = document.querySelector('#q1')		//获取id为q1的节点
-var q1 = document.querySelector('.demo')	//获取demo类的第一个元素
+var q1 = document.querySelector('.demo')	//获取demo类的第一个元素(只能选到一个元素)
 document.querySelector("a[target]");		//获取a标签中有target属性的第一个元素
 var ps = q1.querySelectorAll('div.highlighted>p');	//获取q1内符合条件的所有节点
+
+更新DOM
+<p>...</p>
+var p = document.getElementByTagName('p')[0];
+1.修改节点的文本
+
+a.修改节点的innerHTML属性,
+该方法还可以直接通过HTML片段修改DOM节点内部的子树
+p.innerHTML = 'ABC<span>dasad</span>DEF';	//设置成功
+
+b.修改innerText或textContent属性,
+该方法将自动进行HTML编码,无法设置其他标签
+p.innerText = 'ABC<span>fsf</span>DEF';		//出现乱码
+
+2.修改CSS
+CSS中style属性名称可以使font-size这样的,而在js中,这是无效的,应写为fontSize
+p.style.color = 'black';
+p.style.fontSize = '20px';
+
+
+插入DOM
+
+1.如果节点为空,则可以直接用innerHTML = '<span>child</span>'来插入内容
+
+2.如果节点不为空
+a.使用appendChild把一个子节点添加到父节点的最后一个子节点
+parent.appendChild(child)		//将子节点child添加到父节点的最后
+若child节点已经存在于当前文档树种,则该节点会先从原位置删除
+
+或者创建一个节点并插入
+var child = document.createElement('p');
+child.id = 'demo';
+child.inneerText = 'creation';
+parent.appendChild(child);
+
+动态增加style节点
+var c = document.createElement('style');
+c.setAttribute('type','text/css');
+c.innerHTML = 'p{color:red}';
+document.getElementsByTagName('head')[0].appendChild(d);
+
+b.使用insertBefore把子节点插入到指定位置
+parent.insertBeefore(child1,child2);	//将子节点1插入到子节点2之前(子节点二也要先获取到)
+
+删除DOM
+删除一个节点首先要获得该节点及其父节点
+parent.removeChild(child);		//返回值为被删除子节点
+一般都会通过子节点获得其父节点
+var self = document.getElementById('demo');
+var parent = self.parentElement;
+
+当遍历一个父节点的子节点进行删除操作时,children属性是一个只读属性,是实时更新的,例如:
+一个父节点有两个子节点
+parent.removeChild(parent.children[0]);		//这之后children[1]就不存在了
+
+
+
+
 
 
 
