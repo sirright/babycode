@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{message}}</p>
+        <button @click="change">Change</button>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                message:"this a paragraph"
+            },
+            methods:{
+                change:function(){
+                    this.message="hhhh";
+                }
+            },
+            watch:{
+                message:function(val,oldval){
+                    console.log(val,oldval);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

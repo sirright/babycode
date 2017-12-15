@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+    [v-cloak] {
+        display: none;
+    }
+    #app{
+        float:left;
+        width:1400px;
+        height:780px;
+        border:1px solid #ccc;
+        position:absolute;
+    }
+    .header{
+        height:80px;
+        width:100%;
+        border:1px solid #ccc;
+    }
+    .content{
+        height:700px;
+        width:100%;
+        border: 1px solid #ccc;
+    }
+    .content .video-by{
+        height:700px;
+        width:25%;
+        border: 1px solid #ccc;
+        float:left;
+    }
+    .content .sys-mgmt{
+        height:700px;
+        width:74%;
+        border:1px solid #ccc;
+        float:left;
+    }
+    .content .video-by .videoby{
+        height:80px;
+        width:100%;
+        border:1px solid #ccc;
+
+    }
+    .content .sys-mgmt .sysmgmt{
+        height:80px;
+        width:100%;
+        border:1px solid #ccc;
+    }
+    .content .video-by .videoby-cont{
+        height:620px;
+        width:100%;
+        
+    }
+    .content .sys-mgmt .sysmgmt-cont{
+        height:620px;
+        width:100%;
+    }
+    .content .sys-mgmt .createRole{
+        height:700px;
+        width:50%;
+        position:fixed;
+        right:10px;
+        top:90px;
+        background-color: #ccc;
+    }
+    .content .sys-mgmt .roleImpower{
+        height:700px;
+        width:50%;
+        position:fixed;
+        right:10px;
+        top:90px;
+        background-color: #ccc;
+    }
+    .content .sys-mgmt .userImpower{
+        height:700px;
+        width:50%;
+        position:fixed;
+        right:10px;
+        top:90px;
+        background-color: #ccc;
+    }
+    a{
+        text-decoration-line: none;
+    }
+</style>
+<body>
+    <div id="app" v-cloak>
+        <div class="header">
+            <img src="">
+            <a href="###">工作台</a>
+            <a href="###">云库</a>
+            <a href="###">审批系统</a>
+            <a href="###">视频轮播</a>
+        </div>
+        <div class="content">
+            <div class="video-by">
+                <div class="videoby">视频轮播</div>
+                <div class="videoby-cont">
+                    <a href="###">频率列表</a><br/>
+                    <ul>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                    <a href="###">系统管理</a>
+                    <ul>
+                        <li v-for="(mgmt,index) in mgmts" @click="sysmgmtcs(index)">{{mgmt.name}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sys-mgmt">
+                <div class="sysmgmt">
+                    <span>{{msg}}</span>
+                    <button v-show="mgmts[1].isshow" @click="createRole">新建角色</button>
+                    <input type="text" v-model="searchCont" @keyup.enter="search" placeholder="请输入姓名搜索">
+                    <button @click="search">搜索</button>
+                </div>
+                <div class="sysmgmt-cont">
+                    <table class="usermgmtTable" v-show="mgmts[0].isshow">
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>账号</th>
+                                <th>所属部门</th>
+                                <th>所属频率</th>
+                                <th>角色</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(user,index) in users" v-show="user.isshow">
+                                <td>{{user.name}}</td>
+                                <td>{{user.account}}</td>
+                                <td>{{user.department}}</td>
+                                <td>{{user.frequency}}</td>
+                                <td>{{user.role}}</td>
+                                <td><button @click="userImpower(index)">授权</button></td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="rolemgmtTable" v-show="mgmts[1].isshow">
+                        <thead>
+                            <tr>
+                                <th>角色名称</th>
+                                <th>创建人</th>
+                                <th>授权用户数</th>
+                                <th>角色说明</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(role,index) in roles" v-show="role.isshow">
+                                <td>{{role.name}}</td>
+                                <td>{{role.creator}}</td>
+                                <td>{{role.impowerNum}}</td>
+                                <td>{{role.state}}</td>
+                                <td><button @click="roleImpower(index)">授权</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="createRole" v-show="createWindow">
+
+                    <h4>添加角色</h4>
+                    <label>
+                        角色名称<input type="text" placeholder="请输入" v-model="newRole.name">
+                        <br/>
+                    </label>
+                    <label>
+                        说明<input type="text" placeholder="备注文案">
+                    </label>
+                    <div>
+                        <span>控制权限</span>
+                        <label v-for="powControl in powControls">
+                            <input type="checkbox" name="ctrlAuthority" value="powControl.name">{{powControl.power}}
+                        </label>
+                    </div>
+                    <div>
+                        <p>数据权限</p>
+                        <label v-for="dataAthorty in dataAthortys">
+                            <input type="checkbox" name="dataAuthority" value="dataAthorty.cont">{{dataAthorty.name}}
+                            <br/>
+                        </label>
+                    </div>
+                    <button @click="addRole">确认</button>
+                    <button @click="closeRoleWindow">关闭窗口</button>
+                </div>
+                <div class="roleImpower" v-show="impowerWindow">
+                        <span>{{impoweredRole}}</span>
+                        <a href="###">编辑</a>
+                        <a href="###">删除</a>
+                        <p>角色说明：系统管理员</p>
+                        <hr>
+                        <span>已授权({{users.length}})</span>
+                        <button>添加用户</button>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>账号</th>
+                                    <th>所属部门</th>
+                                    <th>所属频率</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="user in users" v-show="user.isshow">
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.account}}</td>
+                                    <td>{{user.department}}</td>
+                                    <td>{{user.frequency}}</td>
+                                    <td><button>取消授权</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button @click="closeImpowerWindow">关闭窗口</button>
+                </div>
+                <div class="userImpower" v-show="userImpowerWindow">
+                    <span>用户授权</span>
+                    <br/>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>用户名称</th>
+                                <th>角色名称</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(role,index) in roles">
+                                <td>{{impoweredUser}}</td>
+                                <td>{{role.name}}</td>
+                                <td><button @click="userRoleImpower(index)">授权</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button @click="closeUserImpower">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                impoweredRole:'',
+                impoweredUser:'',
+                userImpowerWindow:false,
+                newRole:{name:'',creator:'系统默认',impowerNum:0,state:'系统管理员',isshow:true},
+                impowerWindow:false,
+                dataAthortys:[
+                    {name:'电影频道',cont:'movieChnl'},
+                    {name:'电视剧频道',cont:'tvChnl'},
+                    {name:'娱乐频道',cont:'enttainChnl'},
+                    {name:'养生频道',cont:'healthChnl'},
+                    {name:'相声频道',cont:'funnyChnl'}
+                ],
+                powControls:[
+                    {name:'sysMgmt',power:"系统管理"},
+                    {name:'cnlMgmt',power:'频道管理'},
+                    {name:'brdcstMgmt',power:'播出控制'},
+                    {name:'arngeMgmt',power:'编单编排'}
+                ],
+                createWindow:false,
+                msg:'用户管理',
+                roles:[
+                    {name:'系统管理员',creator:'系统默认',impowerNum:5,state:'系统管理员',isshow:true},
+                    {name:'运营员',creator:'新系统管理员',impowerNum:1,state:'频道管理员',isshow:true},
+                ],
+                mgmts:[
+                    {name:'用户管理',isshow:true},
+                    {name:'角色管理',isshow:false},
+                    {name:'数据管理',isshow:false}
+                ],
+                searchCont:'',
+                users:[
+                {name:'系统管理员',account:'admin',department:'技术部',frequency:'交通频率',role:'管理员',isshow:true},
+                {name:'王大成',account:'wangdc',department:'运营部',frequency:'经济频率',role:'频道运营',isshow:true},
+                {name:'张三',account:'zhangs',department:'项目部',frequency:'行政频率',role:'员工',isshow:true},
+                {name:'李四',account:'lis',department:'运营部',frequency:'播放频率',role:'员工',isshow:true},
+                {name:'王五',account:'wangw',department:'技术部',frequency:'音乐频率',role:'员工',isshow:true},
+                {name:'周六',account:'zhoul',department:'研发部',frequency:'工作频率',role:'员工',isshow:true}
+                ]
+            },
+            methods:{
+                search(){
+                    if(this.mgmts[0].isshow===true){
+                        for(let i=0;i<this.users.length;i++){
+                            if(this.users[i].name===this.searchCont){
+                                this.users[i].isshow=true;
+                            }else{
+                                this.users[i].isshow=false;
+                            }
+                        }
+                    }
+                    if(this.mgmts[1].isshow===true){
+                        for(let i=0;i<this.roles.length;i++){
+                            if(this.roles[i].name===this.searchCont){
+                                this.roles[i].isshow=true;
+                            }else{
+                            this.roles[i].isshow=false;
+                            }
+                        }
+                    }
+                    this.searchCont='';
+                },
+                sysmgmtcs(index){
+                    this.msg=this.mgmts[index].name;
+                    for(let i=0;i<this.mgmts.length;i++){
+                        if(index===i){
+                            this.mgmts[i].isshow=true;
+                        }else{
+                            this.mgmts[i].isshow=false;
+                        }
+                    }
+                    if(this.mgmts[index].name==='用户管理'){
+                        for(let u of this.users){
+                            u.isshow=true;
+                        }
+                    }else if(mgmts[index].name==='角色管理'){
+                        for(let r of this.roles){
+                            r.isshow=true;
+                        }
+                    }
+
+                },
+                createRole(){
+                    $(".createRole").fadeIn("slow");
+                },
+                closeRoleWindow(){
+                    $(".createRole").fadeOut("slow");
+                },
+                roleImpower(index){
+                    this.impoweredRole=this.roles[index].name;
+                    $(".roleImpower").fadeIn("slow");
+                    for(let u of this.users){
+                        if(this.impoweredRole===u.role){
+                            u.isshow=true;
+                        }else{
+                            u.isshow=false;
+                        }
+                    }        
+                },
+                closeImpowerWindow(){
+                    $(".roleImpower").fadeOut("slow");
+                },
+                addRole(){
+                    let flag=true;
+                    for(let i=0;i<this.roles.length;i++){
+                        this.roles[i].isshow=true;
+                        if(this.newRole.name===this.roles[i].name){
+                            alert('该角色已存在');
+                            flag=false;
+                        }
+                    }
+                    if(flag){
+                        $(".createRole").fadeOut("slow");
+                        this.roles.push(this.newRole);
+                        this.newRole={name:'',creator:'系统默认',impowerNum:0,state:'系统管理员',isshow:true};
+                    }
+                    
+                },
+                userImpower(index){
+                    $(".userImpower").fadeIn("slow");
+                    this.impoweredUser=this.users[index].name;
+                },
+                closeUserImpower(){
+                    $(".userImpower").fadeOut("slow");
+                },
+                userRoleImpower(index){
+                    for(let i=0;i<this.users.length;i++){
+                        if(this.users[i].name===this.impoweredUser){
+                            this.users[i].role=this.roles[index].name;
+                        }
+                    }
+                    $(".userImpower").fadeOut("slow");
+                }
+            }
+        });
+    </script> 
+</body>
+</html>

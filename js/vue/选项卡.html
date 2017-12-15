@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+    #app{
+        width:600px;
+        height:400px;
+        margin:40px auto;
+        border:1px solid #ccc;
+    }
+    .navigator{
+        width:600px;
+        font-size: 0;
+    }
+    .navigator a{
+        display: inline-block;
+        font-size:16px;
+        line-height: 40px;
+        height:40px;
+        width:25%;
+        text-decoration-line: none;
+        text-align:center;
+        background-color: #ccc;
+    }
+    .content{
+        padding:20px 20px;
+    }
+    .navigator .cur{
+        color:white;
+        background-color:blue;
+    }
+</style>
+<body>
+    <div id="app">
+        <div class="navigator">
+            <a href="javascript:;" @click="curId=0" v-bind:class="{'cur':curId===0}">html</a>
+            <a href="javascript:;" @click="curId=1" v-bind:class="{'cur':curId===1}">css</a>
+            <a href="javascript:;" @click="curId=2" v-bind:class="{'cur':curId===2}">javascript</a>
+            <a href="javascript:;" @click="curId=3" v-bind:class="{'cur':curId===3}">vue</a>
+        </div>
+        <div class="content">
+            <div v-show="curId===0">
+                html
+            </div>
+            <div v-show="curId===1">
+                css
+            </div>
+            <div v-show="curId===2">
+                javascript
+            </div>
+            <div v-show="curId===3">
+                vue
+            </div>
+        </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                curId:0
+            }
+        });
+    </script>
+</body>
+</html>

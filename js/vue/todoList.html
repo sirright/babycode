@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" class="main">
+        <h1>小目标列表</h1>
+        <div class="list">
+            <h2>添加小目标</h2>
+            <input type="text" v-model="newGoal" @keyup.13="addGoal" class="text-keyword" placeholder="输入小目标后，按回车确认"/>
+            <p>共有{{goals.length}}个小目标</p>
+            <label>所有目标</label>
+            <input type="radio" name="chooseType" @click="choose(1)"checked="true"/>
+            <label>已完成目标</label>
+            <input type="radio" name="chooseType" @click="choose(2)">
+            <label>未完成目标</label>
+            <input type="radio" name="chooseType" @click="choose(3)">
+        </div>
+        <ul>
+            <li class="li1" v-for="(goal,index) in goals">
+                <div>
+                    <span class="type-span"></span>
+                    <span>{{goal.name}}</span>
+                    <span class="close" @click='deleteGoal(index)'>X</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                newGoal:'',
+                goals:[
+                    {name:"html5",status:false},
+                    {name:"css3",status:false},
+                    {name:"vue",status:false},
+                    {name:"angular",status:false}
+                ]
+            },
+            methods:{
+                addGoal:function(){
+                    this.goals.push({name:this.newGoal,status:false});
+                    this.newGoal='';
+                },
+                deleteGoal:function(index){
+                    this.goals.splice(index,1);
+                },
+                choose(type){
+                    switch(type){
+                        
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
