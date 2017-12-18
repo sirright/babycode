@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{message}}
+        <button>点击一下</button>
+    </div>
+    <script type="text/javascript" src="Scripts/libs/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="Scripts/libs/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                message:'origin'
+            }
+        });
+        $(document).ready(function(){
+            $("button").click(function(){
+                vm.message = 'changed';
+            });
+        });
+    </script>
+</body>
+</html>

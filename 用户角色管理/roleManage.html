@@ -1,0 +1,378 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>channelList</title>
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" type="text/css" href="ampleadmin/bootstrap/dist/css/bootstrap.min.css">
+  <!-- animation CSS -->
+  <link rel="stylesheet" type="text/css" href="ampleadmin/css/animate.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="ampleadmin/css/style.css">
+  <!-- color CSS -->
+  <link rel="stylesheet" type="text/css" href="ampleadmin/css/colors/blue-dark.css">
+  <link rel="stylesheet" type="text/css" href="Css/libs/sideslip_plugins.css">
+  <link rel="stylesheet" type="text/css" href="Css/basic.css">
+  <link rel="stylesheet" type="text/css" href="Css/systemManage.css">
+</head>
+<body>
+  <div class="system-left"></div>
+  <div class="system-right" id="systemRight">
+    <div class="container-head clearfix">
+      <!-- <div class="pull-left">角色管理</div> -->
+      <div class="channel-keyword pull-left">
+          <span>关键字：</span>
+          <span class="keyword-tip">角色名称</span>
+          <span class="keyword-tip">创建人</span>
+          <span>搜索结果：</span>
+          <span>共<em class="search-num">{{searchCount}}</em>条</span>
+          <span class="search-cancel" @click="cancelSearch">取消</span>
+      </div>
+      <div class="pull-right">
+        <button class="inl-block btn btn-info btn-outline btn-sm m-r-8"  @click = "addRole">新建角色</button>
+        <div class="search-bar inl-block ">
+          <input type="text" class="form-control search-box w-240 h-30" placeholder="请输入" v-model="searchContent" @keyup.13="search">
+          <!-- <i title="搜索" class="iconfont icon-">&#xe600;</i> -->
+          <button title="搜索" class="iconfont btn-icon" @click="search">&#x349a;</button>
+        </div>
+      </div>
+    </div>
+    <div class="p-l-16 p-r-16 m-t-16 container-body" style="height: calc(100% - 60px)">
+            <ul class="table-head">
+                <li class="table-head-td w-25">角色名称</li>
+                <li class="table-head-td w-20">创建人</li>
+                <li class="table-head-td w-17">授权用户数</li>
+                <li class="table-head-td w-19">角色说明</li>
+                <li class="table-head-td">操作</li>
+            </ul>
+            <div class="container-box" style="height: calc(100% - 48px)">
+                <ul id="containerBox">
+                    <li class="table-body-item" @click.stop="author" v-for="(role,index) in roles" v-if="role.isshow">
+                        <ul class="btable-body">
+                            <li class="table-body-td w-25">{{role.name}}</li>
+                            <li class="table-body-td w-20">{{role.creator}}</li>
+                            <li class="table-body-td w-17">{{role.count}}</li>
+                            <li class="table-body-td w-19">{{role.state}}</li>
+                            <li class="table-body-td p-l-20">
+                                <button class="btn btn-info btn-outline btn-sm" data-toggle="modal" data-target="#myModal1" @click="authorize(index)">授权</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="noRecord">没有更多的记录了</li>
+                </ul>
+            </div>
+        </div>
+  </div>
+<div class="slide__detail">
+      <div id="slideDetail" v-show="isshowDiaLog" @click.stop="showDiaLog">
+        <div id="addRoleContent" class="InforBar_wrap InforBar_wrap-addrole">
+              <h4 class="modal-title" id="myLargeModalLabel">添加角色</h4>
+              <div class="container-content">
+                    <div class="content-list clearfix">
+                      <label class="content-label"><span class="content-tip">*</span>角色名称</label>
+                      <input type="text" maxlength="32" class="form-control content-input" placeholder="请输入角色名称" v-model="newRole.name">
+                      <div class="content-note">(0/32)</div>
+                    </div>
+                    <div class="content-list clearfix">
+                      <label class="content-label">说明</label>
+                      <textarea rows="3" maxlength="128" class="form-control content-input" placeholder="请输入" style="height: 74px;"></textarea>
+                      <div class="content-note">(0/128)</div>
+                    </div>
+                    <div class="content-list clearfix">
+                      <label class="content-label">控制权限</label>
+                      <div class="content-checkboxs">
+                          <label class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 系统管理</label>
+                          <label class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 频道管理</label>
+                          <label class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 播出控制</label>
+                          <label class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 编单编排</label>
+                      </div>
+                    </div>
+                    <div class="content-list clearfix">
+                      <label class="content-label">数据权限</label>
+                      <div class="content-checkboxs">
+                          <p class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 系统管理</p>
+                          <p class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 频道管理</p>
+                          <p class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 播出控制</p>
+                          <p class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 编单编排</p>
+                      </div>
+                    </div>
+              </div>
+              <div class="modal-footer modal-footer__left">
+                  <button type="button" class="btn btn-info waves-effect text-left" id="addRoleConfirm" style="margin-left:12px;" @click="addRoleCertain">确定</button>
+                   <button type="button" class="btn btn-default waves-effect text-left" data-dismiss="modal" @click="cancelAddRole">取消</button>
+              </div>
+        </div><!-- end InforBar_wrap-->
+
+      </div><!-- end slideDetail-->
+</div>
+<div class="slide__detail">
+      <div id="slideAuthor" v-show="isshowDiaLog" @click.stop="showDiaLog">
+        <div  id="addUserContent" class="InforBar_wrap InforBar_wrap-author">
+              <div class="modal-header">
+                  <h4 class="modal-title modal-title__author" id="myLargeModalLabel">
+                     {{authorizedRole}}  <span class="modal-title__opera u-col01" id="roleOperator"><a href="">编辑</a> <a href="">删除</a></span>
+                     <span class="modal-title__describe">角色说明：{{authorizedRole}}</span>
+                  </h4>
+              </div>
+              <div class="modal-body">
+                  
+                  <!-- 未授权 -->
+                  <div class="author-header clearfix">
+                      <div class="author-header__left pull-left">
+                          已授权 ({{authorizedCount}})
+                      </div>
+                      <div class="author-header__right pull-right">
+                          <button class="btn btn-info btn-outline btn-sm">添加用户</button>
+                      </div>
+                  </div> 
+                  <!-- start  状态1 -->
+                  <div class=" m-t-16 container-body">
+                      <ul class="table-head">
+                          <li class="table-head-td w-20"><input type="checkbox" name="authorizedUser"> 姓名</li>
+                          <li class="table-head-td w-20">账号</li>
+                          <li class="table-head-td w-17">所属部门</li>
+                          <li class="table-head-td w-19">所属频率</li>
+                          <li class="table-head-td">操作</li>
+                      </ul>
+                      <div class="container-box" style="height: calc(100% - 48px)">
+                          <ul id="containerBox">
+                              <li class="table-body-item" >
+                                  <ul class="btable-body" v-for="(user,index) in users" v-show="user.isshow">
+                                      <li class="table-body-td w-20"><input type="checkbox" name="authorizedUser"> {{user.name}}</li>
+                                      <li class="table-body-td w-20">{{user.account}}</li>
+                                      <li class="table-body-td w-17">{{user.department}}</li>
+                                      <li class="table-body-td w-19">{{user.frequency}}</li>
+                                      <li class="table-body-td ">
+                                          <button class="btn btn-danger btn-outline btn-sm" @click="cancelAuthorize(index)">取消授权</button>
+                                      </li>
+                                  </ul>
+                              </li>
+                          </ul>
+                      </div>
+                  </div> <!-- end container-body-->
+                  <!-- end  状态1 -->
+                 <br><br><br>
+                  <!-- start  状态2 -->
+                  <!-- 已选择授权 -->
+                  <div class="author-header clearfix">
+                      <div class="author-header__left pull-left">
+                          已选中2项： <a href="" class="u-col01">取消授权</a>
+ 
+                      </div
+                      <div class="author-header__right pull-right">
+                          <button type="button" class="close class-incloud" data-dismiss="modal" aria-hidden="true">x</button>
+                      </div>
+                  </div>
+                  <div class=" m-t-16 container-body">
+                      <ul class="table-head">
+                          <li class="table-head-td w-20"><input type="checkbox" name="authorizedUse"> 姓名</li>
+                          <li class="table-head-td w-20">账号 <input type="checkbox" name="authorizedAccount" class="u-checkbox"></li>
+                          <li class="table-head-td w-17">所属部门</li>
+                          <li class="table-head-td w-19">所属频率</li>
+                          <li class="table-head-td">操作</li>
+                      </ul>
+                      <div class="container-box" style="height: calc(100% - 48px)">
+                          <ul id="containerBox">
+                              <li class="table-body-item" >
+                                  <ul class="btable-body" v-for="(user,index) in users" v-show="user.ischecked">
+                                      <li class="table-body-td w-20" @click.stop="authorizeChecked(index)"><input type="checkbox" name="authorizedUser" value="index" >{{user.name}}</li>
+                                      <li class="table-body-td w-20"> <input type="checkbox" name="authorizedAccount" class="u-checkbox" value="">{{user.account}}</li>
+                                      <li class="table-body-td w-17">{{user.department}}</li>
+                                      <li class="table-body-td w-19">{{user.frequency}}</li>
+                                      <li class="table-body-td ">
+                                          <button class="btn btn-danger btn-outline btn-sm" @click="cancelAuthorize(index)">取消授权</button>
+                                      </li>
+                                  </ul>
+                              </li>
+                          </ul>
+                      </div>
+                  </div> <!-- end container-body-->
+                  <!-- end  状态2 -->
+              </div>
+              <div class="modal-footer modal-footer__left">
+                 
+                  <button type="button" class="btn btn-info waves-effect text-left" style="margin-left:12px;">确定</button>
+                   <button type="button" class="btn btn-default waves-effect text-left" data-dismiss="modal">取消</button>
+              </div>
+        </div><!-- end InforBar_wrap-->
+
+      </div><!-- end slideDetail-->
+</div>
+  <script type="text/javascript" src="Scripts/libs/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="Scripts/libs/vue.js"></script>
+  <script type="text/javascript" src="ampleadmin/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="Scripts/libs/sideslip_plugins.js"></script>
+  <script type="text/javascript">
+    var systemRight = new Vue({
+      el: '#systemRight',
+      data: {
+        searchCount:0,
+        searchContent:'',
+        roles:[
+          {name:'系统管理员',creator:'系统默认',count:0,state:'管理系统',isshow:true},
+          {name:'运营员',creator:'系统默认',count:0,state:'负责运营',isshow:true},
+          {name:'维修员',creator:'系统默认',count:0,state:'负责维修',isshow:true},
+          {name:'销售员',creator:'系统默认',count:0,state:'负责销售',isshow:true}
+        ]
+      },
+      methods: {
+        addRole () {
+          ShowDetail();
+          slideDetail.isshowDiaLog=true;
+        },
+        author () {
+          console.log('coming author')
+          ShowAuthor()
+        },
+        search(){
+          let count=0;
+          for(let r of this.roles){
+            if(r.name===this.searchContent||r.creator===this.searchContent){
+              r.isshow=true;
+              count++;
+            }else{
+              r.isshow=false;
+            }
+          }
+          this.searchContent='';
+          this.searchCount=count;
+        },
+        cancelSearch(){
+          for(let r of this.roles){
+            r.isshow=true;
+          }
+          this.searchContent='';
+        },
+        authorize(index){
+          slideAuthor.authorizedRole=this.roles[index].name;
+          for(let u of slideAuthor.users){
+            if(u.role===slideAuthor.authorizedRole){
+              u.isshow=true;
+              slideAuthor.authorizedCount++;
+            }else{
+              u.isshow=false;
+            }
+          }
+          slideAuthor.isshowDiaLog=true;
+        }
+      }
+    });
+  var slideDetail = new Vue({
+    el:'#slideDetail',
+    data:{
+      isshowDiaLog:false,
+      newRole:{name:'',creator:'系统默认',count:0,state:'管理系统',isshow:true}
+    },
+    methods:{
+      addRoleCertain(){
+        var flag = true;
+        if(this.newRole.name===''){
+          alert('角色名不能为空，请重新输入');
+          flag = false;
+        }
+        for(let r of systemRight.roles){
+            if(r.name===this.newRole.name){
+              alert('该角色已存在，请重新输入');
+              flag=false;
+            }
+        }
+        if(flag){
+          systemRight.roles.push(this.newRole);
+        }
+        this.newRole={name:'',creator:'系统默认',count:0,state:'管理系统',isshow:true};
+        sideslipContainer.hide();
+      },
+      cancelAddRole(){
+        this.newRole={name:'',creator:'系统默认',count:0,state:'管理系统',isshow:true};
+        sideslipContainer.hide();
+      }
+    }
+    
+  });
+  var slideAuthor = new Vue({
+    el:'#slideAuthor',
+    data:{
+      authorizedCount:0,
+      isshowDiaLog:false,
+      authorizedRole:'',
+      users:[
+        {name:'张三',account:'admin1',department:'技术部',frequency:'交通频率',role:'系统管理员',isshow:false,ischecked:false},
+        {name:'李四',account:'admin2',department:'运营部 ',frequency:'经济频率',role:'运营员',isshow:false,ischecked:false},
+        {name:'陈琪',account:'admin3',department:'运营部 ',frequency:'行政频率',role:'运营员',isshow:false,ischecked:false},
+        {name:'王五',account:'admin4',department:'销售部',frequency:'工作频率',role:'销售员',isshow:false,ischecked:false}
+      ]
+    },
+    methods:{
+      showDiaLog(){
+        this.isshowDiaLog=true;
+      },
+      cancelAuthorize(index){
+        for(let i=0;i<this.users.length;i++){
+          if(this.users[i].name===this.users[index].name){
+            this.users.splice(i,1);
+          }
+        }
+      },
+      authorizeChecked(index){
+        for(let u of this.users){
+          if(u.name===this.users[index]){
+            u.ischecked=true;
+          }else{
+            u.ischecked=false;
+          }
+        }
+      }
+    }
+  });
+  function ShowDetail(e) {
+    sideslipContainer.load_sideslip({
+        id: 'ApprovalInfo',
+        hide_ids: '',
+        hide_classNames: '',
+        hide_parentid: '',
+        objId: 'slideDetail',
+        isId: true,
+        isIframe: false,
+        height: '100%',
+        width: '600px',
+        isscroll: true
+    });
+
+    if ($("#ApprovalInfo").hasClass("is-visible")) {
+        sideslipContainer.hide();
+    } else {
+        sideslipContainer.show({
+            id: 'ApprovalInfo',
+            elementObj: $(".InforBar_wrap-addrole")
+        });
+    }
+  }
+
+
+  function ShowAuthor(e) {
+    sideslipContainer.load_sideslip({
+        id: 'AuthorInfo',
+        hide_ids: '',
+        hide_classNames: '',
+        hide_parentid: '',
+        objId: 'slideAuthor',
+        isId: true,
+        isIframe: false,
+        height: '100%',
+        width: '600px',
+        isscroll: true
+    });
+
+    if ($("#AuthorInfo").hasClass("is-visible")) {
+        sideslipContainer.hide();
+    } else {
+        sideslipContainer.show({
+            id: 'AuthorInfo',
+            elementObj: $(".InforBar_wrap-author")
+        });
+    }
+  }
+
+  </script>
+</body>
+</html>

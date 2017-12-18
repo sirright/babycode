@@ -1,0 +1,120 @@
+ul,
+dl,
+dt,
+dd,
+p {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #fff;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+.container-body {
+  height: 100%;
+}
+.container-body #containerBox {
+  height: 100%;
+}
+.container-body .container-box {
+  overflow-y: auto;
+}
+/*   频道添加   start    */
+.setting {
+  position: relative;
+  width: 420px;
+  height: 90px;
+  margin: 0 auto;
+}
+.set-channel,
+.set-output {
+  position: absolute;
+  top: 0;
+  width: 120px;
+  text-align: center;
+  z-index: 100;
+}
+.set-channel .set-step,
+.set-output .set-step {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  color: #fff;
+  border-radius: 50%;
+  background: #e4e7ea;
+}
+.set-channel .set-step.active,
+.set-output .set-step.active {
+  background: #53e69d;
+}
+.set-channel {
+  left: 0;
+}
+.set-output {
+  right: 0;
+}
+.set-label1 {
+  font-size: 16px;
+  margin-top: 10px;
+}
+.set-label2 {
+  font-size: 12px;
+}
+.set-line {
+  position: absolute;
+  top: 16px;
+  left: 76px;
+  width: 268px;
+  height: 1px;
+  background: #d8d8d8;
+}
+.container-content {
+  margin-top: 20px;
+}
+.content-list {
+  line-height: 34px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.content-label {
+  float: left;
+  width: 76px;
+  text-align: right;
+  margin-bottom: 0;
+  padding-right: 8px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-weight: normal;
+}
+.content-tip {
+  color: #f00;
+}
+.content-input {
+  float: left;
+  width: 380px;
+  height: 34px;
+}
+.content-note {
+  float: left;
+  font-size: 12px;
+  padding-left: 8px;
+  color: #999;
+}
+.line-height-17 {
+  line-height: 17px;
+}
+.w-190 {
+  width: 190px;
+}
+.w-456 {
+  width: 456px;
+}
+.w-240 {
+  width: 240px;
+}
+/*   频道添加   end      */

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>channelList</title>
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" type="text/css" href="ampleadmin/bootstrap/dist/css/bootstrap.min.css">
+  <!-- animation CSS -->
+  <link rel="stylesheet" type="text/css" href="ampleadmin/css/animate.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="ampleadmin/css/style.css">
+  <!-- color CSS -->
+  <link rel="stylesheet" type="text/css" href="ampleadmin/css/colors/blue-dark.css">
+
+  <link rel="stylesheet" type="text/css" href="Css/basic.css">
+  <link rel="stylesheet" type="text/css" href="Css/systemManage.css">
+</head>
+<body>
+<div id="app">
+  <div class="system-left"></div>
+  <div class="system-right">
+    <div class="container-head clearfix">
+      <!-- <div class="pull-left">用户管理</div> -->
+      <div class="channel-keyword pull-left">
+          <span>关键字：</span>
+          <span class="keyword-tip">用户姓名</span>
+          <span class="keyword-tip">用户账号</span>
+          <span>搜索结果：</span>
+          <span>共<em class="search-num">34</em>条</span>
+          <span class="search-cancel" @click="cancelSearch">取消</span>
+      </div>
+      <div class="pull-right">
+        <div class="search-bar">
+          <input type="text" class="form-control search-box w-240 h-30" placeholder="请输入" @keyup.13="search" v-model="searchContent">
+          <!-- <i title="搜索" class="iconfont icon-">&#xe600;</i> -->
+          <button title="搜索" class="iconfont btn-icon" @click="search">&#x349a;</button>
+        </div>
+      </div>
+    </div>
+    <div class="p-l-16 p-r-16 m-t-16 container-body" style="height: calc(100% - 60px)">
+            <ul class="table-head">
+                <li class="table-head-td w-15">姓名</li>
+                <li class="table-head-td w-13">账号</li>
+                <li class="table-head-td w-17">所属部门</li>
+                <li class="table-head-td w-20">所属频率</li>
+                <li class="table-head-td w-17">角色</li>
+                <li class="table-head-td">操作</li>
+            </ul>
+            <div class="container-box" style="height: calc(100% - 48px)">
+                <ul id="containerBox">
+                    <li class="table-body-item" v-for="user in users" v-show="user.isshow">
+                        <ul class="table-body">
+                            <li class="table-body-td w-15">{{user.name}}</li>
+                            <li class="table-body-td w-13">{{user.account}}</li>
+                            <li class="table-body-td w-17">{{user.department}}</li>
+                            <li class="table-body-td w-20">{{user.frequency}}</li>
+                            <li class="table-body-td w-17">{{user.role}}</li>
+                            <li class="table-body-td p-l-20">
+                                <button class="btn btn-info btn-outline btn-sm">授权</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="noRecord">没有更多的记录了</li>
+                </ul>
+            </div>
+        </div>
+  </div>
+</div>
+  <script type="text/javascript" src="Scripts/libs/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="ampleadmin/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="Scripts/libs/vue.min.js"></script>
+  <script>
+    var vm = new Vue({
+      el:'#app',
+      data:{
+        searchContent:'',
+        users:[
+          {name:'张三',account:'admin1',department:'技术部',frequency:'交通频率',role:'系统管理员',isshow:true},
+          {name:'李四',account:'admin2',department:'研发部',frequency:'经济频率',role:'运营员',isshow:true},
+          {name:'王五',account:'admin3',department:'项目部',frequency:'出差频率',role:'员工',isshow:true},
+          {name:'周六',account:'admin4',department:'硬件部',frequency:'工作频率',role:'员工',isshow:true},
+          {name:'陈七',account:'admin5',department:'行政部',frequency:'行政频率',role:'员工',isshow:true}
+        ]
+      },
+      methods:{
+        search(){
+          for(let u of this.users){
+            if(u.name===this.searchContent||u.account===this.searchContent){
+              u.isshow=true;
+            }else{
+              u.isshow=false;
+            }
+          }
+          this.searchContent='';
+        },
+        cancelSearch(){
+          for(let u of this.users){
+            u.isshow=true;
+          }
+          this.searchContent='';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
