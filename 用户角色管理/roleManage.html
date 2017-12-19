@@ -22,8 +22,8 @@
       <!-- <div class="pull-left">角色管理</div> -->
       <div class="channel-keyword pull-left">
           <span>关键字：</span>
-          <span class="keyword-tip">角色名称</span>
-          <span class="keyword-tip">创建人</span>
+          <span class="keyword-tip">{{roleName}}</span>
+          <span class="keyword-tip">{{roleCreator}}</span>
           <span>搜索结果：</span>
           <span>共<em class="search-num">{{searchCount}}</em>条</span>
           <span class="search-cancel" @click="cancelSearch">取消</span>
@@ -66,7 +66,7 @@
 <div class="slide__detail">
       <div id="slideDetail" v-show="isshowDiaLog" @click.stop="showDiaLog">
         <div id="addRoleContent" class="InforBar_wrap InforBar_wrap-addrole">
-              <h4 class="modal-title" id="myLargeModalLabel">添加角色</h4>
+              <h4 class="modal-title" id="myLargeModalLabel">添加/编辑角色</h4>
               <div class="container-content">
                     <div class="content-list clearfix">
                       <label class="content-label"><span class="content-tip">*</span>角色名称</label>
@@ -110,7 +110,7 @@
         <div  id="addUserContent" class="InforBar_wrap InforBar_wrap-author">
               <div class="modal-header">
                   <h4 class="modal-title modal-title__author" id="myLargeModalLabel">
-                     {{authorizedRole}}  <span class="modal-title__opera u-col01" id="roleOperator"><a href="">编辑</a> <a href="">删除</a></span>
+                     {{authorizedRole}}  <span class="modal-title__opera u-col01" id="roleOperator"><a href="###" @click="changeRole">编辑</a> <a href="###" @click="deleteRole">删除</a></span>
                      <span class="modal-title__describe">角色说明：{{authorizedRole}}</span>
                   </h4>
               </div>
@@ -128,7 +128,7 @@
                   <!-- start  状态1 -->
                   <div class=" m-t-16 container-body">
                       <ul class="table-head">
-                          <li class="table-head-td w-20"><input type="checkbox" name="authorizedUser"> 姓名</li>
+                          <li class="table-head-td w-20"><input type="checkbox" name="authorizedUser" v-model="allCheck" @click="allChecked"> 姓名</li>
                           <li class="table-head-td w-20">账号</li>
                           <li class="table-head-td w-17">所属部门</li>
                           <li class="table-head-td w-19">所属频率</li>
@@ -138,7 +138,7 @@
                           <ul id="containerBox">
                               <li class="table-body-item" >
                                   <ul class="btable-body" v-for="(user,index) in users" v-show="user.isshow">
-                                      <li class="table-body-td w-20"><input type="checkbox" name="authorizedUser"> {{user.name}}</li>
+                                      <li class="table-body-td w-20"><input type="checkbox" v-model="user.state"name="authorizedUser" @click="alock(user)"> {{user.name}}</li>
                                       <li class="table-body-td w-20">{{user.account}}</li>
                                       <li class="table-body-td w-17">{{user.department}}</li>
                                       <li class="table-body-td w-19">{{user.frequency}}</li>
@@ -154,18 +154,18 @@
                  <br><br><br>
                   <!-- start  状态2 -->
                   <!-- 已选择授权 -->
-                  <div class="author-header clearfix">
+                  <div class="author-header clearfix" v-show="errorCode">
                       <div class="author-header__left pull-left">
-                          已选中2项： <a href="" class="u-col01">取消授权</a>
+                          已选中0项： <a href="###" class="u-col01">取消授权</a>
  
                       </div
                       <div class="author-header__right pull-right">
-                          <button type="button" class="close class-incloud" data-dismiss="modal" aria-hidden="true">x</button>
+                          <button type="button" class="close class-incloud" data-dismiss="modal" aria-hidden="true" @click="allNotChecked">x</button>
                       </div>
                   </div>
-                  <div class=" m-t-16 container-body">
+                  <div class=" m-t-16 container-body" v-show="errorCode">
                       <ul class="table-head">
-                          <li class="table-head-td w-20"><input type="checkbox" name="authorizedUse"> 姓名</li>
+                          <li class="table-head-td w-20"><input type="checkbox" name="authorizedUse" @click="allChecked" v-model="allCheck"> 姓名</li>
                           <li class="table-head-td w-20">账号 <input type="checkbox" name="authorizedAccount" class="u-checkbox"></li>
                           <li class="table-head-td w-17">所属部门</li>
                           <li class="table-head-td w-19">所属频率</li>
@@ -174,8 +174,8 @@
                       <div class="container-box" style="height: calc(100% - 48px)">
                           <ul id="containerBox">
                               <li class="table-body-item" >
-                                  <ul class="btable-body" v-for="(user,index) in users" v-show="user.ischecked">
-                                      <li class="table-body-td w-20" @click.stop="authorizeChecked(index)"><input type="checkbox" name="authorizedUser" value="index" >{{user.name}}</li>
+                                  <ul class="btable-body" v-for="(user,index) in users" v-show="user.state">
+                                      <li class="table-body-td w-20" @click.stop="alock(user)"><input type="checkbox" v-model="user.state" name="authorizedUser" value="user.name" >{{user.name}}</li>
                                       <li class="table-body-td w-20"> <input type="checkbox" name="authorizedAccount" class="u-checkbox" value="">{{user.account}}</li>
                                       <li class="table-body-td w-17">{{user.department}}</li>
                                       <li class="table-body-td w-19">{{user.frequency}}</li>
@@ -188,12 +188,13 @@
                       </div>
                   </div> <!-- end container-body-->
                   <!-- end  状态2 -->
-              </div>
-              <div class="modal-footer modal-footer__left">
+                  <div class="modal-footer modal-footer__left">
                  
-                  <button type="button" class="btn btn-info waves-effect text-left" style="margin-left:12px;">确定</button>
-                   <button type="button" class="btn btn-default waves-effect text-left" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-info waves-effect text-left" style="margin-left:12px;" @click="allCancelAuthorize">确定</button>
+                   <button type="button" class="btn btn-default waves-effect text-left" data-dismiss="modal" @click="closeAuthorizeWindow">取消</button>
               </div>
+              </div>
+              
         </div><!-- end InforBar_wrap-->
 
       </div><!-- end slideDetail-->
@@ -206,6 +207,8 @@
     var systemRight = new Vue({
       el: '#systemRight',
       data: {
+        roleName:'',
+        roleCreator:'',
         searchCount:0,
         searchContent:'',
         roles:[
@@ -226,13 +229,23 @@
         },
         search(){
           let count=0;
+          let flag=false;
+          let reg = new RegExp(this.searchContent);
           for(let r of this.roles){
-            if(r.name===this.searchContent||r.creator===this.searchContent){
+            if(reg.test(r.name)||reg.test(r.creator)){
               r.isshow=true;
               count++;
+              flag=true;
             }else{
               r.isshow=false;
             }
+          }
+          if(flag){
+            this.roleName="";
+            this.roleCreator=this.searchContent;
+          }else{
+            this.roleName='角色名称';
+            this.roleCreator='创建人';
           }
           this.searchContent='';
           this.searchCount=count;
@@ -244,15 +257,17 @@
           this.searchContent='';
         },
         authorize(index){
+          let count=0;
           slideAuthor.authorizedRole=this.roles[index].name;
           for(let u of slideAuthor.users){
             if(u.role===slideAuthor.authorizedRole){
               u.isshow=true;
-              slideAuthor.authorizedCount++;
+              count++;
             }else{
               u.isshow=false;
             }
           }
+          slideAuthor.authorizedCount=count;
           slideAuthor.isshowDiaLog=true;
         }
       }
@@ -292,14 +307,16 @@
   var slideAuthor = new Vue({
     el:'#slideAuthor',
     data:{
+      errorCode:false,
+      allCheck:false,
       authorizedCount:0,
       isshowDiaLog:false,
       authorizedRole:'',
       users:[
-        {name:'张三',account:'admin1',department:'技术部',frequency:'交通频率',role:'系统管理员',isshow:false,ischecked:false},
-        {name:'李四',account:'admin2',department:'运营部 ',frequency:'经济频率',role:'运营员',isshow:false,ischecked:false},
-        {name:'陈琪',account:'admin3',department:'运营部 ',frequency:'行政频率',role:'运营员',isshow:false,ischecked:false},
-        {name:'王五',account:'admin4',department:'销售部',frequency:'工作频率',role:'销售员',isshow:false,ischecked:false}
+        {name:'张三',account:'admin1',department:'技术部',frequency:'交通频率',role:'系统管理员',statement:'角色说明',isshow:false,state:false},
+        {name:'李四',account:'admin2',department:'运营部 ',frequency:'经济频率',role:'运营员',statement:'角色说明',isshow:false,state:false},
+        {name:'陈琪',account:'admin3',department:'运营部 ',frequency:'行政频率',role:'运营员',statement:'角色说明',isshow:false,state:false},
+        {name:'王五',account:'admin4',department:'销售部',frequency:'工作频率',role:'销售员',statement:'角色说明',isshow:false,state:false}
       ]
     },
     methods:{
@@ -307,23 +324,110 @@
         this.isshowDiaLog=true;
       },
       cancelAuthorize(index){
-        for(let i=0;i<this.users.length;i++){
-          if(this.users[i].name===this.users[index].name){
-            this.users.splice(i,1);
+        let count=0;
+        for(let u of this.users){
+          if(u.name===this.users[index].name){
+            u.isshow=false;
+            u.state=false;
+            u.role='未授权';
+            count++;
+          }
+        }
+        for(let r of systemRight.roles){
+          if(r.name===this.authorizedRole){
+            r.count=r.count-1;
+          }
+        }
+        this.authorizedCount=this.authorizedCount-count;
+
+      },
+      alock(user){
+
+      },
+      closeAuthorizeWindow(){
+        this.allNotChecked();
+        sideslipContainer.hide();
+      },
+      allChecked(){
+        let flag = false;
+        let count=0;
+        for(let u of this.users){
+          if(u.isshow===true){
+            if(u.state!==true){
+              u.state=true;
+              flag=true;
+            }
+            if(u.state===true){
+              count++;
+            }
+          }
+        }
+        if(flag){
+          this.allCheck=true;
+        }else{
+          this.allCheck=false;
+          count=0;
+          for(let u of this.users){
+            if(u.isshow===true){
+              u.state=false;
+            }
           }
         }
       },
-      authorizeChecked(index){
+      allNotChecked(){
         for(let u of this.users){
-          if(u.name===this.users[index]){
-            u.ischecked=true;
-          }else{
-            u.ischecked=false;
+            u.state=false;
+        }
+        this.allCheck=false;
+      },
+      allCancelAuthorize(){
+        let count=0;
+        for(let u of this.users){
+          if(u.state===true){
+            u.isshow=false;
+            u.state=false;
+            u.role='未授权';
+            count++;
           }
         }
+        for(let r of systemRight.roles){
+          if(r.name===this.authorizedRole){
+            r.count=r.count-count;
+          }
+        }
+        this.authorizedCount=this.authorizedCount-count;
+        this.allNotChecked();
+      },
+      changeRole(){
+        sideslipContainer.hide();
+        systemRight.addRole();
+      },
+      deleteRole(){
+        for(let u of this.users){
+          if(this.authorizedRole===u.role){
+            u.isshow=false;
+            u.state=false;
+            u.role='未授权';
+          }
+        }
+        for(let i=0;i<systemRight.roles.length;i++){
+          if(systemRight.roles[i].name===this.authorizedRole){
+            systemRight.roles.splice(i,1);
+          }
+        }
+        sideslipContainer.hide();
       }
     }
   });
+  (function init(){
+      for(r of systemRight.roles){
+        for(u of slideAuthor.users){
+          if(r.name===u.role){
+            r.count++;
+          }
+        }
+      }
+    }());
   function ShowDetail(e) {
     sideslipContainer.load_sideslip({
         id: 'ApprovalInfo',
@@ -348,7 +452,6 @@
     }
   }
 
-
   function ShowAuthor(e) {
     sideslipContainer.load_sideslip({
         id: 'AuthorInfo',
@@ -372,7 +475,6 @@
         });
     }
   }
-
   </script>
 </body>
 </html>

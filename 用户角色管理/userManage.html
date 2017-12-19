@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" href="ampleadmin/css/style.css">
   <!-- color CSS -->
   <link rel="stylesheet" type="text/css" href="ampleadmin/css/colors/blue-dark.css">
-
+  <link rel="stylesheet" type="text/css" href="Css/libs/sideslip_plugins.css">
   <link rel="stylesheet" type="text/css" href="Css/basic.css">
   <link rel="stylesheet" type="text/css" href="Css/systemManage.css">
 </head>
@@ -23,10 +23,10 @@
       <!-- <div class="pull-left">用户管理</div> -->
       <div class="channel-keyword pull-left">
           <span>关键字：</span>
-          <span class="keyword-tip">用户姓名</span>
-          <span class="keyword-tip">用户账号</span>
+          <span class="keyword-tip">{{userName}}</span>
+          <span class="keyword-tip">{{userAccount}}</span>
           <span>搜索结果：</span>
-          <span>共<em class="search-num">34</em>条</span>
+          <span>共<em class="search-num">{{searchCount}}</em>条</span>
           <span class="search-cancel" @click="cancelSearch">取消</span>
       </div>
       <div class="pull-right">
@@ -48,7 +48,7 @@
             </ul>
             <div class="container-box" style="height: calc(100% - 48px)">
                 <ul id="containerBox">
-                    <li class="table-body-item" v-for="user in users" v-show="user.isshow">
+                    <li class="table-body-item" v-for="(user,index) in users" v-show="user.isshow">
                         <ul class="table-body">
                             <li class="table-body-td w-15">{{user.name}}</li>
                             <li class="table-body-td w-13">{{user.account}}</li>
@@ -56,7 +56,7 @@
                             <li class="table-body-td w-20">{{user.frequency}}</li>
                             <li class="table-body-td w-17">{{user.role}}</li>
                             <li class="table-body-td p-l-20">
-                                <button class="btn btn-info btn-outline btn-sm">授权</button>
+                                <button class="btn btn-info btn-outline btn-sm" @click="author(index)">授权</button>
                             </li>
                         </ul>
                     </li>
@@ -65,31 +65,85 @@
             </div>
         </div>
   </div>
+  <div class="slide__detail">
+      <div id="slideAuthor" v-show="isshowDiaLog" @click.stop="showDiaLog">
+        <div  id="addUserContent" class="InforBar_wrap InforBar_wrap-author">
+              <div class="modal-header">
+                <h4>用户授权-{{authorizedUser}}</h4>
+              </div>
+              <div class="modal-body">
+                <div><span>姓名:{{name}}</span></div>
+                <div><span>账号:{{account}}</span></div>
+                <div><span>所属部门:{{department}}</span></div>
+                <div>
+                  <span>角色权限:</span>
+                  <select name="userRoles" id="userRole">
+                    <option v-for="role in roles" v-bind:value="role.name" @click.stop="changeRole">{{role.name}}</option>
+                  </select>
+                </div>
+                <div><span>说明:{{statement}}</span></div>
+              </div>
+              <div class="modal-footer modal-footer__left">
+                    <button type="button" class="btn btn-info waves-effect text-left" style="margin-left:12px;" @click.stop="changeRoleConfirm">确定</button>
+                    <button type="button" class="btn btn-default waves-effect text-left" data-dismiss="modal" @click.stop="closeWindow">取消</button>
+              </div>
+        </div><!-- end InforBar_wrap-->
+      </div><!-- end slideDetail-->
+  </div>
 </div>
   <script type="text/javascript" src="Scripts/libs/jquery-1.11.3.min.js"></script>
   <script type="text/javascript" src="ampleadmin/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="Scripts/libs/sideslip_plugins.js"></script>
   <script type="text/javascript" src="Scripts/libs/vue.min.js"></script>
   <script>
     var vm = new Vue({
       el:'#app',
       data:{
+        name:'',
+        account:'',
+        department:'',
+        statement:'',
+        isshowDiaLog:false,
+        authorizedUser:'',
+        userName:'用户名称',
+        userAccount:'用户账号',
         searchContent:'',
         users:[
-          {name:'张三',account:'admin1',department:'技术部',frequency:'交通频率',role:'系统管理员',isshow:true},
-          {name:'李四',account:'admin2',department:'研发部',frequency:'经济频率',role:'运营员',isshow:true},
-          {name:'王五',account:'admin3',department:'项目部',frequency:'出差频率',role:'员工',isshow:true},
-          {name:'周六',account:'admin4',department:'硬件部',frequency:'工作频率',role:'员工',isshow:true},
-          {name:'陈七',account:'admin5',department:'行政部',frequency:'行政频率',role:'员工',isshow:true}
-        ]
+          {name:'张三',account:'admin1',department:'技术部',frequency:'交通频率',role:'系统管理员',isshow:true,state:false},
+          {name:'李四',account:'admin2',department:'研发部',frequency:'经济频率',role:'运营员',isshow:true,state:false},
+          {name:'王五',account:'admin3',department:'项目部',frequency:'出差频率',role:'未授权',isshow:true,state:false},
+          {name:'周六',account:'admin4',department:'硬件部',frequency:'工作频率',role:'未授权',isshow:true,state:false},
+          {name:'陈七',account:'admin5',department:'行政部',frequency:'行政频率',role:'未授权',isshow:true,state:false}
+        ],
+        roles:[
+          {name:'系统管理员',creator:'系统默认',count:0,statement:'管理系统',isshow:true},
+          {name:'运营员',creator:'系统默认',count:0,statement:'负责运营',isshow:true},
+          {name:'维修员',creator:'系统默认',count:0,statement:'负责维修',isshow:true},
+          {name:'销售员',creator:'系统默认',count:0,statement:'负责销售',isshow:true},
+          {name:'未授权',creator:'系统默认',count:0,statement:'普通员工',isshow:true}
+        ],
+        searchCount:0
       },
       methods:{
         search(){
+          let flag=false;
+          this.searchCount=0;
+          let reg = new RegExp(this.searchContent);
           for(let u of this.users){
-            if(u.name===this.searchContent||u.account===this.searchContent){
+            if(reg.test(u.name)||reg.test(u.account)){
               u.isshow=true;
+              this.searchCount++;
+              flag=true;
             }else{
               u.isshow=false;
             }
+          }
+          if(flag){
+            this.userName=this.searchContent;
+            this.userAccount='';
+          }else{
+            this.userName='用户名称';
+            this.userAccount='用户账号';
           }
           this.searchContent='';
         },
@@ -97,10 +151,81 @@
           for(let u of this.users){
             u.isshow=true;
           }
+          this.userName='用户名称';
+          this.userAccount='用户账号';
           this.searchContent='';
+          this.searchCount=0;
+        },
+        author(index){
+          console.log('coming author');
+          this.isshowDiaLog=true;
+          this.authorizedUser=this.users[index].name;
+          ShowAuthor();
+          this.name=this.users[index].name;
+          this.account=this.users[index].account;
+          this.department=this.users[index].department;
+          for(let r of this.roles){
+            if(r.name===this.users[index].role){
+              this.statement=r.statement;
+            }
+          }
+          for(let u of this.users){
+            if(u.name===this.name){
+              $('#userRole').val(u.role);
+            }
+          }
+        },
+        showDiaLog(){
+          this.isshowDiaLog=true;
+        },
+        closeWindow(){
+          sideslipContainer.hide();
+          $('#userRole').val("");
+        },
+        changeRoleConfirm(){
+          for(let u of this.users){
+            if(u.name===this.name){
+              u.role=$('#userRole').val();
+              this.closeWindow();
+            }
+          }
         }
+        
       }
+
     });
+  $(document).ready(function(){
+            $('#userRole').change(function(){
+                for(let r of vm.roles){
+                  if(r.name===$('select  option:selected').val()){
+                    vm.statement=r.statement;
+                  }
+                }
+            })
+        });
+  function ShowAuthor(e) {
+    sideslipContainer.load_sideslip({
+        id: 'AuthorInfo',
+        hide_ids: '',
+        hide_classNames: '',
+        hide_parentid: '',
+        objId: 'slideAuthor',
+        isId: true,
+        isIframe: false,
+        height: '100%',
+        width: '600px',
+        isscroll: true
+    });
+
+    if ($("#AuthorInfo").hasClass("is-visible")) {
+        sideslipContainer.hide();
+    } else {
+        sideslipContainer.show({
+            id: 'AuthorInfo',
+            elementObj: $(".InforBar_wrap-author")
+        });
+    }
+  }
   </script>
 </body>
 </html>
