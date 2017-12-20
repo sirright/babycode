@@ -47,14 +47,14 @@
             </ul>
             <div class="container-box" style="height: calc(100% - 48px)">
                 <ul id="containerBox">
-                    <li class="table-body-item" @click.stop="author" v-for="(role,index) in roles" v-if="role.isshow">
+                    <li class="table-body-item" v-for="(role,index) in roles" v-if="role.isshow">
                         <ul class="btable-body">
                             <li class="table-body-td w-25">{{role.name}}</li>
                             <li class="table-body-td w-20">{{role.creator}}</li>
                             <li class="table-body-td w-17">{{role.count}}</li>
-                            <li class="table-body-td w-19">{{role.state}}</li>
+                            <li class="table-body-td w-19">{{role.statement}}</li>
                             <li class="table-body-td p-l-20">
-                                <button class="btn btn-info btn-outline btn-sm" data-toggle="modal" data-target="#myModal1" @click="authorize(index)">授权</button>
+                                <button class="btn btn-info btn-outline btn-sm"data-toggle="modal" data-target="#myModal1" @click="authorize(index)">授权</button>
                             </li>
                         </ul>
                     </li>
@@ -111,7 +111,7 @@
               <div class="modal-header">
                   <h4 class="modal-title modal-title__author" id="myLargeModalLabel">
                      {{authorizedRole}}  <span class="modal-title__opera u-col01" id="roleOperator"><a href="###" @click="changeRole">编辑</a> <a href="###" @click="deleteRole">删除</a></span>
-                     <span class="modal-title__describe">角色说明：{{authorizedRole}}</span>
+                     <span class="modal-title__describe">角色说明：{{authorizedRoleStatement}}</span>
                   </h4>
               </div>
               <div class="modal-body">
@@ -207,25 +207,22 @@
     var systemRight = new Vue({
       el: '#systemRight',
       data: {
+        
         roleName:'',
         roleCreator:'',
         searchCount:0,
         searchContent:'',
         roles:[
-          {name:'系统管理员',creator:'系统默认',count:0,state:'管理系统',isshow:true},
-          {name:'运营员',creator:'系统默认',count:0,state:'负责运营',isshow:true},
-          {name:'维修员',creator:'系统默认',count:0,state:'负责维修',isshow:true},
-          {name:'销售员',creator:'系统默认',count:0,state:'负责销售',isshow:true}
+          {name:'系统管理员',creator:'系统默认',count:0,statement:'管理系统',isshow:true},
+          {name:'运营员',creator:'系统默认',count:0,statement:'负责运营',isshow:true},
+          {name:'维修员',creator:'系统默认',count:0,statement:'负责维修',isshow:true},
+          {name:'销售员',creator:'系统默认',count:0,statement:'负责销售',isshow:true}
         ]
       },
       methods: {
         addRole () {
           ShowDetail();
           slideDetail.isshowDiaLog=true;
-        },
-        author () {
-          console.log('coming author')
-          ShowAuthor()
         },
         search(){
           let count=0;
@@ -257,8 +254,10 @@
           this.searchContent='';
         },
         authorize(index){
+          ShowAuthor();
           let count=0;
           slideAuthor.authorizedRole=this.roles[index].name;
+          slideAuthor.authorizedRoleStatement=this.roles[index].statement;
           for(let u of slideAuthor.users){
             if(u.role===slideAuthor.authorizedRole){
               u.isshow=true;
@@ -276,7 +275,7 @@
     el:'#slideDetail',
     data:{
       isshowDiaLog:false,
-      newRole:{name:'',creator:'系统默认',count:0,state:'管理系统',isshow:true}
+      newRole:{name:'',creator:'系统默认',count:0,statement:'管理系统',isshow:true}
     },
     methods:{
       addRoleCertain(){
@@ -294,11 +293,11 @@
         if(flag){
           systemRight.roles.push(this.newRole);
         }
-        this.newRole={name:'',creator:'系统默认',count:0,state:'管理系统',isshow:true};
+        this.newRole={name:'',creator:'系统默认',count:0,statement:'管理系统',isshow:true};
         sideslipContainer.hide();
       },
       cancelAddRole(){
-        this.newRole={name:'',creator:'系统默认',count:0,state:'管理系统',isshow:true};
+        this.newRole={name:'',creator:'系统默认',count:0,statement:'管理系统',isshow:true};
         sideslipContainer.hide();
       }
     }
@@ -307,16 +306,17 @@
   var slideAuthor = new Vue({
     el:'#slideAuthor',
     data:{
+      authorizedRoleStatement:'',
       errorCode:false,
       allCheck:false,
       authorizedCount:0,
       isshowDiaLog:false,
       authorizedRole:'',
       users:[
-        {name:'张三',account:'admin1',department:'技术部',frequency:'交通频率',role:'系统管理员',statement:'角色说明',isshow:false,state:false},
-        {name:'李四',account:'admin2',department:'运营部 ',frequency:'经济频率',role:'运营员',statement:'角色说明',isshow:false,state:false},
-        {name:'陈琪',account:'admin3',department:'运营部 ',frequency:'行政频率',role:'运营员',statement:'角色说明',isshow:false,state:false},
-        {name:'王五',account:'admin4',department:'销售部',frequency:'工作频率',role:'销售员',statement:'角色说明',isshow:false,state:false}
+        {name:'张三',account:'admin1',department:'技术部',frequency:'交通频率',role:'系统管理员',isshow:false,state:false},
+        {name:'李四',account:'admin2',department:'运营部 ',frequency:'经济频率',role:'运营员',isshow:false,state:false},
+        {name:'陈琪',account:'admin3',department:'运营部 ',frequency:'行政频率',role:'运营员',isshow:false,state:false},
+        {name:'王五',account:'admin4',department:'销售部',frequency:'工作频率',role:'销售员',isshow:false,state:false}
       ]
     },
     methods:{
