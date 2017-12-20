@@ -1,61 +1,83 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
-    <div id="app" class="main">
-        <h1>小目标列表</h1>
-        <div class="list">
-            <h2>添加小目标</h2>
-            <input type="text" v-model="newGoal" @keyup.13="addGoal" class="text-keyword" placeholder="输入小目标后，按回车确认"/>
-            <p>共有{{goals.length}}个小目标</p>
-            <label>所有目标</label>
-            <input type="radio" name="chooseType" @click="choose(1)"checked="true"/>
-            <label>已完成目标</label>
-            <input type="radio" name="chooseType" @click="choose(2)">
-            <label>未完成目标</label>
-            <input type="radio" name="chooseType" @click="choose(3)">
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <style>
+            body{font-family: "微软雅黑";font-size: 14px;}
+            input{font-size: 14px;}
+            body,ul,div,html{padding: 0;margin: 0;}
+            .hidden{display: none;}
+            .main{width: 800px;margin: 0 auto;}
+            li{list-style-type: none;line-height: 40px;position: relative;border: 1px solid transparent;padding: 0 20px;}
+            li .type-span{display: block;width: 10px;height: 10px;background: #ccc;margin: 14px 10px 0 0 ;float: left;}
+            li .close{position: absolute;color: #f00;font-size: 20px;line-height: 40px;height: 40px;right: 20px;cursor: pointer;display: none;top: 0;}
+            li:hover{border: 1px solid #09f;}
+            li:hover .close{display: block;}
+            li .text-keyword{height: 40px;padding-left: 10px;box-sizing: border-box;margin-left: 10px;width: 80%;display: none;}
+            .text-keyword{box-sizing: border-box;width: 100%;height: 40px;padding-left: 10px;outline: none;}
+        </style>
+    </head>
+    <body>
+        <div id="app" class="main">
+            <h2>小目标列表</h2>
+            <div class="list">
+                <h3>添加小目标</h3>
+                <input type="text" class="text-keyword" placeholder="输入小目标后，按回车确认" v-model="newGoal.name" @keyup.13="addGoal"/>
+                <p>共有{{goalsCount}}个目标</p>
+                <p>
+                    <input type="radio" name="chooseType" checked="true"/><label>所有目标</label>
+                    <input type="radio" name="chooseType"/><label>已完成目标</label>
+                    <input type="radio" name="chooseType"/><label>未完成目标</label>
+                </p>
+            </div>
+            <ul>
+                <li class="li1" v-for="goal in goals">
+                    <div>
+                        <span class="type-span"></span>
+                        <span>{{goal.name}}</span>
+                        <span class="close">X</span>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li class="li1" v-for="(goal,index) in goals">
-                <div>
-                    <span class="type-span"></span>
-                    <span>{{goal.name}}</span>
-                    <span class="close" @click='deleteGoal(index)'>X</span>
-                </div>
-            </li>
-        </ul>
-    </div>
+    </body>
     <script src="js/vue.min.js"></script>
-    <script>
-        var vm = new Vue({
-            el:'#app',
-            data:{
-                newGoal:'',
-                goals:[
-                    {name:"html5",status:false},
-                    {name:"css3",status:false},
-                    {name:"vue",status:false},
-                    {name:"angular",status:false}
-                ]
-            },
-            methods:{
-                addGoal:function(){
-                    this.goals.push({name:this.newGoal,status:false});
-                    this.newGoal='';
-                },
-                deleteGoal:function(index){
-                    this.goals.splice(index,1);
-                },
-                choose(type){
-                    switch(type){
-                        
+    <script type="text/javascript">
+    new Vue({
+        el: "#app",
+        data: {
+            goalsCount:0,
+            newGoal:{name:'',status:false},
+            goals:[
+                {name:'html',status:false},
+                {name:'css',status:false},
+                {name:'javascript',status:false}
+            ]
+        },
+        computed:{
+            
+        },
+        methods:{
+            addGoal(){
+                if(this.newGoal.name===''){
+                    alert('小目标不能为空,请重新输入！');
+                    return;
+                }
+                for(let g of this.goals){
+                    if(g.name===this.newGoal.name){
+                        alert('该小目标已存在,请重新输入！');
+                        this.newGoalInit();
+                        return;
                     }
                 }
+                this.goals.push(this.newGoal);
+                this.newGoalInit();
+            },
+            newGoalInit(){
+                this.newGoal={name:'',state:false};
             }
-        });
+        }
+    });
     </script>
-</body>
 </html>

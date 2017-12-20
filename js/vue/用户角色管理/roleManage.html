@@ -29,7 +29,7 @@
           <span class="search-cancel" @click="cancelSearch">取消</span>
       </div>
       <div class="pull-right">
-        <button class="inl-block btn btn-info btn-outline btn-sm m-r-8"  @click = "addRole">新建角色</button>
+        <button class="inl-block btn btn-info btn-outline btn-sm m-r-8"  @click="addRole">新建角色</button>
         <div class="search-bar inl-block ">
           <input type="text" class="form-control search-box w-240 h-30" placeholder="请输入" v-model="searchContent" @keyup.13="search">
           <!-- <i title="搜索" class="iconfont icon-">&#xe600;</i> -->
@@ -70,36 +70,37 @@
               <div class="container-content">
                     <div class="content-list clearfix">
                       <label class="content-label"><span class="content-tip">*</span>角色名称</label>
-                      <input type="text" maxlength="32" class="form-control content-input" placeholder="请输入角色名称" v-model="newRole.name">
-                      <div class="content-note">(0/32)</div>
+                      <input type="text" maxlength="32" class="form-control content-input" placeholder="请输入角色名称" v-model="newRole.name" v-show="newRoleWindow">
+                      <div class="content-note" v-show="newRoleWindow">(0/32)</div>
+                      <span v-show="editRoleWindow">{{editedRoleName}}</span>
                     </div>
                     <div class="content-list clearfix">
                       <label class="content-label">说明</label>
-                      <textarea rows="3" maxlength="128" class="form-control content-input" placeholder="请输入" style="height: 74px;"></textarea>
+                      <textarea rows="3" maxlength="128" class="form-control content-input" placeholder="请输入" style="height: 74px;"  v-model="newRole.statement"></textarea>
                       <div class="content-note">(0/128)</div>
                     </div>
                     <div class="content-list clearfix">
                       <label class="content-label">控制权限</label>
                       <div class="content-checkboxs">
-                          <label class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 系统管理</label>
-                          <label class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 频道管理</label>
-                          <label class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 播出控制</label>
-                          <label class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 编单编排</label>
+                          <label class="content-checkboxs__item"><input type="checkbox" v-model="newRole.controlAuthority[0]" aria-label="..."> 系统管理</label>
+                          <label class="content-checkboxs__item"><input type="checkbox" v-model="newRole.controlAuthority[1]" aria-label="..."> 频道管理</label>
+                          <label class="content-checkboxs__item"><input type="checkbox" v-model="newRole.controlAuthority[2]" aria-label="..."> 播出控制</label>
+                          <label class="content-checkboxs__item"><input type="checkbox" v-model="newRole.controlAuthority[3]" aria-label="..."> 编单编排</label>
                       </div>
                     </div>
                     <div class="content-list clearfix">
                       <label class="content-label">数据权限</label>
                       <div class="content-checkboxs">
-                          <p class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 系统管理</p>
-                          <p class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 频道管理</p>
-                          <p class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 播出控制</p>
-                          <p class="content-checkboxs__item"><input type="checkbox" aria-label="..."> 编单编排</p>
+                          <p class="content-checkboxs__item"><input type="checkbox" v-model="newRole.dataAuthority[0]" aria-label="..."> 系统管理</p>
+                          <p class="content-checkboxs__item"><input type="checkbox" v-model="newRole.dataAuthority[1]" aria-label="..."> 频道管理</p>
+                          <p class="content-checkboxs__item"><input type="checkbox" v-model="newRole.dataAuthority[2]" aria-label="..."> 播出控制</p>
+                          <p class="content-checkboxs__item"><input type="checkbox" v-model="newRole.dataAuthority[3]" aria-label="..."> 编单编排</p>
                       </div>
                     </div>
               </div>
               <div class="modal-footer modal-footer__left">
-                  <button type="button" class="btn btn-info waves-effect text-left" id="addRoleConfirm" style="margin-left:12px;" @click="addRoleCertain">确定</button>
-                   <button type="button" class="btn btn-default waves-effect text-left" data-dismiss="modal" @click="cancelAddRole">取消</button>
+                  <button type="button" class="btn btn-info waves-effect text-left" id="addRoleConfirm" style="margin-left:12px;" @click.stop="addRoleCertain">确定</button>
+                   <button type="button" class="btn btn-default waves-effect text-left" data-dismiss="modal" @click.stop="cancelAddRole">取消</button>
               </div>
         </div><!-- end InforBar_wrap-->
 
@@ -207,22 +208,24 @@
     var systemRight = new Vue({
       el: '#systemRight',
       data: {
-        
         roleName:'',
         roleCreator:'',
         searchCount:0,
         searchContent:'',
         roles:[
-          {name:'系统管理员',creator:'系统默认',count:0,statement:'管理系统',isshow:true},
-          {name:'运营员',creator:'系统默认',count:0,statement:'负责运营',isshow:true},
-          {name:'维修员',creator:'系统默认',count:0,statement:'负责维修',isshow:true},
-          {name:'销售员',creator:'系统默认',count:0,statement:'负责销售',isshow:true}
+          {name:'系统管理员',creator:'系统默认',count:0,statement:'管理系统',controlAuthority:[false,false,false,false],dataAuthority:[false,false,false,false],isshow:true},
+          {name:'运营员',creator:'系统默认',count:0,statement:'负责运营',controlAuthority:[false,false,false,false],dataAuthority:[false,false,false,false],isshow:true},
+          {name:'维修员',creator:'系统默认',count:0,statement:'负责维修',controlAuthority:[false,false,false,false],dataAuthority:[false,false,false,false],isshow:true},
+          {name:'销售员',creator:'系统默认',count:0,statement:'负责销售',controlAuthority:[false,false,false,false],dataAuthority:[false,false,false,false],isshow:true}
         ]
       },
       methods: {
         addRole () {
+          newRoleInit();
           ShowDetail();
           slideDetail.isshowDiaLog=true;
+          slideDetail.newRoleWindow=true;
+          slideDetail.editRoleWindow=false;
         },
         search(){
           let count=0;
@@ -244,14 +247,14 @@
             this.roleName='角色名称';
             this.roleCreator='创建人';
           }
-          this.searchContent='';
           this.searchCount=count;
+          searchInit();
         },
         cancelSearch(){
           for(let r of this.roles){
             r.isshow=true;
           }
-          this.searchContent='';
+          searchInit();
         },
         authorize(index){
           ShowAuthor();
@@ -274,31 +277,41 @@
   var slideDetail = new Vue({
     el:'#slideDetail',
     data:{
+      editedRoleName:'',
+      newRoleWindow:false,
+      editRoleWindow:false,
       isshowDiaLog:false,
-      newRole:{name:'',creator:'系统默认',count:0,statement:'管理系统',isshow:true}
+      newRole:{name:'',creator:'系统默认',count:0,statement:'',controlAuthority:[false,false,false,false],dataAuthority:[false,false,false,false],isshow:true}
     },
     methods:{
       addRoleCertain(){
-        var flag = true;
-        if(this.newRole.name===''){
-          alert('角色名不能为空，请重新输入');
-          flag = false;
-        }
-        for(let r of systemRight.roles){
+        if(slideDetail.editRoleWindow===true){
+
+        }else{
+          var flag = true;
+          if(this.newRole.name===''){
+            alert('角色名不能为空，请重新输入');
+            flag = false;
+          }
+          for(let r of systemRight.roles){
             if(r.name===this.newRole.name){
               alert('该角色已存在，请重新输入');
               flag=false;
             }
+          }
         }
         if(flag){
           systemRight.roles.push(this.newRole);
         }
-        this.newRole={name:'',creator:'系统默认',count:0,statement:'管理系统',isshow:true};
-        sideslipContainer.hide();
+        newRoleInit();
+        hideSlide();
       },
       cancelAddRole(){
-        this.newRole={name:'',creator:'系统默认',count:0,statement:'管理系统',isshow:true};
-        sideslipContainer.hide();
+        newRoleInit();
+        hideSlide();
+      },
+      showDiaLog(){
+        this.isshowDiaLog=true;
       }
     }
     
@@ -346,7 +359,7 @@
       },
       closeAuthorizeWindow(){
         this.allNotChecked();
-        sideslipContainer.hide();
+        hideSlide();
       },
       allChecked(){
         let flag = false;
@@ -397,10 +410,20 @@
         }
         this.authorizedCount=this.authorizedCount-count;
         this.allNotChecked();
+        hideSlide();
       },
       changeRole(){
         sideslipContainer.hide();
-        systemRight.addRole();
+        ShowDetail();
+        slideDetail.isshowDiaLog=true;
+        slideDetail.newRoleWindow=false;
+        slideDetail.editRoleWindow=true;
+        slideDetail.editedRoleName=this.authorizedRole;
+        for(let r of systemRight.roles){
+          if(r.name===this.authorizedRole){
+            slideDetail.newRole=r;
+          }
+        }
       },
       deleteRole(){
         for(let u of this.users){
@@ -415,10 +438,19 @@
             systemRight.roles.splice(i,1);
           }
         }
-        sideslipContainer.hide();
+        hideSlide();
       }
     }
   });
+  function searchInit(){
+    systemRight.searchContent='';
+  }
+  function newRoleInit(){
+    slideDetail.newRole={name:'',creator:'系统默认',count:0,statement:'',controlAuthority:[false,false,false,false],dataAuthority:[false,false,false,false],isshow:true};
+  }
+  function hideSlide(){
+    sideslipContainer.hide();
+  }
   (function init(){
       for(r of systemRight.roles){
         for(u of slideAuthor.users){
