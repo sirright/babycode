@@ -72,11 +72,18 @@
                     }
                 }
                 this.goals.push(this.newGoal);
+                this.goalCount();
                 this.newGoalInit();
             },
             newGoalInit(){
                 this.newGoal={name:'',state:false};
+            },
+            goalCount(){
+                this.goalsCount=this.goals.length;
             }
+        },
+        mounted(){
+            this.goalCount();
         }
     });
     </script>
