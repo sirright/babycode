@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <textarea name="" id="test-response-text" cols="30" rows="10">
+            
+        </textarea>
+    </div>
+    <script>
+        function success(text){
+            var textarea = document.getElementById('test-response-text');
+            textarea.value = text;
+        }
+        function fail(code){
+            var textarea = document.getElementById('test-response-text');
+            textarea.value = 'Error code' + code; 
+        }
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function(){
+            if(request.readyState===4){
+                if(request.status===200){
+                    return success(reuqest.responseText);
+                }else{
+                    return fail(request.status);
+                }
+            }else{
+                console.log('请求还在响应');
+            }
+        }
+        request.open('GET','/api/categories');
+        request.send();
+    </script>
+</body>
+</html>

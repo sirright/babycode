@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <!-- canvas的坐标以左上角为原点，水平向右为X轴，垂直向下为Y轴 -->
+    <canvas id="test-canvas" width="500" height="300">
+    </canvas>
+    <script>
+        var canvas = document.getElementById('test-canvas');
+        //通过该方法拿到CanvasRenderingContext2D对象
+        var ctx = canvas.getContext("2d"); 
+        //HTML5的WebGL规范,用于在Canvas中绘制3D图形
+        var gl = canvas.getContext("webgl");
+        //擦除(0,0)位置大小为200X200的矩形,擦除的意思是把该区域变为透明
+        ctx.clearRect(0,0,200,200);
+        //设置颜色
+        ctx.fillStyle = '#dddddd';
+        //给(10,10)位置大小为130的矩阵上色
+        ctx.fillRect(10,10,130,130);
+        //利用path绘制复杂路径
+        var path = new Path2D();
+        path.arc(75,75,50,0,Math.PI*2,true);
+        ctx.strokeStyle = '#0000ff';
+        ctx.stroke(path);
+    </script>
+</body>
+</html>

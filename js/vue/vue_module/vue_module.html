@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my-com></my-com>
+    </div>
+    <div id="app1">
+        <my-com1></my-com1>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        Vue.component('my-com',{
+            '<div>this is my first component!</div>'
+        });
+        var vm = new Vue({
+            el:'#app'
+        });
+        var child ={
+                template:'<div>这是第二个组件</div>'
+        };
+        var vm1 = new Vue({
+            el:'#app1',
+            components:{
+                'my-com1':child
+            }
+        })
+    </script>
+</body>
+</html>

@@ -11,6 +11,9 @@
             .main{width: 800px;margin: 0 auto;}
             li{list-style-type: none;line-height: 40px;position: relative;border: 1px solid transparent;padding: 0 20px;}
             li .type-span{display: block;width: 10px;height: 10px;background: #ccc;margin: 14px 10px 0 0 ;float: left;}
+            li .status-span .status-end{
+                background: #09f;
+            }
             li .close{position: absolute;color: #f00;font-size: 20px;line-height: 40px;height: 40px;right: 20px;cursor: pointer;display: none;top: 0;}
             li:hover{border: 1px solid #09f;}
             li:hover .close{display: block;}
@@ -24,7 +27,7 @@
             <div class="list">
                 <h3>添加小目标</h3>
                 <input type="text" class="text-keyword" placeholder="输入小目标后，按回车确认" v-model="newGoal.name" @keyup.13="addGoal"/>
-                <p>共有{{goalsCount}}个目标</p>
+                <p>共有{{goalsCount}}个目标,已完成{{checkedGoalsCount}}个，未完成{{notCheckedGoalsCount}}</p>
                 <p>
                     <input type="radio" name="chooseType" checked="true"/><label>所有目标</label>
                     <input type="radio" name="chooseType"/><label>已完成目标</label>
@@ -32,11 +35,11 @@
                 </p>
             </div>
             <ul>
-                <li class="li1" v-for="goal in goals">
+                <li class="li1" v-for="(goal,index) in goals">
                     <div>
-                        <span class="type-span"></span>
+                        <span class="type-span" @click.stop="goal.status=!goal.status" v-bind:class="{'status-end':goal.status}"></span>
                         <span>{{goal.name}}</span>
-                        <span class="close">X</span>
+                        <span class="close" @click.stop="deleteGoal(index)">X</span>
                     </div>
                 </li>
             </ul>
@@ -47,6 +50,8 @@
     new Vue({
         el: "#app",
         data: {
+            notCheckedGoalsCount:0,
+            checkedGoalsCount:0,
             goalsCount:0,
             newGoal:{name:'',status:false},
             goals:[
@@ -80,6 +85,17 @@
             },
             goalCount(){
                 this.goalsCount=this.goals.length;
+                this.checkedGoalsCount=0;
+                for(let g of this.goals){
+                    if(g.status===true){
+                        this.checkedGoalsCount++;
+                    }
+                }
+                this.notCheckedGoalsCount=this.goalsCount-this.checkedGoalsCount;
+            },
+            deleteGoal(index){
+                this.goals.splice(index,1);
+                this.goalCount();
             }
         },
         mounted(){
