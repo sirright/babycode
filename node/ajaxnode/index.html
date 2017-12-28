@@ -1,0 +1,33 @@
+<!doctype>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <button id="btn1">food</button>
+        <button id="btn2">other</button>
+        <h1 id="content"></h1>
+        <script src="js/jquery-3.2.1.min.js"></script>
+    
+        <script>
+            $(document).ready(function(){
+                $("#btn1").click(function(){
+                    $.ajax({
+                        url:'http://127.0.0.1:3000/',
+                        type:'POST',
+                        async:true,
+                        data:{"name=food"}
+                    });
+                });
+                $("#btn2").click(function(){
+                    $.ajax({
+                        url:'http://127.0.0.1:3000/',
+                        type:'POST',
+                        data:{"name=other"}
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
