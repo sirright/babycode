@@ -16,16 +16,33 @@
                     $.ajax({
                         url:'http://127.0.0.1:3000/',
                         type:'POST',
+                        datatype:'text',
                         async:true,
-                        data:{"name=food"}
+                        data:{name:$("#btn1").text()},
+                        error:function(obj,err){
+                            console.log(obj.responseText);
+                            console.log("请求失败"+err);
+                        },
+                        success:function(data){
+                            console.log('请求成功');
+                            console.log(data);
+                            $("#content").text(data);
+                        }
                     });
+                    
                 });
                 $("#btn2").click(function(){
                     $.ajax({
                         url:'http://127.0.0.1:3000/',
                         type:'POST',
-                        data:{"name=other"}
+                        async:true,
+                        dataType:'text',
+                        data:{name:"other"},
+                        success:function(data){
+                            $("#content").text(data);
+                        }
                     });
+                    
                 });
             });
         </script>
