@@ -10,18 +10,24 @@ var users = require('./routes/users');
 
 var app = express();
 
-// view engine setup
+//设置views文件夹尾存放视图文件的目录,dirname为全局变量,存储正在执行脚本所在的目录.
 app.set('views', path.join(__dirname, 'views'));
+//设置视图模板引擎为ejs
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
+//设置/public/favicon.ico为favicon图标。
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//加载日志中间件
 app.use(logger('dev'));
+//加载解析json的中间件。
 app.use(bodyParser.json());
+//加载解析urlencoded请求体的中间件。
 app.use(bodyParser.urlencoded({ extended: false }));
+//加载解析cookie的中间件。
 app.use(cookieParser());
+//设置public文件夹为存放静态文件的目录。
 app.use(express.static(path.join(__dirname, 'public')));
-
+//设置路由控制
 app.use('/', index);
 app.use('/users', users);
 
@@ -42,6 +48,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;
