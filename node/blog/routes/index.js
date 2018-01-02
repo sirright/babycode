@@ -31,6 +31,14 @@ router.get('/', function(req, res, next) {
             res.render('index', {title: 'Express', user: doc });
         }
     });
+    let newUser = {name:"hhh",email:"asdawe@163.com",age:"88"};
+    userModel.create(newUser,function(err){
+        if(err){
+            console.log("err:"+err);
+            return;
+            res.send("添加成功");
+        }
+    });
 });
 
 module.exports = router;
