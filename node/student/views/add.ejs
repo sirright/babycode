@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>添加学生</h1>
+    <form action="/add" method="post">
+      <label for="studentName">
+        学生姓名:<input type="text" id="studentName" name="studentName">
+        <br/>
+      </label>
+      <label for="studentId">
+        学生ID:<input type="text" id="studentId" name="studentId">
+        <br/>
+      </label>
+      <label for="add">
+        <input type="submit" id="add" value="提交">
+      </label>
+    </form>
+  </body>
+</html>

@@ -39,4 +39,8 @@ history对象保存了浏览器的历史记录,js可以调用history对象的bac
 现在有ajax的大量使用,history的使用会让用户感到很愤怒.
 所以现在一般不使用history对象了.
 
+Promise
+由于javascript代码都是单线程执行的，所以所有的网络操作，浏览器事件都必须是异步执行的。
+
+
 

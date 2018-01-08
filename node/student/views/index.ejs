@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>班级成员信息</h1>
+    <ul>
+        <% for(let i=0;i<result.length;i++){ %>
+        <li>姓名:<%= result[i].name %> 学号:<%= result[i].studentId %></li>
+        <% } %>
+    </ul>
+    <p>成员操作</p>
+    <a href="/add">添加</a>
+    <a href="/delete">删除</a>
+    <a href="/update">修改</a>
+    <a href="/find">查询</a>
+  </body>
+</html>
