@@ -49,5 +49,15 @@ const routes = function(app){
             }
         })
     })
+    app.get('/search',function(req,res,next){
+        let response = res;
+        studentModel.find({},function(err,result,res){
+            if(err){
+                console.log("err:+"+err);
+            }else{
+                response.render('search',{title:"查询学生",result:result});
+            }
+        })
+    })
 }
 module.exports = routes;

@@ -5,16 +5,19 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>班级成员信息</h1>
+    <h1>查询学生</h1>
+    <label for="searchContent">
+        学生信息:<input type="text" id="searchContent" name="searchContent">
+    </label>
+    <input type="button" value="查询"><br/>
     <ul>
         <% for(let i=0;i<result.length;i++){ %>
         <li>姓名:<%= result[i].name %> 学号:<%= result[i].studentId %></li>
         <% } %>
     </ul>
-    <p>成员操作</p>
-    <a href="/add">添加</a>
-    <a href="/delete">删除</a>
-    <a href="/update">修改</a>
-    <a href="/search">查询</a>
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script>
+
+    </script>
   </body>
 </html>
