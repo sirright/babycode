@@ -1,12 +1,13 @@
 'use strict'
 const mongoose = require('mongoose')
 
-console.log('连接成功');
+mongoose.connect('mongodb://127.0.0.1:27017/test')
 const db = mongoose.connection
+db.on('error',console.error.bind(console,'connection error'))
 db.once('openUri',function callback(){
     console.log("MongoDB连接成功!")
 })
-mongoose.connect('mongodb://127.0.0.1:27017/test')
+
 //创建Schema
 const studentSchema = new mongoose.Schema({
     name: String,

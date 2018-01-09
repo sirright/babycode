@@ -16,18 +16,21 @@ const routes = function(app){
         res.render('add',{title:'添加学生'})
     })
     app.post('/add',function(req,res,next){
-        let response = res
-        response.setHeader("Content-type","text/html;charset=utf-8")
-        let name = req.body.studentName
-        let studentId = parseInt(req.body.studentId)
+        let response = res;
+        response.setHeader("Content-type","text/html;charset=utf-8");
+        response.setHeader("Access-Control-Allow-Origin","*");
+        let name = req.body.studentName;
+        let studentId = parseInt(req.body.studentId);
+        console.log("name:"+name+","+"id:"+studentId);
         studentModel.find({},function(err,result,res){
             if(err){
                 console.log("err:"+err)
             }else{
                 for(let r of result){
-
+                    console.log(r.name)
                     if(r.name===name||r.studentId===studentId){
-                        response.write("<a href='/'>姓名或id已存在,添加失败,点击返回首页</a>")
+                        console.log('failed');
+                        response.end("<a href='/'>姓名或id已存在,添加失败,点击返回首页</a>")
                         return;
                     }
                 }
@@ -39,12 +42,12 @@ const routes = function(app){
                     if(err){
                         console.log("err:"+err)
                     }else{
-                        response.write("<a href='/'>添加成功,点击返回首页</a>")
+                        console.log('succeed');
+                        response.end("<a href='/'>添加成功,点击返回首页</a>")
                     }
                 })
             }
         })
-        
     })
 }
 module.exports = routes;
