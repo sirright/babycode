@@ -23,24 +23,34 @@
     <script>
       $(document).ready(function(){
         $("#add").click(function(){
-          let reg1 = new RegExp('/^$/')
-          $.ajax({
-            type: 'POST',
-            url: 'http://127.0.0.1:3000/add',
-            data: "studentName="+$("#studentName").val()+"&studentId="+$("#studentId").val(),
-            dataType:'html',
-            async:true,
-            error:function(obj,err){
-              alert('请求失败');
-            },
-            success:function(data){
-              alert('请求成功');
-              document.write(data);
-            } 
-          });
+          let studentName = $("#studentName").val();
+          let studentId = $("#studentId").val();
+          let reg1 = /^[\u4e00-\u9fa5]{1,4}$/;
+          let reg2 = /^\d{1,6}$/;
+          if(reg1.test(studentName)){
+            if(reg2.test(studentId)){
+              $.ajax({
+                  type: 'POST',
+                  url: 'http://127.0.0.1:3000/add',
+                  data: "studentName="+studentName+"&studentId="+studentId,
+                  dataType:'html',
+                  async:true,
+                  error:function(obj,err){
+                    console.log('请求失败');
+                  },
+                  success:function(data){
+                    console.log('请求成功');
+                    document.write(data);
+                  } 
+              });
+            }else{
+              alert("请输入1到6位的学生Id!");
+            }
+          }else{
+            alert("请输入1到4个汉字!");
+          }
         })
       })
     </script>
- 
   </body>
 </html>

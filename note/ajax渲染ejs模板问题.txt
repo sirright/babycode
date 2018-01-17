@@ -1,0 +1,21 @@
+ajax接受模板后渲染到ejs的问题。
+后台：
+//渲染参数到XXXejs模板上
+res.render('XXX.ejs'，{参数});
+//必要步骤，否则ajax会请求失败。
+res.end();
+前端：
+$.ajax({
+	...
+	...
+	//请求成功后接受到的data是整个html页面
+	success:function(data){
+		//用document直接对整个页面进行覆盖就行了
+		document.write(data);
+		//务必要在document.write后关闭输出流，否则在该页面的后续操作都将无效。
+		document.close();
+	}
+})
+在延时脚本的最后一个document.write()方法后面，必须确保含有document.close()方法，
+不这样做就不能显示图像和表单，并且，任何后面调用的document.write()方法只会把内
+容追加到页面后，而不会清除现有内容来写入新值。

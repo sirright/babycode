@@ -8,6 +8,7 @@ const routes = function(app){
             if(err){
                 console.log("err:"+err)
             }else{
+
                 response.render('index',{result:result,title:'杰哥好'})
             }
         })
@@ -51,11 +52,26 @@ const routes = function(app){
     })
     app.get('/search',function(req,res,next){
         let response = res;
+        response.setHeader("Content-type","text/html;charset=utf-8");
+        response.setHeader("Access-Control-Allow-Origin","*");
         studentModel.find({},function(err,result,res){
+            response.render('search',{title:'查询学生',result:result})
+        })
+    })
+    app.post('/search',function(req,res,next){
+        let response = res;
+        response.setHeader("Content-type","text/html;charset=utf-8");
+        response.setHeader("Access-Control-Allow-Origin","*");
+        let searchContent = req.body.searchContent;
+        studentModel.find({"name":searchContent},function(err,result,res){
             if(err){
-                console.log("err:+"+err);
+                console.log("err:"+err);
             }else{
-                response.render('search',{title:"查询学生",result:result});
+                let result1 = JSON.stringify(result);
+                console.log(result1);
+                response.render('search',{title:'查询学生',result:result});
+                console.log('succeed render');
+                response.end();
             }
         })
     })
