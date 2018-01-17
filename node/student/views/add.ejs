@@ -31,7 +31,7 @@
             if(reg2.test(studentId)){
               $.ajax({
                   type: 'POST',
-                  url: 'http://127.0.0.1:3000/add',
+                  url: '/add',
                   data: "studentName="+studentName+"&studentId="+studentId,
                   dataType:'html',
                   async:true,

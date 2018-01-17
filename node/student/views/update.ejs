@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>修改学生信息</h1>
+    <ul>
+        <% for(let i=0;i<result.length;i++){ %>
+        <li>
+            姓名:<%= result[i].name %> 学号:<%= result[i].studentId %>
+            <input type="radio" value=<%= result[i].studentId %>>
+        </li>
+        <% } %>
+    </ul>
+  </body>
+</html>

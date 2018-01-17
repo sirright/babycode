@@ -22,7 +22,7 @@
                 let sc = $("#searchContent").val();
                 $.ajax({
                     type: 'POST',
-                    url: 'http://127.0.0.1:3000/search',
+                    url: '/search',
                     data: 'searchContent='+sc,
                     async: true,
                     dataType: 'html',
@@ -38,6 +38,10 @@
                     }
                 })
             })
+            $(document).keypress(function(e) {  
+                if (e.keyCode == 13)
+                $("#search").click();  
+            });
         })
     </script>
   </body>

@@ -63,15 +63,68 @@ const routes = function(app){
         response.setHeader("Content-type","text/html;charset=utf-8");
         response.setHeader("Access-Control-Allow-Origin","*");
         let searchContent = req.body.searchContent;
-        studentModel.find({"name":searchContent},function(err,result,res){
+        if(searchContent===""){
+            studentModel.find({},function(err,result,res){
+                if(err){
+                    console.log("err:"+err);
+                }else{
+                    response.render('search',{title:'查询学生',result:result})
+                }
+            })
+        }else{
+            studentModel.find({name:searchContent},function(err,result,res){
+                if(err){
+                    console.log("err:"+err);
+                }else{
+                    let result1 = JSON.stringify(result);
+                    console.log(result1);
+                    response.render('search',{title:'查询学生',result:result});
+                    console.log('succeed render');
+                    response.end();
+                }
+            })
+        }
+    })
+    app.get('/delete',function(req,res,next){
+        let response = res;
+        response.setHeader("ContentType","text/html;charset=utf-8");
+        response.setHeader("Access-Control-Allow-Origin","*");
+        studentModel.find({},function(err,result,res){
             if(err){
                 console.log("err:"+err);
             }else{
-                let result1 = JSON.stringify(result);
-                console.log(result1);
-                response.render('search',{title:'查询学生',result:result});
-                console.log('succeed render');
-                response.end();
+                response.render('delete',{title:'删除学生',result:result});
+            }
+        })
+    })
+    app.post('/delete',function(req,res,next){
+        let response = res;
+        let rst = [];
+        let idx = req.body.idx;
+        idx = parseInt(idx);
+        response.setHeader("ContentType","text/html;charset=utf-8");
+        response.setHeader("Access-Control-Allow-Origin","*");
+        studentModel.find({},function(err,result,res){
+            rst = result;
+            let name = rst[idx].name;
+            studentModel.remove({"name":name},function(err,result){
+                if(err){
+                    console.log('err:'+err);
+                }else{
+                    response.end();
+                }
+            })
+        })
+    })
+    app.get('/update',function(req,res,next){
+        let response = res;
+        response.setHeader("ContentType","text/html;charset=utf-8");
+        response.setHeader("Access-Control-Allow-Origin","*");
+        studentModel.find({},function(err,result,res){
+            if(err){
+                console.log("err:"+err);
+            }else{
+                response.render('update',{title:'修改学生',result:result})
             }
         })
     })
