@@ -1,0 +1,7 @@
+jquery的键盘监听事件
+$(document).keypress(function(e){
+	//13表示回车键，每个按键都有对应的数字
+	if(e.keyCode == 13){
+		//按下回车后执行的事件
+	}
+})
