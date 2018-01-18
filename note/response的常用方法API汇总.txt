@@ -1,0 +1,18 @@
+response.end([data][,encoding][,callback])
+如果指定了data，则等于response.write(data,encoding)+response.end(callback)
+该方法会通知服务器，所有响应头和响应主体都已被发送，
+即服务器将其视为已完成。每次响应都务必调用该方法。
+否则如请求会响应失败。
+
+
+response.setHeader(name,value)
+response.setHeader设置的响应头会与response.writeHead设置的响应头合并
+且response。writeHead优先。
+为一个隐式的响应头设置值。如果该头已存在，会被覆盖。
+发送多个名称相同的响应头时，用字符串数组。
+如response.setHeader('Set-Cookie', ['type=ninja', 'language=javascript']);
+
+
+response.write(chunk[,encoding][,callback])
+如果该方法被调用时，response.writeHead方法没有被调用，则它会调用response.setHeader.
+该方法会发送一块响应主体。它可被多次调用。
