@@ -1,0 +1,15 @@
+用了几次ejs后，发现有些时候也不是那么方便，
+突然想试试express下用其他模板看看。
+express新建的ejs模板项目中有这么一句代码
+
+app.set('view engine', 'ejs');
+//这句代码的意思就是用视图引擎渲染时可以省略ejs后缀，
+//比如，res.render('index.ejs')可以写成res.render('index')
+
+所以如果需要将模板替换为html，就要修改解析，如下:
+app.engine('html',require('ejs')__express);
+//这句代码的意思就是用ejs模板引擎去解析html
+app.set('view engine','html');
+//同上，加了这句之后就不需要在渲染时加上html后缀了。
+再将views文件夹中的ejs文件改为html文件就行了。
+

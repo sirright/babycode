@@ -5,14 +5,73 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>修改学生信息</h1>
-    <ul>
-        <% for(let i=0;i<result.length;i++){ %>
-        <li>
-            姓名:<%= result[i].name %> 学号:<%= result[i].studentId %>
-            <input type="radio" value=<%= result[i].studentId %>>
-        </li>
-        <% } %>
-    </ul>
+    <div>
+      <h1>修改学生信息</h1>
+    </div>
+    <div>
+      <ul>
+          <% for(let i=0;i<result.length;i++){ %>
+          <li>
+              姓名:<span class="stdName"><%= result[i].name %></span> 学号:<span class="stdId"><%= result[i].studentId %></span>
+              <a href="###">修改</a>
+          </li>
+          <% } %>
+      </ul>
+    </div>
+    <div>
+      <label for="studentName">
+        学生姓名: <input type="text" id="studentName" name="studentName">
+      </label>
+      <label for="studentId">
+        学号: <input type="text" id="studentId" name="studentId">
+      </label>
+      <span id="idx"></span>
+      <br/>
+      <label for="confirm">
+        <input type="button" value="确认修改" id="confirm">
+      </label>
+      
+    </div>
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("a").click(function(){
+          $("#studentName").val($(this).siblings().eq(0).text());
+          $("#studentId").val($(this).siblings().eq(1).text());
+          $("#idx").text($(this).parent().index());
+        })
+        $("#confirm").click(function(){
+          let idx = $("#idx").text();
+          let studentName = $("#studentName").val();
+          let studentId = $("#studentId").val();
+          let reg1 = /^[\u4e00-\u9fa5]{1,4}$/;
+          let reg2 = /^\d{1,6}$/;
+          if(reg1.test(studentName)){
+            if(reg2.test(studentId)){
+              $.ajax({
+                  type: 'POST',
+                  url: '/update',
+                  data: "studentName="+studentName+"&studentId="+studentId+"&idx="+idx,
+                  async:true,
+                  error:function(obj,err){
+                    console.log('请求失败');
+                  },
+                  success:function(data){
+                    console.log('请求成功');
+                    $('li').eq(idx).children().eq(0).text($("#studentName").val());
+                    $('li').eq(idx).children().eq(1).text($("#studentId").val());
+                    $("#studentName").val("");
+                    $("#studentId").val("");
+                  }
+              });
+            }else{
+              alert("请输入1到6位的学生Id!");
+            }
+          }else{
+            alert("请输入1到4个汉字!");
+          }
+        })
+      })
+    </script>
   </body>
 </html>

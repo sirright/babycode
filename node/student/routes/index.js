@@ -8,7 +8,6 @@ const routes = function(app){
             if(err){
                 console.log("err:"+err)
             }else{
-
                 response.render('index',{result:result,title:'杰哥好'})
             }
         })
@@ -19,7 +18,6 @@ const routes = function(app){
     app.post('/add',function(req,res,next){
         let response = res;
         response.setHeader("Content-type","text/html;charset=utf-8");
-        response.setHeader("Access-Control-Allow-Origin","*");
         let name = req.body.studentName;
         let studentId = parseInt(req.body.studentId);
         console.log("name:"+name+","+"id:"+studentId);
@@ -28,9 +26,7 @@ const routes = function(app){
                 console.log("err:"+err)
             }else{
                 for(let r of result){
-                    console.log(r.name)
                     if(r.name===name||r.studentId===studentId){
-                        console.log('failed');
                         response.end("<a href='/'>姓名或id已存在,添加失败,点击返回首页</a>")
                         return;
                     }
@@ -43,7 +39,6 @@ const routes = function(app){
                     if(err){
                         console.log("err:"+err)
                     }else{
-                        console.log('succeed');
                         response.end("<a href='/'>添加成功,点击返回首页</a>")
                     }
                 })
@@ -53,7 +48,6 @@ const routes = function(app){
     app.get('/search',function(req,res,next){
         let response = res;
         response.setHeader("Content-type","text/html;charset=utf-8");
-        response.setHeader("Access-Control-Allow-Origin","*");
         studentModel.find({},function(err,result,res){
             response.render('search',{title:'查询学生',result:result})
         })
@@ -61,7 +55,6 @@ const routes = function(app){
     app.post('/search',function(req,res,next){
         let response = res;
         response.setHeader("Content-type","text/html;charset=utf-8");
-        response.setHeader("Access-Control-Allow-Origin","*");
         let searchContent = req.body.searchContent;
         if(searchContent===""){
             studentModel.find({},function(err,result,res){
@@ -77,9 +70,7 @@ const routes = function(app){
                     console.log("err:"+err);
                 }else{
                     let result1 = JSON.stringify(result);
-                    console.log(result1);
                     response.render('search',{title:'查询学生',result:result});
-                    console.log('succeed render');
                     response.end();
                 }
             })
@@ -88,7 +79,6 @@ const routes = function(app){
     app.get('/delete',function(req,res,next){
         let response = res;
         response.setHeader("ContentType","text/html;charset=utf-8");
-        response.setHeader("Access-Control-Allow-Origin","*");
         studentModel.find({},function(err,result,res){
             if(err){
                 console.log("err:"+err);
@@ -99,14 +89,11 @@ const routes = function(app){
     })
     app.post('/delete',function(req,res,next){
         let response = res;
-        let rst = [];
         let idx = req.body.idx;
         idx = parseInt(idx);
         response.setHeader("ContentType","text/html;charset=utf-8");
-        response.setHeader("Access-Control-Allow-Origin","*");
         studentModel.find({},function(err,result,res){
-            rst = result;
-            let name = rst[idx].name;
+            let name = result[idx].name;
             studentModel.remove({"name":name},function(err,result){
                 if(err){
                     console.log('err:'+err);
@@ -119,13 +106,30 @@ const routes = function(app){
     app.get('/update',function(req,res,next){
         let response = res;
         response.setHeader("ContentType","text/html;charset=utf-8");
-        response.setHeader("Access-Control-Allow-Origin","*");
         studentModel.find({},function(err,result,res){
             if(err){
                 console.log("err:"+err);
             }else{
                 response.render('update',{title:'修改学生',result:result})
             }
+        })
+    })
+    app.post('/update',function(req,res,next){
+        
+        let response = res;
+        let newName = req.body.studentName;
+        let newId = req.body.studentId;
+        let idx = req.body.idx;
+        response.setHeader("ContentType","text/plain;charset=utf-8");
+        studentModel.find({},function(err,result,res){
+            let oldName = result[idx].name;
+            studentModel.update({name:oldName},{name:newName,studentId:newId},function(err,result){
+                if(err){
+                    console.log("err:"+err);
+                }else{
+                    response.end();
+                }
+            })
         })
     })
 }
