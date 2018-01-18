@@ -14,5 +14,13 @@ response.setHeader设置的响应头会与response.writeHead设置的响应头�
 
 
 response.write(chunk[,encoding][,callback])
+encoding参数指定如何将它编码成一个字节流，默认为utf8
 如果该方法被调用时，response.writeHead方法没有被调用，则它会调用response.setHeader.
 该方法会发送一块响应主体。它可被多次调用。
+
+response.writeHead(statusCode[, statusMessage][, headers])
+注意写response.writeHead时状态码是必填的
+该方法在消息中只能被调用一次，且必须在response.end()被调用之前调用。
+如果在该方法之前调用了response.write或write.end则会调用response.setHeader
+
+
