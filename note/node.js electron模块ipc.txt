@@ -1,0 +1,7 @@
+ipc.on('delete-reply',function(event,deletedData){
+        $("#delData").append("<p>"+deletedData+"</p>");
+        ipc.send('delete-continue');
+})
+一个很让人头疼的问题，ipc同步发送的话，发送之前的代码会失效
+异步发送的话，之前的代码能有效执行。怎么才能实现后台发送
+异步消息到前端并立刻执行渲染页面而不是等程序运行完毕再一次渲染页面
