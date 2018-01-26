@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button>try</button>
+    <div></div>
+    <script src="./library/jquery-3.2.1.min.js"></script>
+    <script>
+        $('button').click(function(){
+                let arr=[1,2,3,4,5,345,465,5467,3645]
+                arr.forEach(function(e){
+                    setTimeout((cons)(e),0);
+                })
+                function cons(demo){
+                    alert(demo)
+                }
+                // setInterval(function(){
+                //     console.log("hh")
+                // },1000);
+        })
+    </script>
+</body>
+</html>

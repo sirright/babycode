@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World!</title>
+    <style>
+      #delData{
+        line-height:10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    <button class="tool">开发者工具</button>
+    <div>
+      <label for="userName">
+        请输入端口号:<input type="text" id="userName" name="userName"><br/>
+      </label>
+      <label for="userPassword">
+        请输入端口号:<input type="text" id="userPassword" name="userPassword"><br/>
+      </label>
+      <label for="dbPort">
+        请输入端口号:<input type="text" id="dbPort" name="dbPort"><br/>
+      </label>
+      <label for="dbName">
+        请输入数据库名:<input type="text" id="dbName" name="dbName"><br/>
+      </label>
+      <label for="dbCollection">
+        请输入数据库集合名:<input type="text" id="dbCollection" name="dbCollection"><br/>
+      </label>
+      <button class="connecttest">连接测试</button><br>
+      <label for="filePath">
+        请输入文件地址:<input type="text" id="filePath" name="fileAddress"><br/>
+      </label>
+    </div>
+    <button class="startclear">开始清理</button>
+    <div id="delData">
+      
+    </div>
+    <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');</script>
+    <script type="text/javascript">
+      require('./renderer.js')
+    </script>
+  </body>
+</html>
