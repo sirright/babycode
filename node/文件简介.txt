@@ -1,6 +1,6 @@
 ajaxnode--一个我用来测试ajax请求的，可以忽略
 demo--写的第一个node.js项目，能实现上传图片和浏览图片，忽略
-dirtyclear--一个脏数据清理程序，还不完善，慎用
+cleaner--一个脏数据清理程序，还不完善，已做成桌面程序
 student--一个express+mongo完成的增删改查
 myproject--未来的毕业设计
 spiderdemo--一个基于superagent+cheerio的极简单爬虫

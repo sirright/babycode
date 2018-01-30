@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>云库脏数据清理</title>
+    <style>
+      div{
+        margin: 10px;
+      }
+      p{
+        margin: 5px;
+      }
+      span{
+        color: red;
+      }
+      input{
+        margin-left: 20px;
+        margin-top: 8px;
+      }
+      label{
+        margin-left: 10px;
+      }
+      .delData{
+        line-height: 10px;
+        height: 278px;
+        width: 750px;
+        border: 1px solid #ccc;
+        position: absolute;
+        top: 240px;
+        overflow-y: auto;
+      }
+      .instructions{
+        height: 70px;
+        width: 750px;
+        border: 1px solid #ccc;
+        line-height: 17px;
+      }
+      .dbConfigInf{
+        height: 80px;
+        width: 750px;
+        border: 1px solid #ccc;
+        position: absolute;
+        top: 80px;
+      }
+      .connectTest{
+        height: 40px;
+        width: 70px; 
+        position: absolute;
+        right: 120px;
+        top: 15px;
+      }
+      .collectionAndPath{ 
+        height: 60px;
+        width: 750px;
+        border: 1px solid #ccc;
+        position: absolute;
+        top: 168px;
+      }
+      .startClear{
+        height: 40px;
+        width: 70px;
+        position: absolute;
+        right: 60px;
+        top: 10px;
+      }
+      .tool{
+        height: 40px;
+        width: 56px;
+        position: absolute;
+        right: 40px;
+        top: 15px;
+      }
+      .rate{
+        position: absolute;
+        left: 15px;
+        top: 525px;
+      }
+      #dbCollection,#filePath{
+        margin-top: 15px; 
+      }
+    </style>
+  </head>
+  <body>
+    <div class="instructions">
+      <p>使用须知</p>
+      <p>该工具会清理所选数据库集合中所有GUID字段在文件路径中匹配不到的数据,<span>选择路径前要谨慎,路径选择不当会清空数据库,慎用.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;温馨提示:最小化能提高清理速度</p>
+    </div>
+    <div class="dbConfigInf">
+      <label for="userName" class="label">
+        用户名: <input type="text" id="userName" name="userName">
+      </label>
+      <label for="userPassword" class="label">
+        用户密码: <input type="text" id="userPassword" name="userPassword"><br/>
+      </label>
+      <label for="dbPort" class="label">
+        端口号: <input type="text" id="dbPort" name="dbPort">
+      </label>
+      <label for="dbName" class="label">
+        数据库名: <input type="text" id="dbName" name="dbName"><br/>
+      </label>
+      <button class="connectTest">连接测试</button>
+      <button class="tool">开发者工具</button>
+    </div>
+    <div class="collectionAndPath">
+      <label for="dbCollection" class="label">
+        集合名: <input type="text" id="dbCollection" name="dbCollection">
+      </label>
+      <label for="filePath" class="label">
+        文件地址: <input type="text" id="filePath" name="fileAddress"><br/>
+      </label>
+      <label for="startclear" class="label">
+        <button class="startClear" id="startClear">开始清理</button>
+      </label>
+    </div>
+    <div class="delData">
+      
+    </div>
+    <p class="rate">hh</p>
+    <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');</script>
+    <script type="text/javascript">
+      require('./renderer.js')
+    </script>
+  </body>
+</html>
