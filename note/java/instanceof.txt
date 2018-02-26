@@ -1,0 +1,3 @@
+检查运算符左侧变量所指对象是否是右侧的type，如果是则为真
+String name = “James”;
+boolean result = name instanceof String;

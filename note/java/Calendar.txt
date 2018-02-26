@@ -1,0 +1,8 @@
+Calendar是一个抽象类，一般用Calendar的getInstance方法创建
+Calendar c = Calendar.getInstance();
+c.set(2008,8,8);
+c.add(Calendar.DATE,10);	//日期+10
+c.add(Calendar.DATE,-10);	//日期-10
+int date = c.get(Calendar.DATE);
+int month = c.get(Calendar.MONTH)+1;	//月份从0开始算起，所以需要加1
+int day = c1.get(Calendar.DAY_OF_WEEK);		//1代表星期日、2代表星期1、3代表星期二

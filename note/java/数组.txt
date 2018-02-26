@@ -1,0 +1,13 @@
+数组的声明
+dataType[] arr;		//首选方法
+或者 dataType arr[];
+声明并创建数组
+dataType[] arr = new dataType[arraySize];
+数组的元素类型和数组的大小都是确定的，所以当处理数组元素的时候，
+我们通常使用基本循环或者foreach循环。
+
+数组类Array提供的一些方法
+给数组赋值：通过 fill 方法。
+对数组排序：通过 sort 方法,按升序。
+比较数组：通过 equals 方法比较数组中元素值是否相等。
+查找数组元素：通过 binarySearch 方法能对排序好的数组进行二分查找法操作。

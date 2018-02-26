@@ -1,0 +1,14 @@
+String类不可改变，一旦创建了String对象，它的值就无法改变了。
+String s = "Google";
+System.out.println("s = " + s);
+s = "Runoob";
+System.out.println("s = " + s);
+为什么看起来s还是改变了？
+原因在于实例中的 s 只是一个 String 对象的引用，并不是对象本身，
+当执行 s = "Runoob"; 创建了一个新的对象 "Runoob"，而原来的 "Google" 还存在于内存中。
+
+如果需要对一个String类做反复修改，则使用StringBuffer或者StringBuilder
+String 长度大小不可变
+StringBuffer 和 StringBuilder 长度可变
+StringBuffer 线程安全 StringBuilder 线程不安全
+StringBuilder 速度快

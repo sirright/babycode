@@ -1,0 +1,12 @@
+Java对于–128到127（默认是127）之间的值,被装箱后，会被放在内存里进行重用
+但是如果超出了这个值,系统会重新new 一个对象
+== 它比较的是对象的地址
+equals 比较的是对象的内容
+Integer a = 10;
+Integer b = 10;
+System.out.println(a == b);        // true
+System.out.println(a.equals(b));   // true
+Integer c = 1000;
+Integer d = 1000;
+System.out.println(c == d);        // false
+System.out.println(c.equals(d));   // true
