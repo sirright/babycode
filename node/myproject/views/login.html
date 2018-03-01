@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>当日达购物商城登录页面</title>
+	<title>登录页面</title>
     <style>
         body,html{
             margin: 0px;
@@ -51,7 +51,7 @@
             line-height: 8px;
         }
         .loghead{
-            height: 60px;
+            height: 40px;
         }
         .headline{
             color: red;
@@ -69,6 +69,9 @@
         }
         .bottom{
             color: #555555;
+        }
+        .wrong{
+            border :1px solid red;
         }
         .body-right .tab{
             line-height: 50px;
@@ -154,9 +157,16 @@
                             密码 : <input type="text" id="password">
                         </label>
                         <br/>
+                        <label>
+                            地区 : 
+                            <select id="logArea">
+                                <option v-for="area in areas" v-bind:value=area.value>{{area.text}}</option>    
+                            </select>
+                        </label>
+                        <br/>
                         <button class="subbtn" @click="loginConfirm">登录</button>
                     </div>
-                    <div class="tab-register" v-show="register">
+                    <div class="tab-register" v-show="!login">
                         <label for="account">
                             账号 : <input type="text" id="newAccount" placeholder="请输入6-10位字母数字组合">
                         </label>
@@ -173,14 +183,19 @@
                             手机号码 : <input type="text" id="phone" placeholder="请输入11位手机号码">
                         </label>
                         <br/>
+                        <label for="">
+                            收获地址 : <input type="text" id="address" placeholder="要包含地区全称">
+                        </label>
+                        <br/>
                         <label>
+                            <span>城市 : 杭州</span>&nbsp;&nbsp;&nbsp;&nbsp;
                             地区 : 
-                            <select id="area">
+                            <select id="registerArea">
                                 <option v-for="area in areas" v-bind:value=area.value>{{area.text}}</option>    
                             </select>
                         </label>
                         <br/>
-                        <button class="subbtn">注册</button>
+                        <button class="subbtn" @click="registerConfirm">注册</button>
                     </div>
                 </div>
                 <div>
@@ -190,10 +205,10 @@
             </div>
         </div>
         <div class="foot">
-            <a href="###" class="bottom">copyright@sirright</a><br/>
-            <a href="###" class="bottom">联系我们</a><br/>
-            <a href="###" class="bottom">QQ:1030986076</a>
-            <a href="###" class="bottom">邮箱:zwj1030986076@163.com</a>
+            <a href="javascript:;" class="bottom">copyright@sirright</a><br/>
+            <a href="javascript:;" class="bottom">联系我们</a><br/>
+            <a href="javascript:;" class="bottom">QQ:1030986076</a>
+            <a href="javascript:;" class="bottom">邮箱:zwj1030986076@163.com</a>
         </div>
 	</div>
 <script type="text/javascript" src="/javascripts/jquery-3.2.1.min.js"></script>
@@ -311,18 +326,15 @@
     el:'#logapp',
     data:{
         login: true,
-        register: false,
         areas:[{text:'滨江区',value:'bj'},{text:'余杭区',value:'yh'},{text:'下沙区',value:'xs'},{text:'拱墅区',value:'gs'}]
     },
     methods:{
         showLogTab(){
             this.login=true;
-            this.register=false;
             this.emptyRegisterInput();
         },
         showRegisterTab(){
             this.login=false;
-            this.register=true;
             this.emptyLoginInput();
         },
         loginConfirm(){
@@ -333,11 +345,12 @@
             }else{
                 let user = $('#account').val();
                 let password = $('#password').val();
-                console.log(user+","+password);
+                let logArea = $('#logArea').val();
+                console.log(logArea);
                 $.ajax({
                     type: 'POST',
                     url: '/login',
-                    data: "user="+user+"&password="+password,
+                    data: "user="+user+"&password="+password+"&logArea="+logArea,
                     dataType: 'html',
                     async: true,
                     error: function(obj,err){
@@ -345,8 +358,58 @@
                     },
                     success: function(data){
                         console.log('请求成功');
+                        window.location.href="/main";
                     }
                 });
+            }
+        },
+        registerConfirm(){
+            let newAccount = $('#newAccount').val();
+            let newPassword = $('#newPassword').val();
+            let confirmPwd = $('#confirmPwd').val();
+            let phone = $('#phone').val();
+            let registerArea = $('#registerArea').val();
+            let area = $('#registerArea option:selected').text();
+            let address = $('#address').val();
+            let exp1 = /^[0-9a-zA-Z]{6,10}$/;
+            let exp2 = /^\d{11}$/;
+            let flag = true;
+            if(!exp1.test(newAccount)){
+                $('#newAccount').addClass("wrong").val("");
+                flag = false;
+            }else{
+                $('#newAccount').removeClass("wrong");
+            }
+            if(!exp1.test(newPassword)){
+                $('#newPassword').addClass("wrong").val("");
+                flag = false;
+            }else{
+                $('#newAccount').removeClass("wrong");
+            }
+            if(confirmPwd!=newPassword||confirmPwd==""){
+                $('#confirmPwd').addClass("wrong").val("");
+                flag = false;
+            }else{
+                $('#newAccount').removeClass("wrong");
+            }
+            if(!exp2.test(phone)){
+                $('#phone').addClass("wrong").val("");
+                flag = false;
+            }else{
+                $('#newAccount').removeClass("wrong");
+            }
+            if(address.indexOf(area)===-1){
+                $('#address').addClass("wrong").val("");
+                flag = false;
+            }else{
+                $('#address').removeClass("wrong");
+            }
+            if(flag){
+                alert('注册成功,马上去登录吧');
+                this.emptyRegisterInput();
+                this.login = true;
+            }else{
+                alert('注意查看小提示正确输入注册信息');
             }
         },
         emptyLoginInput(){
@@ -359,6 +422,7 @@
             $('#confirmPwd').val('');
             $('#area').val('bj');
             $('#phone').val('');
+            $('#address').val('');
         }
     }
   });

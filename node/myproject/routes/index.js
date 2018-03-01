@@ -11,12 +11,19 @@ const routes = function(app){
     app.post('/login',function(req,res,next){
         let user = req.body.user;
         let password = req.body.password;
+        let logArea =  req.body.logArea;
         req.session.user = user;
-        console.log(req.session.user);
+        req.session.password = password;
+        req.session.logArea = logArea;
         res.end();
     })
     app.get('/session',function(req,res,next){
-        res.send(req.session.user);
+        let jsonStr = {
+            "user" : req.session.user,
+            "password" : req.session.password,
+            "logArea" : req.session.logArea
+        };
+        res.send(jsonStr);
         res.end();
     })
 }

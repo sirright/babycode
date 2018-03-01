@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>当日达购物商城</title>
     <style>
         body,html{
             margin: 0px;
@@ -55,6 +55,12 @@
             border: 1px solid #ccc;
             float: left;
         }
+        .usermanage{
+            color:  #8B7B8B;
+        }
+        .user{
+            font-size: 12px;
+        }
         .bottom{
             color: #555555;
         }
@@ -62,31 +68,52 @@
             background-color: black;
             color: white;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="head" id="head">
+    <div class="head" id="headapp">
         <span class="headline">当日达购物商城</span>
-        <a href="###" class="usermanage">用户中心</a>
-        <a href="###" class="user" v-model="user">{{user}}</a>
+        <a href="javascript:;" class="usermanage">用户中心</a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;" class="user" v-cloak>{{user}}</a>
     </div>
     <div class="canvas">
         <canvas id="cas"></canvas>
     </div>
-    <div class="area" id="area">
-        <a href="###" class="navi-area" @click="comshow=0" :class="{'choosed':comshow===0}">滨江区</a>
-        <a href="###" class="navi-area" @click="comshow=1" :class="{'choosed':comshow===1}">拱墅区</a>
-        <a href="###" class="navi-area" @click="comshow=2" :class="{'choosed':comshow===2}">下沙区</a>
-        <a href="###" class="navi-area" @click="comshow=3" :class="{'choosed':comshow===3}">余杭区</a>
-    </div>
-    <div class="commodity">
-        
+    <div id="comm">
+        <div class="area">
+            <a href="javascript:;" class="navi-area" @click="comshow='bj'" :class="{'choosed':comshow==='bj'}">滨江区</a>
+            <a href="javascript:;" class="navi-area" @click="comshow='gs'" :class="{'choosed':comshow==='gs'}">拱墅区</a>
+            <a href="javascript:;" class="navi-area" @click="comshow='xs'" :class="{'choosed':comshow==='xs'}">下沙区</a>
+            <a href="javascript:;" class="navi-area" @click="comshow='yh'" :class="{'choosed':comshow==='yh'}">余杭区</a>
+        </div>
+        <div class="commodity">
+            <div class="commodity-bj" v-show="comshow==='bj'">
+                <div class="commodity-type">滨江区</div>
+                <div class="commodity-content">物品</div>
+            </div>
+            <div class="commodity-bj" v-show="comshow==='gs'">
+                <div class="commodity-type">拱墅区</div>
+                <div class="commodity-content">物品</div>
+            </div>
+            <div class="commodity-bj" v-show="comshow==='xs'">
+                <div class="commodity-type">下沙区</div>
+                <div class="commodity-content">物品</div>
+            </div>
+            <div class="commodity-bj" v-show="comshow==='yh'">
+                <div class="commodity-type">余杭区</div>
+                <div class="commodity-content">物品</div>
+            </div>
+        </div>
     </div>
     <div class="foot">
-        <a href="###" class="bottom">copyright@sirright</a><br/>
-        <a href="###" class="bottom">联系我们</a><br/>
-        <a href="###" class="bottom">QQ:1030986076</a>
-        <a href="###" class="bottom">邮箱:zwj1030986076@163.com</a>
+        <a href="javascript:;" class="bottom">copyright@sirright</a><br/>
+        <a href="javascript:;" class="bottom">联系我们</a><br/>
+        <a href="javascript:;" class="bottom">QQ:1030986076</a>
+        <a href="javascript:;" class="bottom">邮箱:zwj1030986076@163.com</a>
     </div>
 <script type="text/javascript" src="/javascripts/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
@@ -199,18 +226,41 @@
     }
   }();    
   var head = new Vue({
-    el:'#head',
+    el: '#headapp',
     data:{
-        user:'',
+        user:'zzz',
+    },
+    mounted: function(){
+        $.ajax({
+            type: 'GET',
+            url: '/session',
+            data: "",
+            dataType : 'json',
+            async : true,
+            error : function(obj,err){
+                console.log('请求失败:'+err);
+            },
+            success: function(data){
+                console.log('请求成功!');
+                if(data.user===""){
+                    head.user = "请先登录";
+                    $(".user").css("color","red");
+                }else{
+                    head.user = "欢迎,"+data.user;
+                    $(".user").css("color","#4876FF");
+                    comm.comshow = data.logArea;
+                }
+            }
+        });
     },
     methods:{
 
     }
   });
-  var area = new Vue({
-    el : '#area',
+  var comm = new Vue({
+    el : '#comm',
     data:{
-        comshow:0
+        comshow: 'bj'
     },
     computed:{
 
