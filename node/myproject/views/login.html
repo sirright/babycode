@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>当日达购物商城登录页面</title>
+    <style>
+        body,html{
+            margin: 0px;
+            padding: 0px;
+        }
+        .head{
+            background-color: #F0F3EF;
+            height: 60px;
+            position: relative;
+        }
+        .canvas{
+            height:85px;
+        }
+        .body{
+            height: 520px;
+            position: realtive;
+        }
+        .body-left{
+            height: 420px;
+            width: 640px;
+            float: left;
+            text-align: center;
+            color: #4876FF;
+            padding-top: 80px;
+        }
+        .body-right{
+            height: 450px;
+            width: 765px;
+            float: right;
+            color: black;
+            margin-bottom: 5px;
+            background-color: #F0F3EF;
+            text-align: center;
+            padding-top: 60px;
+        }
+        .foot{
+            height: 100px;
+            background-color: #F0F3EF;
+            text-align: center;
+            line-height: 27px;
+        }
+        .deschead{
+            height:60px;
+        }
+        .desccontent{
+            line-height: 8px;
+        }
+        .loghead{
+            height: 60px;
+        }
+        .headline{
+            color: red;
+            font-size: 30px;
+            font-weight: bold;
+            float :left;
+            margin :6px;
+        }
+        .descheadline{
+            font-size: 20px;
+        }
+        .logheadline{
+            color: black;
+            font-size: 25px;
+        }
+        .bottom{
+            color: #555555;
+        }
+        .body-right .tab{
+            line-height: 50px;
+            background-color: white;
+        }
+        .subbtn{
+            display: inline-block;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font: 14px/100% Arial, Helvetica, sans-serif;
+            padding: .5em 2em .55em;
+            text-shadow: 0 1px 1px rgba(0,0,0,.3);
+            -webkit-border-radius: .5em; 
+            -moz-border-radius: .5em;
+            border-radius: .5em;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+            box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        }
+        .subbtn:hover {
+            text-decoration: none;
+        }
+        .subbtn:active {
+            position: relative;
+            top: 1px;
+        }
+        .tabbtn, .tabbtn:visited {
+            background: #222;
+            display: inline-block;
+            padding: 5px 10px 6px;
+            color: #fff;
+            text-decoration: none;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+            border-bottom: 1px solid rgba(0,0,0,0.25);
+            position: relative;
+            cursor: pointer
+        }
+        .tabbtn{
+            height: 40px;
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+	<div>
+		<div class="head">
+            <span class="headline">当日达购物商城</span>      
+        </div>
+        <div class="canvas">
+            <canvas id="cas"></canvas>
+        </div>
+		<div class="body">
+            <div class="body-left">
+                <div class="deschead">
+                    <span class="descheadline">当日达购物商城</span>
+                </div>
+                <div class="desccontent">
+                    <p>是一个提供新鲜蔬菜，水果以及肉类的购物网站</p>
+                    <p>承诺可配送范围内下单的用户当日送达</p>
+                    <p>时间根据配送点与站点距离调整，一般2小时内即可送达</p>
+                    <p>保证送达的食品足够新鲜并且保存良好</p>
+                    <p>若有损坏，请立即联系客服退换</p>
+                    <p>我们要做到物廉价美，火速送达，品质优先，顾客体验为先</p>
+                </div>
+            </div>
+            <div class="body-right" id="logapp">
+                <div class="loghead">
+                    <span class="logheadline">账号登录</span><br/>
+                </div>
+                <div class="tab">
+                    <div class="tab-login" v-show="login">
+                        <label for="account">
+                            账号 : <input type="text" id="account">
+                        </label>
+                        <br/>
+                        <label for="password">
+                            密码 : <input type="text" id="password">
+                        </label>
+                        <br/>
+                        <button class="subbtn" @click="loginConfirm">登录</button>
+                    </div>
+                    <div class="tab-register" v-show="register">
+                        <label for="account">
+                            账号 : <input type="text" id="newAccount" placeholder="请输入6-10位字母数字组合">
+                        </label>
+                        <br/>
+                        <label for="password">
+                            密码 : <input type="text" id="newPassword" placeholder="请输入6-10位字母数字组合">
+                        </label>
+                        <br/>
+                        <label for="confirmPwd">
+                            确认密码 : <input type="text" id="confirmPwd" placeholder="请确认密码">
+                        </label>
+                        <br/>
+                        <label for="phone">
+                            手机号码 : <input type="text" id="phone" placeholder="请输入11位手机号码">
+                        </label>
+                        <br/>
+                        <label>
+                            地区 : 
+                            <select id="area">
+                                <option v-for="area in areas" v-bind:value=area.value>{{area.text}}</option>    
+                            </select>
+                        </label>
+                        <br/>
+                        <button class="subbtn">注册</button>
+                    </div>
+                </div>
+                <div>
+                    <button class="tabbtn" @click="showLogTab">我要登录</button>
+                    <button class="tabbtn" @click="showRegisterTab">我要注册</button>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <a href="###" class="bottom">copyright@sirright</a><br/>
+            <a href="###" class="bottom">联系我们</a><br/>
+            <a href="###" class="bottom">QQ:1030986076</a>
+            <a href="###" class="bottom">邮箱:zwj1030986076@163.com</a>
+        </div>
+	</div>
+<script type="text/javascript" src="/javascripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="/javascripts/vue.js"></script>
+<script>
+  !function() {
+    var canvas = document.getElementById('cas');
+    var ctx = canvas.getContext('2d');
+    var rgb = '0';      // 线条颜色值
+    var extendDis = 5;   // 可超出的画布边界
+    var lineDis = 100;    // 连线距离
+    lineDis *= lineDis;
+    canvas.width = 1410;
+    canvas.height = 85;
+    var RAF = (function() {
+      return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+          };
+    })();
+    // 鼠标活动时，获取鼠标坐标
+    var warea = {x: null, y: null};
+    window.onmousemove = function(e) {
+      e = e || window.event;
+      warea.x = e.clientX - canvas.offsetLeft;
+      warea.y = e.clientY - canvas.offsetTop;
+    };
+    window.onmouseout = function(e) {
+      warea.x = null;
+      warea.y = null;
+    };
+    // 添加粒子
+    // x，y为粒子坐标，xa, ya为粒子xy轴加速度，max为连线的最大距离
+    var dots = [];
+    for (var i = 0; i < 150; i++) {
+      var x = Math.random() * (canvas.width + 2 * extendDis) - extendDis;
+      var y = Math.random() * (canvas.height + 2 * extendDis) - extendDis;
+      var xa = (Math.random() * 2 - 1) / 1.5;
+      var ya = (Math.random() * 2 - 1) / 1.5;
+      dots.push({
+        x: x,
+        y: y,
+        xa: xa,
+        ya: ya
+      })
+    }
+    // 延迟100秒开始执行动画，如果立即执行有时位置计算会出错
+    setTimeout(function() {
+      animate();
+    }, 100);
+    // 每一帧循环的逻辑
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      bubDrawLine([warea].concat(dots));
+      RAF(animate);
+    }
+    /**
+     * 逐个对比连线
+     * @param ndots
+     */
+    function bubDrawLine(ndots) {
+      var ndot;
+      dots.forEach(function(dot) {
+        move(dot);
+        // 循环比对粒子间的距离
+        for (var i = 0; i < ndots.length; i++) {
+          ndot = ndots[i];
+          if (dot === ndot || ndot.x === null || ndot.y === null) continue;
+          var xc = dot.x - ndot.x;
+          var yc = dot.y - ndot.y;
+          // 如果x轴距离或y轴距离大于max,则不计算粒子距离
+          if (xc > ndot.max || yc > lineDis) continue;
+          // 两个粒子之间的距离
+          var dis = xc * xc + yc * yc;
+          // 如果粒子距离超过max,则不做处理
+          if (dis > lineDis) continue;
+          // 距离比
+          var ratio;
+          // 如果是鼠标，则让粒子向鼠标的位置移动
+          if (ndot === warea && dis < 20000) {
+            dot.x -= xc * 0.01;
+            dot.y -= yc * 0.01;
+          }
+          // 计算距离比
+          ratio = (lineDis - dis) / lineDis;
+          // 粒子间连线
+          ctx.beginPath();
+          ctx.lineWidth = ratio / 2;
+          ctx.strokeStyle = 'rgba(' + rgb + ', ' + rgb + ', ' + rgb + ', 1';
+          ctx.moveTo(dot.x, dot.y);
+          ctx.lineTo(ndot.x, ndot.y);
+          ctx.stroke();
+        }
+        // 将已经计算过的粒子从数组中删除
+        ndots.splice(ndots.indexOf(dot), 1);
+      });
+    }
+    /**
+     * 粒子移动
+     * @param dot
+     */
+    function move(dot) {
+      dot.x += dot.xa;
+      dot.y += dot.ya;
+      // 遇到边界将加速度反向
+      dot.xa *= (dot.x > (canvas.width + extendDis) || dot.x < -extendDis) ? -1 : 1;
+      dot.ya *= (dot.y > (canvas.height + extendDis) || dot.y < -extendDis) ? -1 : 1;
+      // 绘制点
+      ctx.fillStyle = 'rgba(' + rgb + ', ' + rgb + ', ' + rgb + ', 1';
+      ctx.fillRect(dot.x - 0.5, dot.y - 0.5, 1, 1);
+    }
+  }();
+
+ var app = new Vue({
+    el:'#logapp',
+    data:{
+        login: true,
+        register: false,
+        areas:[{text:'滨江区',value:'bj'},{text:'余杭区',value:'yh'},{text:'下沙区',value:'xs'},{text:'拱墅区',value:'gs'}]
+    },
+    methods:{
+        showLogTab(){
+            this.login=true;
+            this.register=false;
+            this.emptyRegisterInput();
+        },
+        showRegisterTab(){
+            this.login=false;
+            this.register=true;
+            this.emptyLoginInput();
+        },
+        loginConfirm(){
+            if($('#account').val()===""){
+                alert('账号不能为空,请重新输入！');
+            }else if($('#password').val()===""){
+                alert('密码不能为空');
+            }else{
+                let user = $('#account').val();
+                let password = $('#password').val();
+                console.log(user+","+password);
+                $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    data: "user="+user+"&password="+password,
+                    dataType: 'html',
+                    async: true,
+                    error: function(obj,err){
+                        console.log('请求失败:'+err);
+                    },
+                    success: function(data){
+                        console.log('请求成功');
+                    }
+                });
+            }
+        },
+        emptyLoginInput(){
+            $('#account').val('');
+            $('#password').val('');
+        },
+        emptyRegisterInput(){
+            $('#newAccount').val('');
+            $('#newPassword').val('');
+            $('#confirmPwd').val('');
+            $('#area').val('bj');
+            $('#phone').val('');
+        }
+    }
+  });
+</script>
+</body>
+</html>
