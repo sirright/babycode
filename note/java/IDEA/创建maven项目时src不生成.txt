@@ -1,0 +1,3 @@
+没有src目录是因为maven没有加载好，
+创建maven项目时，添加archetypeCatalog = internal，
+会使maven加载速度更快

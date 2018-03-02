@@ -1,0 +1,3 @@
+部署时
+Run -> Edit COnfigurations
+选择第一个artifact而不是第二个就能正常运行

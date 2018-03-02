@@ -1,0 +1,7 @@
+解决方式：
+选择File -> Project Structure
+选择Modules选项卡下面的Sources项,在main文件夹上右键,选择New Folder...并点击OK
+输入要后才能构建的文件夹名称java,点击OK继续
+在创建好的java文件夹上右键选择Sources项将该文件夹标记为源文件(java文件夹变蓝色)
+
+
