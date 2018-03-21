@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>资源分享系统</title>
+    <link rel="stylesheet" type="text/css" href="res/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="res/plugin/bootstrap.min.css">
+    <style>
+        label{
+            line-height: 60px;
+            margin-left: 30px;
+        }
+        th{
+            background-color: #e6e6e6;
+        }
+        a{
+            text-decoration: none;
+        }
+        .user, .changePwd, .management{
+            float: right;
+            text-decoration: none;
+            margin-right: 20px;
+            line-height: 60px;
+        }
+        .changePwd, .management{
+            color:  #8B7B8B;
+        }
+        .user{
+            color: darkturquoise;
+        }
+        .body{
+            border-top: 1px solid #ccc;
+        }
+        .body-left{
+            width: 200px;
+            height: 540px;
+            float: left;
+            border-right: 1px solid #ccc;
+        }
+        .body-right{
+            height: 540px;
+            width: 1222px;
+            float: left;
+        }
+        .body-left-top{
+            height: 80px;
+            width: 200px;
+            background-color: #ccc;
+        }
+        .body-left-bottom{
+            height: 480px;
+            width: 200px;
+        }
+        .body-right-top{
+            height: 80px;
+            width: 1222px;
+            border-bottom: 1px solid #ccc;
+            position: relative;
+        }
+        .body-right-bottom{
+            height: 460px;
+            width: 1222px;
+        }
+        .depart-headline{
+            display: block;
+            font-size: 30px;
+            padding-left: 13px;
+            padding-top: 15px;
+            color: #444444;
+        }
+        .resource-headline{
+            font-size: 18px;
+            margin-left: 10px;
+            color: #555555;
+        }
+        #search {
+            height: 40px;
+            width: 400px;
+            margin-left: 500px;
+            margin-right: 20px;
+            margin-top: 20px;
+        }
+        .searchBtn{
+            display: inline-block;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font: 14px/100% Arial, Helvetica, sans-serif;
+            padding: .5em 2em .55em;
+            margin-right: 20px;
+            text-shadow: 0 1px 1px rgba(0,0,0,.3);
+            -webkit-border-radius: .5em;
+            -moz-border-radius: .5em;
+            border-radius: .5em;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+            box-shadow: 0 1px 2px rgba(0,0,0,.2);
+
+        }
+        .searchBtn:hover {
+            text-decoration: none;
+        }
+        .searchBtn:active {
+            position: relative;
+            top: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="head" id="head">
+            <span class="headline">资源分享系统</span>
+            <a href="javascript:;" class="management" @click="goLogin">管理中心</a>
+            <a href="javascript:;" class="changePwd">修改密码</a>
+            <a href="javascript:;" class="user" v-cloak>{{user}}</a>
+        </div>
+        <div class="canvas">
+            <canvas id="cas"></canvas>
+        </div>
+        <div class="body" id="body">
+            <div class="body-left">
+                <div class="body-left-top">
+                    <span class="depart-headline">部门</span>
+                </div>
+                <div class="body-left-bottom">
+                    <ul v-for="depart0 in depart0s" v-cloak>
+                        {{depart0.department_name}}
+                        <ul v-for="depart1 in depart1s" v-cloak>
+                            {{depart1.department_name}}
+                            <ul v-for="depart2 in depart2s" v-cloak>
+                                {{depart2.department_name}}
+                                <ul v-for="depart3 in depart3s" v-cloak>
+                                    {{depart3.department_name}}
+                                </ul>
+                            </ul>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+            <div class="body-right">
+                <div class="body-right-top">
+                    <span class="resource-headline">资源列表</span>
+                    <label for="search">
+                        <input type="text" id="search" v-model="searchContent" placeholder="请输入资源名称" @keyup.13="search">
+                    </label>
+                    <button class="searchBtn" @click="search">搜索</button>
+                    <a href="javascript:;" @click="cancelSearch">取消</a>
+                </div>
+                <div class="body-right-bottom">
+                    <table class="table">
+                        <tr>
+                            <th>资源名称</th>
+                            <th>资源类型</th>
+                            <th>资源大小</th>
+                            <th>资源路径</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr v-for="(resource,index) in resources" v-show="resource.isshow" v-cloak>
+                            <td>{{resource.resource_name}}</td>
+                            <td>{{resource.resource_type}}</td>
+                            <td>{{resource.resource_size}}</td>
+                            <td>{{resource.resource_path}}</td>
+                            <td><a href="javascript:;">预览</a>&nbsp;&nbsp;&nbsp;<a href="javascript:;" @click="download(index)">下载</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <a href="javascript:;" class="bottom">copyright@hzlh</a><br/>
+            <a href="javascript:;" class="bottom">联系我们</a><br/>
+            <a href="javascript:;" class="bottom">QQ:XXXXXXXXX</a>
+            <a href="javascript:;" class="bottom">邮箱:XXXXXXXXXX</a>
+        </div>
+    </div>
+<script src="res/plugin/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="res/plugin//vue.js"></script>
+<script>
+    !function() {
+        var canvas = document.getElementById('cas');
+        var ctx = canvas.getContext('2d');
+        var rgb = '0';      // 线条颜色值
+        var extendDis = 5;   // 可超出的画布边界
+        var lineDis = 100;    // 连线距离
+        lineDis *= lineDis;
+        canvas.width = 1435;
+        canvas.height = 85;
+        var RAF = (function() {
+            return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+                window.setTimeout(callback, 1000 / 60);
+            };
+        })();
+        // 鼠标活动时，获取鼠标坐标
+        var warea = {x: null, y: null};
+        window.onmousemove = function(e) {
+            e = e || window.event;
+            warea.x = e.clientX - canvas.offsetLeft;
+            warea.y = e.clientY - canvas.offsetTop;
+        };
+        window.onmouseout = function(e) {
+            warea.x = null;
+            warea.y = null;
+        };
+        // 添加粒子
+        // x，y为粒子坐标，xa, ya为粒子xy轴加速度，max为连线的最大距离
+        var dots = [];
+        for (var i = 0; i < 150; i++) {
+            var x = Math.random() * (canvas.width + 2 * extendDis) - extendDis;
+            var y = Math.random() * (canvas.height + 2 * extendDis) - extendDis;
+            var xa = (Math.random() * 2 - 1) / 1.5;
+            var ya = (Math.random() * 2 - 1) / 1.5;
+            dots.push({
+                x: x,
+                y: y,
+                xa: xa,
+                ya: ya
+            })
+        }
+        // 延迟100秒开始执行动画，如果立即执行有时位置计算会出错
+        setTimeout(function() {
+            animate();
+        }, 100);
+        // 每一帧循环的逻辑
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            bubDrawLine([warea].concat(dots));
+            RAF(animate);
+        }
+        /**
+         * 逐个对比连线
+         * @param ndots
+         */
+        function bubDrawLine(ndots) {
+            var ndot;
+            dots.forEach(function(dot) {
+                move(dot);
+                // 循环比对粒子间的距离
+                for (var i = 0; i < ndots.length; i++) {
+                    ndot = ndots[i];
+                    if (dot === ndot || ndot.x === null || ndot.y === null) continue;
+                    var xc = dot.x - ndot.x;
+                    var yc = dot.y - ndot.y;
+                    // 如果x轴距离或y轴距离大于max,则不计算粒子距离
+                    if (xc > ndot.max || yc > lineDis) continue;
+                    // 两个粒子之间的距离
+                    var dis = xc * xc + yc * yc;
+                    // 如果粒子距离超过max,则不做处理
+                    if (dis > lineDis) continue;
+                    // 距离比
+                    var ratio;
+                    // 如果是鼠标，则让粒子向鼠标的位置移动
+                    if (ndot === warea && dis < 20000) {
+                        dot.x -= xc * 0.01;
+                        dot.y -= yc * 0.01;
+                    }
+                    // 计算距离比
+                    ratio = (lineDis - dis) / lineDis;
+                    // 粒子间连线
+                    ctx.beginPath();
+                    ctx.lineWidth = ratio / 2;
+                    ctx.strokeStyle = 'rgba(' + rgb + ', ' + rgb + ', ' + rgb + ', 1';
+                    ctx.moveTo(dot.x, dot.y);
+                    ctx.lineTo(ndot.x, ndot.y);
+                    ctx.stroke();
+                }
+                // 将已经计算过的粒子从数组中删除
+                ndots.splice(ndots.indexOf(dot), 1);
+            });
+        }
+        /**
+         * 粒子移动
+         * @param dot
+         */
+        function move(dot) {
+            dot.x += dot.xa;
+            dot.y += dot.ya;
+            // 遇到边界将加速度反向
+            dot.xa *= (dot.x > (canvas.width + extendDis) || dot.x < -extendDis) ? -1 : 1;
+            dot.ya *= (dot.y > (canvas.height + extendDis) || dot.y < -extendDis) ? -1 : 1;
+            // 绘制点
+            ctx.fillStyle = 'rgba(' + rgb + ', ' + rgb + ', ' + rgb + ', 1';
+            ctx.fillRect(dot.x - 0.5, dot.y - 0.5, 1, 1);
+        }
+    }();
+    var head = new Vue({
+        el: '#head',
+        data: {
+            user: '欢迎'
+        },
+        methods: {
+            goLogin: function(){
+                window.location.href="/login";
+            }
+        },
+        mounted: function(){
+
+        }
+    });
+    var body = new Vue({
+        el: '#body',
+        data: {
+            searchContent: '',
+            depart0s:[],
+            depart1s:[],
+            depart2s:[],
+            depart3s:[],
+            resources: []
+        },
+        methods: {
+            search: function(){
+                var content = $("#search").val();
+                for(r of this.resources){
+                    if(r.resource_name.indexOf(content)==-1){
+                        r.isshow = false;
+                    }else{
+                        r.isshow = true;
+                    }
+                }
+            },
+            cancelSearch: function(){
+                for(r of this.resources){
+                    r.isshow = true;
+                }
+                this.searchContent="";
+            },
+            download: function(index){
+                let jsonObj = {
+                    "name": body.resources[index].resource_name,
+                    "department": body.resources[index].resource_department,
+                    "group": body.resources[index].resource_group,
+                    "type": body.resources[index].resource_type,
+                    "path": body.resources[index].resource_path
+                };
+                let filepath = "http://localhost:8080/resources/"+
+                    body.resources[index].resource_department+"/"+
+                    body.resources[index].resource_group+"/"+
+                    body.resources[index].resource_name+"."+
+                    body.resources[index].resource_type;
+                console.log(filepath);
+                let jsonStr = JSON.stringify(jsonObj);
+                var new_a = document.createElement('a');
+                new_a.setAttribute("href", filepath);
+                new_a.setAttribute("target", "_blank");
+                new_a.setAttribute("download", body.resources[index].resource_name);
+                new_a.style.display = "none";
+                document.body.appendChild(new_a);
+                new_a.click();
+                document.body.removeChild(new_a);
+                // $.ajax({
+                //     type: 'POST',
+                //     url: '/download',
+                //     contentType: 'application/json',
+                //     dataType: 'text',
+                //     data: jsonStr,
+                //     async: true,
+                //     error: function(obj,err){
+                //         console.log('请求失败:'+err);
+                //     },
+                //     success: function(data){
+                //         console.log('请求成功:'+data);
+                //     }
+                // });
+            }
+        },
+        created: function(){
+            $.ajax({
+                type: 'GET',
+                url: '/getResources',
+                dataType: 'json',
+                async: true,
+                error: function(obj,err){
+                    console.log('请求失败:'+err);
+                },
+                success: function(data){
+                    var resources = eval("("+JSON.stringify(data)+")");
+                    console.log('getResources:'+resources);
+                    for(j of resources){
+                        j.isshow=true;
+                    }
+                    body.resources = resources;
+                }
+            });
+            $.ajax({
+               type: 'GET',
+               url: '/getDepartments',
+               dataType: 'json',
+               async: true,
+               error: function(obj,err){
+                   console.log('请求失败:'+err);
+               },
+               success: function(data){
+                   var firstId=[],secondId=[],thirdId=[],fourthId=[];
+                   var departs = eval("("+JSON.stringify(data)+")");
+                   console.log('getDeparts:'+departs);
+                   for(d of departs){
+                       d.isshow = true;
+                       if(d.department_parentid==0){
+                           body.depart0s.push(d);
+                           firstId.push(d.department_id);
+                       }
+                   }
+                   for(d of departs){
+                       for(fid of firstId){
+                           if(fid == d.department_parentid){
+                               body.depart1s.push(d);
+                               secondId.push(d.department_id);
+                           }
+                       }
+                   }
+                   for(d of departs){
+                       for(fid of secondId){
+                           if(fid == d.department_parentid){
+                               body.depart2s.push(d);
+                               thirdId.push(d.department_id);
+                           }
+                       }
+                   }
+                   for(d of departs){
+                       for(fid of thirdId){
+                           if(fid == d.department_parentid){
+                               body.depart3s.push(d);
+                               fourthId.push(d.department_id);
+                           }
+                       }
+                   }
+               }
+            });
+        }
+    });
+</script>
+</body>
+</html>

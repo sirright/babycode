@@ -1,0 +1,2 @@
+在配置tomcat时在 Tomcat Server Settings页面下将8080端口后的
+Deploy applications configured in Tomcat instance勾上就可以了

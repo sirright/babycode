@@ -1,0 +1,288 @@
+﻿<! Doctype html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录页面</title>
+<link rel="stylesheet" type="text/css" href="res/css/common.css" />
+<style>
+    .body-left{
+        height: 440px;
+        width: 640px;
+        float: left;
+        text-align: center;
+        color: #4876FF;
+        padding-top: 80px;
+    }
+    .body-right{
+        height: 470px;
+        width: 765px;
+        float: right;
+        color: black;
+        margin-bottom: 5px;
+        background-color: #F0F3EF;
+        text-align: center;
+        padding-top: 60px;
+    }
+    .deschead{
+        height:60px;
+    }
+    .desccontent{
+        line-height: 8px;
+    }
+    .loghead{
+        height: 40px;
+    }
+    .headline{
+        color: red;
+        font-size: 30px;
+        font-weight: bold;
+        float :left;
+        margin :6px;
+    }
+    .descheadline{
+        font-size: 20px;
+    }
+    .logheadline{
+        color: black;
+        font-size: 25px;
+    }
+
+    .body-right .logbody{
+        line-height: 60px;
+        background-color: white;
+    }
+    .goBackHome{
+        float: right;
+        text-decoration: none;
+        margin-right: 20px;
+        line-height: 60px;
+    }
+    .subbtn{
+        display: inline-block;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        font: 14px/100% Arial, Helvetica, sans-serif;
+        padding: .5em 2em .55em;
+        text-shadow: 0 1px 1px rgba(0,0,0,.3);
+        -webkit-border-radius: .5em;
+        -moz-border-radius: .5em;
+        border-radius: .5em;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    }
+    .subbtn:hover {
+        text-decoration: none;
+    }
+    .subbtn:active {
+        position: relative;
+        top: 1px;
+    }
+</style>
+<body>
+    <div>
+        <div class="head">
+            <span class="headline">资源分享系统</span>
+            <a href="javascript:;" class="goBackHome">回到主页</a>
+        </div>
+        <div class="canvas">
+            <canvas id="cas"></canvas>
+        </div>
+        <div class="body">
+            <div class="body-left">
+                <div class="deschead">
+                    <span class="descheadline">资源分享系统</span>
+                </div>
+                <div class="desccontent">
+                   <p>资源分享系统说明</p>
+                </div>
+            </div>
+            <div class="body-right" id="logapp">
+                <div class="loghead">
+                    <span class="logheadline">账号登录</span><br/>
+                </div>
+                <div class="logbody">
+                    <label for="account">
+                        账号 : <input type="text" id="account">
+                    </label>
+                    <br/>
+                    <label for="password">
+                        密码 : <input type="text" id="password">
+                    </label>
+                    <br/>
+                    <button class="subbtn" id="submit">登录</button>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <a href="javascript:;" class="bottom">copyright@hzlh</a><br/>
+            <a href="javascript:;" class="bottom">联系我们</a><br/>
+            <a href="javascript:;" class="bottom">QQ:XXXXXXXXX</a>
+            <a href="javascript:;" class="bottom">邮箱:XXXXXXXXXX</a>
+        </div>
+    </div>
+<script src="res/plugin/jquery-3.2.1.min.js" type="text/javascript"></script>.
+<script src="res/plugin//vue.js"></script>
+<script>
+    !function() {
+        var canvas = document.getElementById('cas');
+        var ctx = canvas.getContext('2d');
+        var rgb = '0';      // 线条颜色值
+        var extendDis = 5;   // 可超出的画布边界
+        var lineDis = 100;    // 连线距离
+        lineDis *= lineDis;
+        canvas.width = 1422;
+        canvas.height = 85;
+        var RAF = (function() {
+            return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+                window.setTimeout(callback, 1000 / 60);
+            };
+        })();
+        // 鼠标活动时，获取鼠标坐标
+        var warea = {x: null, y: null};
+        window.onmousemove = function(e) {
+            e = e || window.event;
+            warea.x = e.clientX - canvas.offsetLeft;
+            warea.y = e.clientY - canvas.offsetTop;
+        };
+        window.onmouseout = function(e) {
+            warea.x = null;
+            warea.y = null;
+        };
+        // 添加粒子
+        // x，y为粒子坐标，xa, ya为粒子xy轴加速度，max为连线的最大距离
+        var dots = [];
+        for (var i = 0; i < 150; i++) {
+            var x = Math.random() * (canvas.width + 2 * extendDis) - extendDis;
+            var y = Math.random() * (canvas.height + 2 * extendDis) - extendDis;
+            var xa = (Math.random() * 2 - 1) / 1.5;
+            var ya = (Math.random() * 2 - 1) / 1.5;
+            dots.push({
+                x: x,
+                y: y,
+                xa: xa,
+                ya: ya
+            })
+        }
+        // 延迟100秒开始执行动画，如果立即执行有时位置计算会出错
+        setTimeout(function() {
+            animate();
+        }, 100);
+        // 每一帧循环的逻辑
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            bubDrawLine([warea].concat(dots));
+            RAF(animate);
+        }
+        /**
+         * 逐个对比连线
+         * @param ndots
+         */
+        function bubDrawLine(ndots) {
+            var ndot;
+            dots.forEach(function(dot) {
+                move(dot);
+                // 循环比对粒子间的距离
+                for (var i = 0; i < ndots.length; i++) {
+                    ndot = ndots[i];
+                    if (dot === ndot || ndot.x === null || ndot.y === null) continue;
+                    var xc = dot.x - ndot.x;
+                    var yc = dot.y - ndot.y;
+                    // 如果x轴距离或y轴距离大于max,则不计算粒子距离
+                    if (xc > ndot.max || yc > lineDis) continue;
+                    // 两个粒子之间的距离
+                    var dis = xc * xc + yc * yc;
+                    // 如果粒子距离超过max,则不做处理
+                    if (dis > lineDis) continue;
+                    // 距离比
+                    var ratio;
+                    // 如果是鼠标，则让粒子向鼠标的位置移动
+                    if (ndot === warea && dis < 20000) {
+                        dot.x -= xc * 0.01;
+                        dot.y -= yc * 0.01;
+                    }
+                    // 计算距离比
+                    ratio = (lineDis - dis) / lineDis;
+                    // 粒子间连线
+                    ctx.beginPath();
+                    ctx.lineWidth = ratio / 2;
+                    ctx.strokeStyle = 'rgba(' + rgb + ', ' + rgb + ', ' + rgb + ', 1';
+                    ctx.moveTo(dot.x, dot.y);
+                    ctx.lineTo(ndot.x, ndot.y);
+                    ctx.stroke();
+                }
+                // 将已经计算过的粒子从数组中删除
+                ndots.splice(ndots.indexOf(dot), 1);
+            });
+        }
+        /**
+         * 粒子移动
+         * @param dot
+         */
+        function move(dot) {
+            dot.x += dot.xa;
+            dot.y += dot.ya;
+            // 遇到边界将加速度反向
+            dot.xa *= (dot.x > (canvas.width + extendDis) || dot.x < -extendDis) ? -1 : 1;
+            dot.ya *= (dot.y > (canvas.height + extendDis) || dot.y < -extendDis) ? -1 : 1;
+            // 绘制点
+            ctx.fillStyle = 'rgba(' + rgb + ', ' + rgb + ', ' + rgb + ', 1';
+            ctx.fillRect(dot.x - 0.5, dot.y - 0.5, 1, 1);
+        }
+    }();
+    $(document).ready(function(){
+        var account = $("#account").val("");
+        var password = $("#password").val("");
+        $("#submit").click(function(){
+            login();
+        });
+        $(".goBackHome").click(function(){
+            window.location.href="/";
+        })
+        $(document).keyup(function(event){
+            if(event.keyCode ==13){
+               login();
+            }
+        });
+        function login(){
+            var account = $("#account").val();
+            var password = $("#password").val();
+            if(account===""){
+                alert("账号不能为空!");
+            }else if(password===""){
+                alert("密码不能为空!");
+            }else{
+                var jsonObj = {
+                    "account" : account,
+                    "password" : password
+                };
+                var jsonStr = JSON.stringify(jsonObj);
+                $.ajax({
+                    type: "POST",
+                    url: "/loginAccount",
+                    contentType:"application/json",
+                    data: jsonStr,
+                    dataType: "text",
+                    async: true,
+                    error: function(obj,err){
+                        console.log("请求失败!"+"err:"+err);
+                    },
+                    success: function(data){
+                        if(data==="登录成功"){
+                            window.location.href="/manage";
+                        }else if(data==="账号不存在"){
+                            alert(data+",请重新输入");
+                            account = $("#account").val("");
+                            password = $("#password").val("");
+                        }else if(data==="密码不正确"){
+                            alert(data+",请重新输入");
+                            password = $("#password").val("");
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

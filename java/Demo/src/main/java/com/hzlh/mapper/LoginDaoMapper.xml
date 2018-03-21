@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzlh.dao.ILoginDao">
+    <select id="selectByAccount" parameterType="String" resultType="map">
+        SELECT * FROM USER
+        <where>
+            user_account=#{account}
+        </where>
+    </select>
+    <select id="selectByName" resultType="map">
+        SELECT * FROM USER
+        <where>
+            user_name=#{name}
+        </where>
+    </select>
+    <select id="selectAllDepartment" resultType="map">
+        SELECT * FROM DEPARTMENT
+    </select>
+    <select id="selectAllResource" resultType="map">
+        SELECT  * FROM RESOURCE
+    </select>
+    <select id="selectAllUser" resultType="map">
+        SELECT * FROM USER
+    </select>
+    <insert id="addUser" parameterType="com.hzlh.entity.User">
+        INSERT INTO USER(user_name,user_role,user_account,user_password,user_department,user_group)
+        VALUES (#{name},#{role},#{account},#{password},#{department},#{group})
+    </insert>
+    <insert id="addResource" parameterType="com.hzlh.entity.ResourceI">
+        INSERT INTO RESOURCE(resource_name,resource_type,resource_path,resource_size,resource_owner,resource_desc,resource_group,resource_department,resource_uploaddate)
+        VALUES (#{name},#{type},#{path},#{size},#{owner},#{desc},#{group},#{department},#{uploaddate})
+    </insert>
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM USER
+        <where>
+            user_id=#{id}
+        </where>
+    </delete>
+    <delete id="deleteResource" parameterType="int">
+        DELETE FROM RESOURCE
+        <where>
+            resource_id=#{id}
+        </where>
+    </delete>
+</mapper>
+
+

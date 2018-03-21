@@ -1,0 +1,35 @@
+body,html{
+    margin: 0px;
+    padding: 0px;
+}
+.head{
+    background-color: #F0F3EF;
+    height: 60px;
+    position: relative;
+}
+.canvas{
+    height:85px;
+}
+.body{
+    height: 540px;
+    position: relative;
+}
+.foot{
+    height: 80px;
+    background-color: #F0F3EF;
+    text-align: center;
+    line-height: 27px;
+}
+.headline{
+    color: red;
+    font-size: 30px;
+    font-weight: bold;
+    float :left;
+    margin :6px;
+}
+.bottom{
+    color: #555555;
+}
+[v-cloak] {
+    display: none;
+}

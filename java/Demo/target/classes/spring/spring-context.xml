@@ -23,11 +23,11 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!-- 自动扫描mapping.xml文件 -->
-        <property name="mapperLocations" value="classpath:com/sb/mapper/*Mapper.xml"/>
+        <property name="mapperLocations" value="classpath:com/hzlh/mapper/*Mapper.xml"/>
     </bean>
     <!-- 4.dao包下，spring会自动扫描以下 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.sb.dao"/>
+        <property name="basePackage" value="com.hzlh.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
     <!-- 5.spring事务管理 -->

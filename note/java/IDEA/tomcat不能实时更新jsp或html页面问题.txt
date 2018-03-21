@@ -1,0 +1,4 @@
+部署tomcat时
+选择Deployment里的exployed选项，不然不能选择实时更新
+之后再选择server，
+On ‘Update’ action 和 On frame deactivation 选择Updat classes and resources
