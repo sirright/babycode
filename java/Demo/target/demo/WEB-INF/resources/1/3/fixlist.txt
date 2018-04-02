@@ -1,0 +1,136 @@
+﻿Date:						[2017-08-30]
+main Version:				        1.0.1
+module Version:				        1.0.1
+module name:				        2017昆山台广播云里平台与电视平台对接
+By:						百俊涛
+Label:						R#21062
+【add】
+1.在界面添加来源用户
+2.解决网络硬盘上部分文件不能上传的问题
+【fix】
+
+【update】
+
+【remark】
+SyncSobeyResource.exe.config中配置文件添加节点：
+ <appSettings>
+    <!--同步频率-->
+    <add key="SyncTime" value="5"/>
+    <!--接入安全码-->
+    <add key="JoinPIN" value="123456"/>
+    <!--共享目录ID-->
+    <add key="ParentID" value="32f2da73-51d0-438a-830e-10de54716ddb"/>
+    <!--存储模式-->
+    <add key="StorageMode" value="WebDav"/>
+    <!--是否开启安全套接字-->
+    <add key="StorageSSL" value="false"/>
+    <!--Audio-->
+    <add key="Audios" value="mp3,wav,s48,wma,flac,aac,ape,m4a,amr,mp2"/>
+    <!--Video-->
+    <add key="Videos" value="avi,mov,asf,wmv,navi,3gp,ram,ra,mkv,flv,mpg,swf,rm,vob,rmvb,mp4,f4v,ts"/>
+    <!--Pic-->
+    <add key="Pics" value="bmp,jpg,tif,tiff,gif,pcx,tga,exif,fpx,svg,psd,cdr,pcd,dxf,ufo,eps,ai,raw,png,jpeg"/>
+    <!--Doc-->
+    <add key="Docs" value="doc,docx,xls,xlsx,txt,xml,pdf,ppt,pptx,html,htm,ini,h5,weixin,weibo,Mdoc"/>
+    <!--Other-->
+    <add key="Others" value="aso,7z,img,iso,rar,zip"/>
+    <!--是否启用FTP-->
+    <add key="IsFtp" value="false"/>
+    <!--XML文件存放路径-->
+    <add key="LocalPath" value="E:\Sobey\"/>
+    <!--网络地址-->
+    <add key="NetWorkAddress" value="\\192.1.2.108\d$\wwwroot\[P-3000]全台网主版本\"/>
+    <!--网络挂载盘符-->
+    <add key="NetWorkLetter" value="Z:\"/>
+    <!--FTP服务器地址-->
+    <add key="FtpPath" value="192.1.2.87"/>
+    <!--FTP服务器接口-->
+    <add key="FtpPort" value="21"/>
+    <!--FTP服务器账号-->
+    <add key="FtpUserID" value="administrator"/>
+    <!--FTP服务器密码-->
+    <add key="FtpPwd" value="bjt"/>
+    <!--WebDAV地址-->
+    <add key="WebDAVHost" value="192.1.2.208"/>
+    <!--WebDAV接口-->
+    <add key="WebDAVPort" value="8080"/>
+    <!--WebDAV用户名-->
+    <add key="WebDAVUser" value=""/>
+    <!--WebDAV密码-->
+    <add key="WebDAVPassword" value=""/>
+    <!--WebDAV存储根目录-->
+    <add key="WebDAVBasePath" value="webdavyn/CloudSystemYN"/>
+    <!--WebDAVCL-->
+    <add key="WebDAVAclSwitch" value="true"/>
+    <!--OSS访问密钥ID-->
+    <add key="OssAccessKeyId" value=""/>
+    <!--OSS访问密钥-->
+    <add key="OssAccessKeySecret" value=""/>
+    <!--OSS存储服务器地址-->
+    <add key="OssHost" value=""/>
+    <!--OSS内部主机-->
+    <add key="OssInternalHost" value=""/>
+    <!--OSSCDN主机-->
+    <add key="OssCdnHost" value=""/>
+    <!--OSSCDN主机端口-->
+    <add key="OssCdnPort" value=""/>
+    <!--OSSBucket-->
+    <add key="OssBucket" value=""/>
+    <!--OSS服务器端口-->
+    <add key="OssPort" value=""/>
+    <!--OSS存储根目录-->
+    <add key="OssBasePath" value=""/>
+    <!--MongoDB数据库IP地址-->
+    <add key="MongoDBHost" value="192.1.2.203"/>
+    <!--MongoDB数据库端口号-->
+    <add key="MongoDBPort" value="27017"/>
+    <!--MongoDB数据库名称-->
+    <add key="MongoDBDataBase" value="CloudSystemYN"/>
+    <!--MongoDB数据库用户名-->
+    <add key="MongoDBUser" value="sa"/>
+    <!--MongoDB数据库密码-->
+    <add key="MongoDBPassword" value="123456"/>
+    <!--操作者-->
+    <add key="Operator" value="System"/>
+  </appSettings>
+  <applicationSettings>
+        <SyncSobeyResource.Properties.Settings>
+            <setting name="SyncSobeyResource_IUCUserInfoService_IUCUserInfoMulityOrg"
+                serializeAs="String">
+                <value>http://192.1.2.108:2010/IUCUserInfo-P/IUCUserInfoMulityOrg.asmx</value>
+            </setting>
+            <setting name="SyncSobeyResource_IWebdavAclService_WebdavAclService"
+                serializeAs="String">
+                <value>http://192.1.2.202:3000/WebdavAclService/WebdavAclService.asmx</value>
+            </setting>
+        </SyncSobeyResource.Properties.Settings>
+    </applicationSettings>
+【升级说明】
+/************************************************************************/
+Date:						[2017-08-25]
+main Version:				        1.0.0
+module Version:				        1.0.0
+module name:				        2017昆山台广播云里平台与电视平台对接
+By:						百俊涛
+Label:						R#20967
+【add】
+1.资源放在FTP上时，从xml文件中读取资源路径从FTP下载，然后上传至云里系统的全台资源共享中
+2.资源放在网络硬盘时，从xml文件中读取资源路径，然后上传至云里系统的全台资源共享中
+【fix】
+【update】
+【remark】
+SyncSobeyResource.exe.config中配置文件添加节点：
+<applicationSettings>
+        <SyncSobeyResource.Properties.Settings>
+            <setting name="SyncSobeyResource_IUCUserInfoService_IUCUserInfoMulityOrg"
+                serializeAs="String">
+                <value>http://192.1.2.108:2010/IUCUserInfo-P/IUCUserInfoMulityOrg.asmx</value>
+            </setting>
+            <setting name="SyncSobeyResource_IWebdavAclService_WebdavAclService"
+                serializeAs="String">
+                <value>http://192.1.2.202:3000/WebdavAclService/WebdavAclService.asmx</value>
+            </setting>
+        </SyncSobeyResource.Properties.Settings>
+    </applicationSettings>
+【升级说明】
+/************************************************************************/

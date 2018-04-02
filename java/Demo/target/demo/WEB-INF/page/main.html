@@ -159,6 +159,7 @@
                                 <th>资源大小</th>
                                 <th>所属分组</th>
                                 <th>所属人</th>
+                                <th><a href="javascript:;" @click="orderByTime">按上传日期排序</a></th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -170,6 +171,7 @@
                                 <td>{{resource.resource_size}}</td>
                                 <td>{{resource.department_name}}</td>
                                 <td>{{resource.resource_owner}}</td>
+                                <td>{{resource.resource_uploadTime}}</td>
                                 <td><a href="javascript:;" @click="view(index)">预览</a>&nbsp;&nbsp;&nbsp;<a href="javascript:;" @click="download(index)">下载</a></td>
                             </tr>
                         </tbody>
@@ -361,6 +363,12 @@
                 }
                 this.searchContent="";
             },
+            //按时间排序
+            orderByTime: function(){
+                this.resources.sort(function(a,b){
+                    return b.resource_uploaddate-a.resource_uploaddate;
+                });
+            },
             //文件下载
             download: function(index){
                 let jsonObj = {
@@ -420,6 +428,8 @@
             }
         },
         created: function(){
+            let now = new Date();
+            console.log(now.getTime())
             $.ajax({
                 type: 'GET',
                 url: '/getResources',
@@ -430,10 +440,16 @@
                 },
                 success: function (data) {
                     console.log('请求成功:'+data);
-                    var resources = eval("("+JSON.stringify(data)+")");
+                    let resources = eval("("+JSON.stringify(data)+")");
                     for(j of resources){
+                        //添加一个显示属性
                         j.isshow=true;
+                        //添加uploadTime字段存储转换后的上传时间
+                        j.resource_uploadTime = new Date(j.resource_uploaddate).format("yyyy-MM-dd hh:mm:ss");
                     }
+                    resources.sort(function(){
+
+                    });
                     body.resources = resources;
                 }
             });
@@ -517,12 +533,33 @@
                 var resources = eval("("+JSON.stringify(data)+")");
                 for(r of resources){
                     r.isshow=true;
+                    r.resource_uploadTime = new Date(r.resource_uploaddate).format("yyyy-MM-dd hh:mm:ss");
                 }
                 body.resources = resources;
             }
         });
         return false;
     });
+    Date.prototype.format = function(fmt) {
+        var o = {
+            "M+" : this.getMonth()+1,                 //月份
+            "d+" : this.getDate(),                    //日
+            "h+" : this.getHours(),                   //小时
+            "m+" : this.getMinutes(),                 //分
+            "s+" : this.getSeconds(),                 //秒
+            "q+" : Math.floor((this.getMonth()+3)/3), //季度
+            "S"  : this.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        }
+        for(var k in o) {
+            if(new RegExp("("+ k +")").test(fmt)){
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+            }
+        }
+        return fmt;
+    }
 </script>
 </body>
 </html>

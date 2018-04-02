@@ -765,13 +765,21 @@
                    });
 
                }
+           },
+           mounted: function(){
+               getData();
+               this.rightHeadShow = true;
+               this.chosedManage = "部门管理";
+               this.keywords = "部门名称";
+               this.addBtn = "添加部门";
+               this.departShow = true;
            }
         });
         //左侧菜单节点
         $("li").click(function(){
             body.rightHeadShow = true;
             var chooseManage = $(this).text();
-            getData(chooseManage);
+            getData();
             body.chosedManage = chooseManage;
             if(chooseManage=="部门管理"){
                 $("#search").val("");

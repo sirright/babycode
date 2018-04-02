@@ -7,8 +7,8 @@
   </component>
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/src/main/java/com/hzlh/mapper/LoginDaoMapper.xml" line="38" mnemonic="3" />
-    <bookmark url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/main.html" line="501" />
-    <bookmark url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/main.html" line="399" />
+    <bookmark url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/main.html" line="517" />
+    <bookmark url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/main.html" line="407" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29e4154f-0eab-4ada-80f6-8fb14fa360fe" name="Default" comment="" />
@@ -26,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="manage.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="manage.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/manage.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="975">
-              <caret line="898" column="31" lean-forward="false" selection-start-line="898" selection-start-column="31" selection-end-line="898" selection-end-column="31" />
+            <state relative-caret-position="103">
+              <caret line="1004" column="16" lean-forward="true" selection-start-line="1004" selection-start-column="16" selection-end-line="1004" selection-end-column="16" />
               <folding>
                 <element signature="n#meta#1;n#head#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
@@ -71,13 +71,12 @@
                 <element signature="e#28327#29367#0" expanded="false" />
                 <element signature="e#29437#31050#0" expanded="false" />
                 <element signature="e#31118#33234#0" expanded="false" />
-                <element signature="e#33309#34346#0" expanded="false" />
-                <element signature="e#34391#35431#0" expanded="false" />
-                <element signature="e#35473#38480#0" expanded="false" />
-                <element signature="e#39478#40676#0" expanded="false" />
-                <element signature="e#40723#41979#0" expanded="false" />
-                <element signature="e#42032#43109#0" expanded="false" />
-                <element signature="e#43163#43872#0" expanded="false" />
+                <element signature="e#34651#35691#0" expanded="false" />
+                <element signature="e#35733#38740#0" expanded="false" />
+                <element signature="e#39738#40936#0" expanded="false" />
+                <element signature="e#40983#42239#0" expanded="false" />
+                <element signature="e#42292#43369#0" expanded="false" />
+                <element signature="e#43423#44132#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -95,11 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="462" column="28" lean-forward="false" selection-start-line="462" selection-start-column="28" selection-end-line="462" selection-end-column="28" />
+            <state relative-caret-position="240">
+              <caret line="164" column="32" lean-forward="true" selection-start-line="164" selection-start-column="32" selection-end-line="164" selection-end-column="32" />
               <folding>
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -107,13 +106,21 @@
                 <element signature="n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="e#10633#11468#0" expanded="false" />
-                <element signature="e#10756#11411#0" expanded="false" />
-                <element signature="e#12289#12440#0" expanded="false" />
-                <element signature="e#12498#13479#0" expanded="false" />
-                <element signature="e#13533#14994#0" expanded="false" />
-                <element signature="e#16679#16875#0" expanded="false" />
-                <element signature="e#16914#17457#0" expanded="false" />
+                <element signature="e#6813#10777#0" expanded="false" />
+                <element signature="e#10804#11639#0" expanded="false" />
+                <element signature="e#10927#11582#0" expanded="false" />
+                <element signature="e#11846#12403#0" expanded="false" />
+                <element signature="e#12460#12611#0" expanded="false" />
+                <element signature="e#12884#13865#0" expanded="false" />
+                <element signature="e#13919#15380#0" expanded="false" />
+                <element signature="e#15513#16364#0" expanded="false" />
+                <element signature="e#16386#16880#0" expanded="false" />
+                <element signature="e#16967#17369#0" expanded="false" />
+                <element signature="e#17407#17603#0" expanded="false" />
+                <element signature="e#17642#18185#0" expanded="false" />
+                <element signature="e#18259#18332#0" expanded="false" />
+                <element signature="e#18447#19076#0" expanded="false" />
+                <element signature="e#19151#19974#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -154,10 +161,27 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="MainController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/controller/MainController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-326">
+              <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#ifLogin#0;class#MainController#0" expanded="false" />
+                <element signature="method#getDepart#0;class#MainController#0" expanded="false" />
+                <element signature="method#getResources#0;class#MainController#0" expanded="false" />
+                <element signature="method#view#0;class#MainController#0" expanded="false" />
+                <element signature="method#chooseDepart#0;class#MainController#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ILoginDao.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/dao/ILoginDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
+            <state relative-caret-position="41">
               <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
               <folding />
             </state>
@@ -237,6 +261,7 @@
       <find>deleteR</find>
       <find>get</find>
       <find>red</find>
+      <find>ajax</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -302,8 +327,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/page/login.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/hzlh/controller/MainController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hzlh/controller/ManageController.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/page/main.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/page/manage.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/page/main.html" />
       </list>
     </option>
   </component>
@@ -351,8 +376,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="46" />
-    <option name="y" value="171" />
+    <option name="x" value="-57" />
+    <option name="y" value="369" />
     <option name="width" value="1400" />
     <option name="height" value="920" />
   </component>
@@ -416,6 +441,16 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="hzlh" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Demo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Demo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="hzlh" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Demo" type="b2602c69:ProjectViewProjectNode" />
@@ -909,12 +944,12 @@
       <workItem from="1522310881598" duration="942000" />
       <workItem from="1522311845864" duration="4267000" />
       <workItem from="1522370265922" duration="23687000" />
-      <workItem from="1522629830094" duration="11064000" />
+      <workItem from="1522629830094" duration="18101000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="462308000" />
+    <option name="totallyTimeSpent" value="469345000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -973,15 +1008,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/manage.html</url>
-          <line>373</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="14" />
+      <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1279,60 +1306,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/controller/MainController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="14" column="17" lean-forward="false" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-          <folding>
-            <element signature="e#806#807#0" expanded="false" />
-            <element signature="e#836#837#0" expanded="false" />
-            <element signature="method#ifLogin#0;class#MainController#0" expanded="false" />
-            <element signature="method#getDepart#0;class#MainController#0" expanded="false" />
-            <element signature="method#getDepartments#0;class#MainController#0" expanded="false" />
-            <element signature="method#view#0;class#MainController#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/dao/ILoginDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/controller/ManageController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="9" column="37" lean-forward="false" selection-start-line="9" selection-start-column="37" selection-end-line="9" selection-end-column="37" />
-          <folding>
-            <element signature="method#getSession#0;class#ManageController#0" expanded="false" />
-            <element signature="method#getData#0;class#ManageController#0" expanded="false" />
-            <element signature="method#addDepart#0;class#ManageController#0" expanded="false" />
-            <element signature="method#addUser#0;class#ManageController#0" expanded="false" />
-            <element signature="method#upload#0;class#ManageController#0" expanded="false" />
-            <element signature="method#deleteUser#0;class#ManageController#0" expanded="false" />
-            <element signature="method#deleteResource#0;class#ManageController#0" expanded="false" />
-            <element signature="method#deleteDepartConfirm#0;class#ManageController#0" expanded="false" />
-            <element signature="method#deleteDepart#0;class#ManageController#0" expanded="false" />
-            <element signature="method#updateResource#0;class#ManageController#0" expanded="false" />
-            <element signature="method#updateUser#0;class#ManageController#0" expanded="false" />
-            <element signature="method#updateDepartment#0;class#ManageController#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/controller/LoginController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="950">
-          <caret line="50" column="5" lean-forward="false" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-200">
@@ -1343,32 +1316,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/main.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/dao/ILoginDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="462" column="28" lean-forward="false" selection-start-line="462" selection-start-column="28" selection-end-line="462" selection-end-column="28" />
-          <folding>
-            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#10633#11468#0" expanded="false" />
-            <element signature="e#10756#11411#0" expanded="false" />
-            <element signature="e#12289#12440#0" expanded="false" />
-            <element signature="e#12498#13479#0" expanded="false" />
-            <element signature="e#13533#14994#0" expanded="false" />
-            <element signature="e#16679#16875#0" expanded="false" />
-            <element signature="e#16914#17457#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="41">
+          <caret line="52" column="20" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/manage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="975">
-          <caret line="898" column="31" lean-forward="false" selection-start-line="898" selection-start-column="31" selection-end-line="898" selection-end-column="31" />
+        <state relative-caret-position="103">
+          <caret line="1004" column="16" lean-forward="true" selection-start-line="1004" selection-start-column="16" selection-end-line="1004" selection-end-column="16" />
           <folding>
             <element signature="n#meta#1;n#head#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
@@ -1409,13 +1368,88 @@
             <element signature="e#28327#29367#0" expanded="false" />
             <element signature="e#29437#31050#0" expanded="false" />
             <element signature="e#31118#33234#0" expanded="false" />
-            <element signature="e#33309#34346#0" expanded="false" />
-            <element signature="e#34391#35431#0" expanded="false" />
-            <element signature="e#35473#38480#0" expanded="false" />
-            <element signature="e#39478#40676#0" expanded="false" />
-            <element signature="e#40723#41979#0" expanded="false" />
-            <element signature="e#42032#43109#0" expanded="false" />
-            <element signature="e#43163#43872#0" expanded="false" />
+            <element signature="e#34651#35691#0" expanded="false" />
+            <element signature="e#35733#38740#0" expanded="false" />
+            <element signature="e#39738#40936#0" expanded="false" />
+            <element signature="e#40983#42239#0" expanded="false" />
+            <element signature="e#42292#43369#0" expanded="false" />
+            <element signature="e#43423#44132#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/controller/ManageController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="9" column="37" lean-forward="false" selection-start-line="9" selection-start-column="37" selection-end-line="9" selection-end-column="37" />
+          <folding>
+            <element signature="method#getSession#0;class#ManageController#0" expanded="false" />
+            <element signature="method#getData#0;class#ManageController#0" expanded="false" />
+            <element signature="method#addDepart#0;class#ManageController#0" expanded="false" />
+            <element signature="method#addUser#0;class#ManageController#0" expanded="false" />
+            <element signature="method#upload#0;class#ManageController#0" expanded="false" />
+            <element signature="method#deleteUser#0;class#ManageController#0" expanded="false" />
+            <element signature="method#deleteResource#0;class#ManageController#0" expanded="false" />
+            <element signature="method#deleteDepartConfirm#0;class#ManageController#0" expanded="false" />
+            <element signature="method#deleteDepart#0;class#ManageController#0" expanded="false" />
+            <element signature="method#updateResource#0;class#ManageController#0" expanded="false" />
+            <element signature="method#updateUser#0;class#ManageController#0" expanded="false" />
+            <element signature="method#updateDepartment#0;class#ManageController#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/controller/LoginController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="950">
+          <caret line="50" column="5" lean-forward="false" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hzlh/controller/MainController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-326">
+          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#ifLogin#0;class#MainController#0" expanded="false" />
+            <element signature="method#getDepart#0;class#MainController#0" expanded="false" />
+            <element signature="method#getResources#0;class#MainController#0" expanded="false" />
+            <element signature="method#view#0;class#MainController#0" expanded="false" />
+            <element signature="method#chooseDepart#0;class#MainController#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/page/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="164" column="32" lean-forward="true" selection-start-line="164" selection-start-column="32" selection-end-line="164" selection-end-column="32" />
+          <folding>
+            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#6813#10777#0" expanded="false" />
+            <element signature="e#10804#11639#0" expanded="false" />
+            <element signature="e#10927#11582#0" expanded="false" />
+            <element signature="e#11846#12403#0" expanded="false" />
+            <element signature="e#12460#12611#0" expanded="false" />
+            <element signature="e#12884#13865#0" expanded="false" />
+            <element signature="e#13919#15380#0" expanded="false" />
+            <element signature="e#15513#16364#0" expanded="false" />
+            <element signature="e#16386#16880#0" expanded="false" />
+            <element signature="e#16967#17369#0" expanded="false" />
+            <element signature="e#17407#17603#0" expanded="false" />
+            <element signature="e#17642#18185#0" expanded="false" />
+            <element signature="e#18259#18332#0" expanded="false" />
+            <element signature="e#18447#19076#0" expanded="false" />
+            <element signature="e#19151#19974#0" expanded="false" />
           </folding>
         </state>
       </provider>
