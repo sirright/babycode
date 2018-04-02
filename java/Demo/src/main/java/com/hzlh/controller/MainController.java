@@ -2,31 +2,23 @@ package com.hzlh.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hzlh.dao.ILoginDao;
-import com.hzlh.entity.ResourceI;
-import com.hzlh.service.ILoginService;
 import com.hzlh.service.IMainService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hzlh.utils.Converter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.hzlh.utils.JSONUtils;
-import org.springframework.web.servlet.ModelAndView;
-
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
+import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class MainController {
-
+    @Resource
+    private IMainService mainService;
     @Resource
     private ILoginDao loginDao;
     @RequestMapping("/")
@@ -36,6 +28,22 @@ public class MainController {
     @RequestMapping("/login")
     public String goLogin(){
         return "/login";
+    }
+    @RequestMapping("ifLogin")
+    public String ifLogin(HttpSession session,HttpServletResponse response){
+        try {
+            response.setContentType("text/plain;charset=utf-8");
+            String account = (String) session.getAttribute("account");
+            if(account==null){
+                response.getWriter().write("未登录");
+            }else{
+                response.getWriter().write("已登录");
+            }
+            response.getWriter().close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "";
     }
     @RequestMapping("/getDepart")
     @ResponseBody
@@ -57,11 +65,12 @@ public class MainController {
     @RequestMapping("/getResources")
     @ResponseBody
     public String getResources(HttpServletResponse response){
-        JSONArray jsonArr = new JSONArray();
-        List<Map<String,Object>> allResource = loginDao.selectAllResource();
-        String jsonStr = jsonArr.toJSONString(allResource);
         try{
-            response.setContentType("json;charset=utf-8");
+            response.setContentType("application/json;charset=utf-8");
+            JSONArray jsonArr = new JSONArray();
+            List<Map<String,Object>> resource = loginDao.selectResourcesAndDepart();
+            String jsonStr = jsonArr.toJSONString(resource);
+            System.out.println(jsonStr);
             response.getWriter().write(jsonStr);
             response.getWriter().close();
         }catch(IOException e){
@@ -84,10 +93,49 @@ public class MainController {
         }
         return "";
     }
+    //资源预览
     @RequestMapping("/view")
     @ResponseBody
-    public String view(HttpServletResponse response){
+    public String view(@RequestBody String path, HttpServletResponse response, HttpServletRequest request){
+        try{
+            String changePath = path.substring(0,path.lastIndexOf("."))+".pdf";
+            String oldPath = request.getServletContext().getRealPath("/WEB-INF"+path);
+            String newPath = request.getServletContext().getRealPath("/WEB-INF"+"/temp"+changePath);
+            Converter.office2PDF(oldPath,newPath);
+            response.setContentType("text/plain;charset=utf-8");
+            response.getWriter().write("/temp"+changePath);
+            response.getWriter().close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         return "";
+    }
+    //根据点击部门显示资源
+    @RequestMapping("/chooseDepart")
+    @ResponseBody
+    public void chooseDepart(@RequestBody String chosed,HttpServletResponse response){
+        try{
+            response.setContentType("application/json;charset=utf-8");
+            Set<Integer> sonSet = new HashSet<Integer>();
+            List<Map<String,Object>> rlist = new ArrayList<Map<String, Object>>();
+            JSONArray jsonArr = new JSONArray();
+            String jsonStr;
+            //通过名称获取部门Id
+            Integer chosedId = loginDao.selectDepartIdByName(chosed);
+            //获取部门下所有子部门，返回到sonSet
+            mainService.getSonDepartId(chosedId,sonSet);
+            rlist = loginDao.selectResourceAndDepartByDId(chosedId);
+            if(!sonSet.isEmpty()){
+                for(Integer s: sonSet){
+                    rlist.addAll(loginDao.selectResourceAndDepartByDId(s));
+                }
+            }
+            jsonStr = jsonArr.toJSONString(rlist);
+            response.getWriter().write(jsonStr);
+            response.getWriter().close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

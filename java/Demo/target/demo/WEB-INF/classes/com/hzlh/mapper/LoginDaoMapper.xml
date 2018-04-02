@@ -1,17 +1,103 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzlh.dao.ILoginDao">
-    <select id="selectByAccount" parameterType="String" resultType="map">
+    <insert id="addDepart" parameterType="com.hzlh.entity.Department">
+        INSERT INTO DEPARTMENT(department_name,department_parentid)
+        VALUES (#{name},#{parentId})
+    </insert>
+    <insert id="addUser" parameterType="com.hzlh.entity.User">
+        INSERT INTO USER(user_name,user_role,user_account,user_password,user_department)
+        VALUES (#{name},#{role},#{account},#{password},#{departmentId})
+    </insert>
+    <insert id="addResource" parameterType="com.hzlh.entity.ResourceI">
+        INSERT INTO RESOURCE(resource_name,resource_type,resource_path,resource_size,resource_owner,resource_desc,resource_department,resource_uploaddate)
+        VALUES (#{name},#{type},#{path},#{size},#{owner},#{desc},#{department},#{uploaddate})
+    </insert>
+    <delete id="deleteUserById" parameterType="int">
+        DELETE FROM USER
+        <where>
+            user_id=#{id}
+        </where>
+    </delete>
+    <delete id="deleteResourceById" parameterType="int">
+        DELETE FROM RESOURCE
+        <where>
+            resource_id=#{id}
+        </where>
+    </delete>
+    <delete id="deleteDepartById" parameterType="com.hzlh.entity.Department">
+        DELETE FROM DEPARTMENT
+        WHERE department_id = #{id}
+    </delete>
+    <update id="updateResource" parameterType="com.hzlh.entity.ResourceI">
+        UPDATE RESOURCE
+        SET resource_name=#{name},resource_owner=#{owner},resource_desc=#{desc}
+        WHERE resource_id=#{id}
+    </update>
+    <update id="updateUser" parameterType="com.hzlh.entity.User">
+        UPDATE USER
+        SET user_name=#{name},user_account=#{account},user_password=#{password},
+        user_role=#{role},user_department=#{departmentId}
+        WHERE user_id=#{id}
+    </update>
+    <update id="updateDepartment" parameterType="com.hzlh.entity.Department">
+        UPDATE DEPARTMENT
+        SET department_name=#{name},department_parentid=#{parentId}
+        WHERE department_id=#{id}
+    </update>
+    <select id="selectParentIdByDepartId" parameterType="Integer" resultType="Integer">
+        SELECT department_parentid FROM DEPARTMENT
+        WHERE department_id = #{id}
+    </select>
+    <select id="selectDepartIdByParentId" parameterType="Integer" resultType="Integer">
+        SELECT * FROM DEPARTMENT
+        WHERE department_parentid=#{id}
+    </select>
+    <select id="selectUserById" parameterType="Integer" resultType="map">
+        SELECT * FROM USER
+        WHERE user_id = #{id}
+    </select>
+    <select id="selectUserByAccount" parameterType="String" resultType="map">
         SELECT * FROM USER
         <where>
             user_account=#{account}
         </where>
     </select>
-    <select id="selectByName" resultType="map">
+    <select id="selectUserByName" resultType="map">
         SELECT * FROM USER
-        <where>
-            user_name=#{name}
-        </where>
+        WHERE  user_name=#{name}
+    </select>
+    <select id="selectDepartIdByName" parameterType="String" resultType="java.lang.Integer">
+        SELECT * FROM DEPARTMENT
+        WHERE department_name=#{name}
+    </select>
+    <select id="selectResourceByDepartId" resultType="map">
+        SELECT * FROM RESOURCE
+        WHERE   resource_department=#{departId}
+    </select>
+    <select id="selectUsersAndDepart" resultType="map">
+        SELECT u.*,d.department_name
+        FROM USER u LEFT OUTER JOIN DEPARTMENT d on d.department_id=u.user_department
+        ORDER BY u.user_department ASC
+    </select>
+
+    <select id="selectResourcesAndDepart" resultType="map">
+        SELECT r.*,d.department_name
+        FROM RESOURCE r LEFT OUTER JOIN DEPARTMENT d on d.department_id = r.resource_department
+        WHERE r.resource_department = d.department_id
+        ORDER BY d.department_id
+    </select>
+    <select id="selectResourceAndDepartByDId" resultType="map">
+      SELECT r.*,d.department_name
+      FROM RESOURCE r LEFT OUTER JOIN DEPARTMENT d on d.department_id=r.resource_department
+      WHERE r.resource_department = #{id}
+      ORDER BY d.department_id
+    </select>
+    <select id="selectDepartmentAndHigh" resultType="map">
+        SELECT d1.*,d2.department_name department_highDepart
+        FROM DEPARTMENT d1 LEFT JOIN DEPARTMENT d2
+        ON d1.department_parentid = d2.department_id
+        ORDER BY d1.department_parentid
     </select>
     <select id="selectAllDepartment" resultType="map">
         SELECT * FROM DEPARTMENT
@@ -22,26 +108,6 @@
     <select id="selectAllUser" resultType="map">
         SELECT * FROM USER
     </select>
-    <insert id="addUser" parameterType="com.hzlh.entity.User">
-        INSERT INTO USER(user_name,user_role,user_account,user_password,user_department,user_group)
-        VALUES (#{name},#{role},#{account},#{password},#{department},#{group})
-    </insert>
-    <insert id="addResource" parameterType="com.hzlh.entity.ResourceI">
-        INSERT INTO RESOURCE(resource_name,resource_type,resource_path,resource_size,resource_owner,resource_desc,resource_group,resource_department,resource_uploaddate)
-        VALUES (#{name},#{type},#{path},#{size},#{owner},#{desc},#{group},#{department},#{uploaddate})
-    </insert>
-    <delete id="deleteUser" parameterType="int">
-        DELETE FROM USER
-        <where>
-            user_id=#{id}
-        </where>
-    </delete>
-    <delete id="deleteResource" parameterType="int">
-        DELETE FROM RESOURCE
-        <where>
-            resource_id=#{id}
-        </where>
-    </delete>
 </mapper>
 
 

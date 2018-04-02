@@ -25,7 +25,7 @@ public class LoginController {
     @RequestMapping("/loginAccount")
     @ResponseBody
     public String login(@RequestBody User loginUser, HttpServletResponse response,HttpSession session){
-        Map<String,Object> user = loginDao.selectByAccount(loginUser.getAccount());
+        Map<String,Object> user = loginDao.selectUserByAccount(loginUser.getAccount());
         try {
             response.setContentType("text/html;charset=utf-8");
             if (user!=null) {

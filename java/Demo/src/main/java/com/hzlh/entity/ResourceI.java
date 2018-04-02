@@ -11,8 +11,33 @@ public class ResourceI implements Serializable{
     private String size;
     private String owner;
     private String desc;
-    private String department;
+    private int department;
+    private String departmentName;
     private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(int department) {
+        this.department = department;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
 
     public int getId() {
         return id;
@@ -70,13 +95,7 @@ public class ResourceI implements Serializable{
         this.desc = desc;
     }
 
-    public String getDepartment() {
-        return department;
-    }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
 
     public String getGroup() {
         return group;

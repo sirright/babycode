@@ -1,0 +1,2 @@
+在layer弹窗中写vue数据绑定无效:
+解决方式: 先在html中将需要写的页面写出来,然后在layer弹窗中设置content：$('#XXXXX')

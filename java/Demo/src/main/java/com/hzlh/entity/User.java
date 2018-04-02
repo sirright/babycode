@@ -8,16 +8,17 @@ public class User implements Serializable {
     private String role;
     private String account;
     private String password;
-    private String group;
     private String department;
-
-    public String getGroup() {
-        return group;
+    private int departmentId;
+    public int getDepartmentId() {
+        return departmentId;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
     }
+
+
 
     public int getId() {
         return id;

@@ -1,0 +1,4 @@
+简便方法: 
+待拷贝数组 arr
+新数组 arr1
+arr1 = arr.slice(0)

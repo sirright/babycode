@@ -5,7 +5,7 @@
 <style>
     .body-left{
         height: 440px;
-        width: 640px;
+        width: 40%;
         float: left;
         text-align: center;
         color: #4876FF;
@@ -13,7 +13,7 @@
     }
     .body-right{
         height: 470px;
-        width: 765px;
+        width: 60%;
         float: right;
         color: black;
         margin-bottom: 5px;
@@ -131,7 +131,7 @@
         var extendDis = 5;   // 可超出的画布边界
         var lineDis = 100;    // 连线距离
         lineDis *= lineDis;
-        canvas.width = 1422;
+        canvas.width = window.innerWidth;
         canvas.height = 85;
         var RAF = (function() {
             return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {

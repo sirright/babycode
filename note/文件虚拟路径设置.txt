@@ -1,0 +1,14 @@
+1.在tomcat的server.xml中修改
+ 
+path="/upload" 虚拟路径
+E:\photo\upload 图片存放的真实路径
+<Context  path="/upload"  docBase="E:\photo\upload" reloadable="true"/></Host>
+
+IDEA中将Deploy applications configured in Tomcat instance勾上
+
+2.在IDEA中修改
+
+Deploy applications configured in Tomcat instance不要勾上
+
+在tomcat的Deployment中添加External Source选择路径后即可
+
