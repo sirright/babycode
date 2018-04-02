@@ -157,7 +157,7 @@
                                 <th>资源描述</th>
                                 <th>资源类型</th>
                                 <th>资源大小</th>
-                                <th>所属分组</th>
+                                <th><a href="javascript:;" @click="orderByDepart">按部门排序</a></th>
                                 <th>所属人</th>
                                 <th><a href="javascript:;" @click="orderByTime">按上传日期排序</a></th>
                                 <th>操作</th>
@@ -369,6 +369,12 @@
                     return b.resource_uploaddate-a.resource_uploaddate;
                 });
             },
+            //按部门排序
+            orderByDepart: function(){
+                this.resources.sort(function(a,b){
+                    return a.resource_department-b.resource_department;
+                })
+            },
             //文件下载
             download: function(index){
                 let jsonObj = {
@@ -428,31 +434,7 @@
             }
         },
         created: function(){
-            let now = new Date();
-            console.log(now.getTime())
-            $.ajax({
-                type: 'GET',
-                url: '/getResources',
-                dataType: 'json',
-                async: true,
-                error: function(obj,err){
-                    console.log('请求失败:'+err);
-                },
-                success: function (data) {
-                    console.log('请求成功:'+data);
-                    let resources = eval("("+JSON.stringify(data)+")");
-                    for(j of resources){
-                        //添加一个显示属性
-                        j.isshow=true;
-                        //添加uploadTime字段存储转换后的上传时间
-                        j.resource_uploadTime = new Date(j.resource_uploaddate).format("yyyy-MM-dd hh:mm:ss");
-                    }
-                    resources.sort(function(){
-
-                    });
-                    body.resources = resources;
-                }
-            });
+            getResources();
             $.ajax({
                type: 'GET',
                url: '/getDepartments',
@@ -471,28 +453,6 @@
             });
         }
     });
-    var menus = "";
-    //递归写出树形菜单
-    function GetData(id, arry) {
-        var childArry = GetParentArry(id, arry);
-        if (childArry.length > 0) {
-            menus += '<ul>';
-            for (var i in childArry) {
-                menus += '<li>'+'<a href="javascript:;">'+childArry[i].department_name+'</a>';
-                GetData(childArry[i].department_id, arry);
-                menus += '</li>';
-            }
-            menus += '</ul>';
-        }
-    }
-    function GetParentArry(id, arry) {
-        var newArry = new Array();
-        for (var i in arry) {
-            if (arry[i].department_parentid == id)
-                newArry.push(arry[i]);
-        }
-        return newArry;
-    }
     //获取资源
     function getResources(){
         $.ajax({
@@ -506,8 +466,9 @@
             success: function (data) {
                 console.log('请求成功:'+data);
                 var resources = eval("("+JSON.stringify(data)+")");
-                for(j of resources){
-                    j.isshow=true;
+                for(r of resources){
+                    r.isshow=true;
+                    r.resource_uploadTime = new Date(r.resource_uploaddate).format("yyyy-MM-dd hh:mm:ss")
                 }
                 body.resources = resources;
             }
@@ -540,6 +501,7 @@
         });
         return false;
     });
+    //给Date添加format方法转换时间格式
     Date.prototype.format = function(fmt) {
         var o = {
             "M+" : this.getMonth()+1,                 //月份
@@ -559,6 +521,28 @@
             }
         }
         return fmt;
+    }
+    //递归写出树形菜单
+    var menus = "";
+    function GetData(id, arry) {
+        var childArry = GetParentArry(id, arry);
+        if (childArry.length > 0) {
+            menus += '<ul>';
+            for (var i in childArry) {
+                menus += '<li>'+'<a href="javascript:;">'+childArry[i].department_name+'</a>';
+                GetData(childArry[i].department_id, arry);
+                menus += '</li>';
+            }
+            menus += '</ul>';
+        }
+    }
+    function GetParentArry(id, arry) {
+        var newArry = new Array();
+        for (var i in arry) {
+            if (arry[i].department_parentid == id)
+                newArry.push(arry[i]);
+        }
+        return newArry;
     }
 </script>
 </body>

@@ -101,7 +101,10 @@ public class MainController {
             String changePath = path.substring(0,path.lastIndexOf("."))+".pdf";
             String oldPath = request.getServletContext().getRealPath("/WEB-INF"+path);
             String newPath = request.getServletContext().getRealPath("/WEB-INF"+"/temp"+changePath);
-            Converter.office2PDF(oldPath,newPath);
+            File file = new File(newPath);
+            if(!file.exists()){
+                Converter.office2PDF(oldPath,newPath);
+            }
             response.setContentType("text/plain;charset=utf-8");
             response.getWriter().write("/temp"+changePath);
             response.getWriter().close();

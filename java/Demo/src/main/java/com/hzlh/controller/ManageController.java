@@ -115,6 +115,7 @@ public class ManageController {
     @ResponseBody
     public void upload(HttpServletResponse response,HttpServletRequest request,
                          @RequestParam("newResource") MultipartFile file,
+                         @RequestParam("newResourceName") String name,
                          @RequestParam("newResourceDesc") String desc,
                          @RequestParam("newResourceOwner") String owner,
                          @RequestParam("newResourceDepart") String depart) throws Exception {
@@ -131,8 +132,6 @@ public class ManageController {
                 String filename = file.getOriginalFilename();
                 File filepath = new File(path, filename);
                 int index = filename.lastIndexOf(".");
-                //截取名称前缀
-                String name = filename.substring(0,index);
                 //截取类型后缀
                 String type = filename.substring(index+1);
                 String size = String.valueOf(file.getSize());

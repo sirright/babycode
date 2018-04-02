@@ -171,9 +171,10 @@
                                     <th>资源类型</th>
                                     <th>资源大小</th>
                                     <th>资源路径</th>
-                                    <th>所属部门</th>
+                                    <th><a href="javascript:;" @click="orderByDepart">按部门排序</a></th>
                                     <th>所属人</th>
                                     <th>资源描述</th>
+                                    <th><a href="javascript:;" @click="orderByTime">按上传日期排序</a></th>
                                     <th>操作</th>
                                 </tr>
                                 <tr v-for="(resource,index) in resources" v-show="resource.isshow">
@@ -184,6 +185,7 @@
                                     <td>{{resource.department_name}}</td>
                                     <td>{{resource.resource_owner}}</td>
                                     <td>{{resource.resource_desc}}</td>
+                                    <td>{{resource.resource_uploadTime}}</td>
                                     <td><a href="javascript:;" @click="updateResourceWin(index)">修改</a>&nbsp;<a href="javascript:;" @click="deleteResource(index)">删除</a></td>
                                 </tr>
                             </table>
@@ -273,6 +275,9 @@
                 <div class="addResource" style="display: none">
                     <div class="add-body">
                         <form action="/upload" method="post" enctype="multipart/form-data">
+                            <label for="newResourceName">
+                                资源名称: <input type="text" id="newResourceName" name="newResourceName">
+                            </label>
                             <label for="newResourceDesc">
                                 资源描述: <input type="text" id="newResourceDesc" name="newResourceDesc">
                             </label>
@@ -569,6 +574,16 @@
                        d.isshow = true;
                    }
                    $("#search").val("");
+               },
+               //按照时间排序
+               orderByTime: function(){
+                   body.resources.sort(function(a,b){
+                       return b.resource_uploaddate - a.resource_uploaddate;
+                   })
+               },
+               //按照分组排序
+               orderByDepart: function(){
+                   getData();
                },
                //显示添加窗口
                addWinShow: function(){
@@ -905,31 +920,44 @@
         }
         //添加资源
         function addResource(){
-            $('form').ajaxSubmit({
-                type: 'POST',
-                url: '/upload',
-                dataType: 'text',
-                success: function(data){
-                    // layer.open({
-                    //     type: '1',
-                    //     title: '正在上传资源',
-                    //     skin: 'layui-layer-rim',
-                    //     area: ['420px', '240px'],
-                    //     content: $('.uploading')
-                    // });
-                    if(data==="找不到文件!"){
-                        layer.msg(data,{
-                            time: 2000
-                        })
-                    }else{
-                        layer.msg(data,{
-                            time: 2000
-                        });
-                        layer.closeAll();
-                        getData();
-                    }
+            if($("#newResourceName").val()!==""){
+                if($("#newResource").val()!==""){
+                    layer.open({
+                        type: '1',
+                        title: '正在上传资源',
+                        skin: 'layui-layer-rim',
+                        area: ['420px', '240px'],
+                        content: $('.uploading')
+                    });
+                    $('form').ajaxSubmit({
+                        type: 'POST',
+                        url: '/upload',
+                        dataType: 'text',
+                        success: function(data){
+                            if(data==="找不到文件!"){
+                                layer.msg(data,{
+                                    time: 2000
+                                })
+                            }else{
+                                layer.msg(data,{
+                                    time: 2000,
+                                    end: layer.closeAll()
+                                });
+                                getData();
+                            }
+                        }
+                    });
+                }else{
+                    layer.msg("请选择文件",{
+                        time: 2000
+                    });
                 }
-            });
+            }else{
+                layer.msg("资源名称不能为空!",{
+                    time: 2000
+                });
+            }
+
         }
         //修改资源信息
         function updateResource(){
@@ -1050,7 +1078,11 @@
                     for(let i=0;i<3;i++){
                         for(d of data[i]){
                             d.isshow = true;
+
                         }
+                    }
+                    for(d of data[0]){
+                        d.resource_uploadTime = new Date(d.resource_uploaddate).format("yyyy-MM-dd hh:mm:ss");
                     }
                     body.resources = data[0];
                     body.users = data[1];
@@ -1058,6 +1090,26 @@
                     body.listDepart = data[2].slice(0);
                 }
             });
+        }
+        Date.prototype.format = function(fmt) {
+            var o = {
+                "M+" : this.getMonth()+1,                 //月份
+                "d+" : this.getDate(),                    //日
+                "h+" : this.getHours(),                   //小时
+                "m+" : this.getMinutes(),                 //分
+                "s+" : this.getSeconds(),                 //秒
+                "q+" : Math.floor((this.getMonth()+3)/3), //季度
+                "S"  : this.getMilliseconds()             //毫秒
+            };
+            if(/(y+)/.test(fmt)) {
+                fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+            }
+            for(var k in o) {
+                if(new RegExp("("+ k +")").test(fmt)){
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+                }
+            }
+            return fmt;
         }
     </script>
 </body>
