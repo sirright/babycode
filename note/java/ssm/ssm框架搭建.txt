@@ -1,0 +1,147 @@
+springmvc配置----------------------------------
+web.xml添加
+	<servlet>
+		<servlet-name>SpringMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+		  <param-name>contextConfigLocation</param-name>
+		  <param-value>classpath*:spring-mvc.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpringMVC</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+spring-mvc.xml添加
+<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+<context:component-scan base-package="com.hzlh.controller" />
+    <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
+    <mvc:annotation-driven/>
+
+日志信息log4j配置-------------------------------
+web.xml添加
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:/log4j.properties</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+log4j.properties配置文件
+
+spring整合mybatis配置----------------------------
+web.xml添加
+	<context-param>
+		<param-name>contextConfigLocationxt</param-name>
+		<param-value>classpath:/spring/spring-mybatis.xml</param-value>
+    </context-param>
+spring-mybatis配置文件
+    <!-- 自动扫描 -->
+    <context:component-scan base-package="com.hzlh" />
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:/properties/jdbc.properties" />
+    </bean>
+	<!-- 数据源配置信息 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${driver}" />
+        <property name="url" value="${url}" />
+        <property name="username" value="${username}" />
+        <property name="password" value="${password}" />
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="${initialSize}"></property>
+        <!-- 连接池最大数量 -->
+        <property name="maxActive" value="${maxActive}"></property>
+        <!-- 连接池最大空闲 -->
+        <property name="maxIdle" value="${maxIdle}"></property>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${minIdle}"></property>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="${maxWait}"></property>
+    </bean>
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:com/hzlh/mybatis/*.xml"></property>
+		<!-- 自动扫描pojo -->
+        <property name="typeAliasesPackage" value="com.hzlh.pojo" />
+    </bean>
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.hzlh.mapper" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+	
+ssm框架redis配置
+相关maven依赖
+	<!-- spring-redis实现 -->
+	<dependency>
+		<groupId>org.springframework.data</groupId>
+		<artifactId>spring-data-redis</artifactId>
+		<version>1.6.2.RELEASE</version>
+	</dependency>
+	<!-- redis客户端jar -->
+	<dependency>
+		<groupId>redis.clients</groupId>
+		<artifactId>jedis</artifactId>
+		<version>2.8.0</version>
+	</dependency>
+	<!-- Ehcache实现,用于参考 -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-ehcache</artifactId>
+		<version>1.0.0</version>
+    </dependency>
+	
+spring-mybatis配置文件
+	<bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:properties/jdbc.properties</value>
+				<!-- 引入redis配置文件 -->
+                <value>classpath:properties/redis.properties</value>
+            </list>
+        </property>
+    </bean>
+	<!--设置连接池-->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxTotal}" />
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+    </bean>
+    <!--设置链接属性-->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${redis.host}"
+          p:port="${redis.port}"
+          p:password="${redis.password}"
+          p:pool-config-ref="poolConfig"
+          p:timeout="100000"/>
+    <!-- Jedis模板配置  -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory"   ref="connectionFactory" />
+    </bean>
+
+不知有何用:
+	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->  
+    <bean id="mappingJacksonHttpMessageConverter"  
+        class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  
+        <property name="supportedMediaTypes">  
+            <list>  
+                <value>text/html;charset=UTF-8</value>  
+            </list>  
+        </property>  
+    </bean>  
+    <!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->  
+    <bean  
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+        <property name="messageConverters">  
+            <list>  
+                <ref bean="mappingJacksonHttpMessageConverter" /> <!-- JSON转换器 -->  
+            </list>  
+        </property>  
+    </bean> 

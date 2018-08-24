@@ -1,0 +1,6 @@
+在vue中使用setInterval
+created: function(){
+	this.getAllChannel();
+	setInterval(this.getAllChannel,2000);
+}
+注意setInterval内部使用vue方法后不跟括号,否则不执行

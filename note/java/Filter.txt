@@ -1,0 +1,19 @@
+Filter FilterChain FilterConfig
+https://blog.csdn.net/my98800/article/details/53940838
+
+Filter是一个请求和响应的过滤器，由servlet容器调用和执行。
+它能在HttpServletRequest到达Servlet之前进行拦截，并且对请求进行修改
+但它并不能直接在Filter中直接修改HttpServletRequest请求，直接会抛出异常并且收不到Response
+可以通过HttpServletRequestWrapper和HttpServletResponseWrapper替换请求和响应方式达到同样效果
+
+在Filter.doFilter方法中不能直接调用Servlet的service方法，而是调用FilterChain.doFilter方法
+来激活Servlet的service方法。
+
+Filter链
+一个Web程序中可以有多个Filter方法，
+只要其中有一个FilterChain,doFilter方法未执行,则目标的service方法都不会被执行
+
+init方法
+1.在web程序启动时，Web容器会根据web.xml文件的配置信息来注册Filter的实例对象保存在内存中。
+2.Web容器创建Filter的实例对象后会立即调用该对象的init方法。init方法在Filter的生命周期中仅被执行一次，
+Web容器在调用init方法时，会传递一个FilterConfig对象(包含Filter配置和运行环境).

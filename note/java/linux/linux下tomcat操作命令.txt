@@ -1,0 +1,9 @@
+bin目录下 命令:./shutdown.sh
+关闭tomcat
+bin目录下 命令:ps -ef|grep java
+查看tomcat是否关闭
+bin目录下 命令:kill -9 进程号
+杀死该进程号对应进程
+bin目录下 命令:./startup.sh
+启动tomcat
+logs目录下 命令:tail -f catalina.out

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../layui/layui-v2.3.0/layui/css/layui.css">
+</head>
+<style>
+    [v-cloak]{
+        display: none;
+    }
+</style>
+<body>
+<div id="app" v-cloak>
+    <blockquote class="layui-elem-quote layui-text">
+        小睹为快
+    </blockquote>
+    <form class="layui-form" lay-filter="form-test">
+        <div class="layui-form-item">
+            <label class="layui-form-label">输入框</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="required|title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码框</label>
+            <div class="layui-input-inline">
+                <input type="text" name="password" lay-verify="required|number" autocomplete="off" placeholder="请输入密码" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">辅助文字</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择框</label>
+            <div class="layui-input-block">
+                <select name="cct" v-model="selectcity">
+                    <option v-for="city in citys" v-bind:value="city">{{city}}</option>
+                    <!-- <option value=""></option>
+                    <option value="1">杭州</option>
+                    <option value="2">天津</option>
+                    <option value="3">上海</option>
+                    <option value="4">北京</option> -->
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">复选框</label>
+            <div class="layui-input-block">
+                <input type="checkbox" value="1" title="写作" name="like[write]">
+                <input type="checkbox" value="1" title="阅读" name="like[read]" checked>
+                <input type="checkbox" value="1" title="游戏" name="like[game]">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">开关</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="switch" lay-skin="switch">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">单选框</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="男" title="男" checked>
+                <input type="radio" name="sex" value="女" title="女">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文本域</label>
+            <div class="layui-input-block">
+                <textarea name="desc" placeholder="请输入内容" cols="30" rows="10" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button type="button" class="layui-btn" @click="testzz">测试</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../layui/layui-v2.3.0/layui/layui.all.js"></script>
+<script src="vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            citys:['请选择','杭州','赏花','田北俊'],
+            selectcity: ''
+        },
+        methods:{
+            testzz: function(){
+                layer.msg('zz',{
+                    time: 2000
+                })
+                layui.form.val("form-test",{
+                    title: "我改啦",
+                    password: 12356,
+                    sex: "女",
+                    cct: 2
+                })
+                console.log(this.selectcity);
+            },
+            layuiInit: function(){
+                var form = layui.form,
+                layer = layui.layer;
+                var data = {
+                    "title": 'hhh',
+                    "password": 123
+                };
+                //自定义验证规则
+                form.render();
+                form.verify({
+                    title:function(value){
+                        if(value.length<5){
+                            return '标题至少要五个字符啊';
+                        }
+                    }
+                })
+                form.val("form-test",data);
+                //监听提交
+                form.on('submit(formDemo)', function(data){
+                    return false;
+                });
+            }
+        },
+        created: function(){
+            this.citys = ['','zz','hh','gg'];
+        },
+        mounted: function(){
+            this.layuiInit();
+        }
+    })
+   
+</script>
+</body>
+</html>
